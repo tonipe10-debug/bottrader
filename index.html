@@ -3,34 +3,80 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BotTrader — Bot de trading automatizado en Solana. Estrategias configurables, sin custodia, con alertas en Telegram. Empieza gratis hoy." />
+  <meta name="theme-color" content="#0a0e17" />
+  <!-- Open Graph para Facebook / Instagram -->
+  <meta property="og:title" content="BotTrader — Trading automatizado con control real" />
+  <meta property="og:description" content="Ejecuta estrategias en Solana de forma consistente. Sin custodia, sin código, con alertas en Telegram." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bottrader-app.netlify.app/" />
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BotTrader — Trading automatizado en Solana" />
+  <meta name="twitter:description" content="Bot de trading non-custodial con estrategias configurables y alertas en Telegram." />
+
   <title>BotTrader — Trading automatizado con control real</title>
-  <link rel="stylesheet" href="colors_and_type.css" />
+
+  <!-- Google Analytics — reemplaza G-XXXXXXXXXX con tu ID real -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
+    /* ============ VARIABLES ============ */
     :root {
-      --bg: #0a0e17; --surface: #111827; --surface-hover: #1f2937;
-      --fg: #e5e7eb; --fg-muted: #9ca3af;
-      --border: #374151; --border-hover: #4b5563;
-      --accent: #10b981; --accent-hover: #059669; --accent-secondary: #06b6d4;
-      --success: #34d399; --warning: #fbbf24; --error: #f87171;
-      --font-display: 'Orbitron','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-      --font-heading: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      --font-caption: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      --fw-display-regular: 400; --fw-display-medium: 600; --fw-display-bold: 700;
-      --fw-heading-medium: 500; --fw-heading-semibold: 600; --fw-heading-bold: 700;
-      --fw-body-regular: 400; --fw-body-medium: 500;
-      --spacing-6: 24px; --spacing-8: 32px; --spacing-10: 40px;
-      --spacing-12: 48px; --spacing-16: 64px; --spacing-20: 80px;
-      --spacing-24: 96px; --spacing-28: 112px; --spacing-32: 128px;
-      --radius-medium: 8px; --radius-large: 12px; --radius-xl: 16px;
-      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
-      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);
-      --transition-fast: 150ms ease-out; --transition-medium: 200ms ease-out;
-      --transition-slow: 300ms ease-out;
+      --bg: #0a0e17;
+      --surface: #111827;
+      --surface-hover: #1f2937;
+      --fg: #e5e7eb;
+      --fg-muted: #9ca3af;
+      --muted: #9ca3af;
+      --border: #374151;
+      --border-hover: #4b5563;
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --accent-secondary: #06b6d4;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --error: #f87171;
+
+      --font-display: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+      --fw-display-bold: 700;
+      --fw-display-medium: 600;
+      --fw-heading-bold: 700;
+      --fw-heading-semibold: 600;
+      --fw-heading-medium: 500;
+      --fw-body-regular: 400;
+      --fw-body-medium: 500;
+
+      --spacing-1: 4px;   --spacing-2: 8px;   --spacing-3: 12px;
+      --spacing-4: 16px;  --spacing-5: 20px;  --spacing-6: 24px;
+      --spacing-8: 32px;  --spacing-10: 40px; --spacing-12: 48px;
+      --spacing-16: 64px; --spacing-20: 80px; --spacing-24: 96px;
+      --spacing-28: 112px;--spacing-32: 128px;
+
+      --radius-medium: 8px;
+      --radius-large: 12px;
+      --radius-xl: 16px;
+
+      --transition-fast: 150ms ease-out;
+      --transition-medium: 200ms ease-out;
+
+      --z-sticky: 100;
     }
+
+    /* ============ RESET ============ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -40,28 +86,23 @@
       font-weight: var(--fw-body-regular);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
 
-    .container {
-      width: min(1200px, 90%);
-      margin: 0 auto;
-    }
+    /* ============ LAYOUT ============ */
+    .container { width: min(1200px, 90%); margin: 0 auto; }
+    .section { padding: var(--spacing-28) 0; }
 
-    .section {
-      padding: var(--spacing-28) 0;
-    }
-
+    /* ============ TYPOGRAPHY SHARED ============ */
     .section-label {
       font-family: var(--font-display);
       font-weight: var(--fw-display-medium);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: var(--spacing-3);
     }
-
     .section-title {
       font-family: var(--font-display);
       font-weight: var(--fw-display-bold);
@@ -69,9 +110,8 @@
       line-height: 1.2;
       color: var(--fg);
       margin-bottom: var(--spacing-4);
-      text-wrap: pretty;
+      text-wrap: balance;
     }
-
     .section-desc {
       color: var(--fg-muted);
       font-size: 1.05rem;
@@ -79,9 +119,11 @@
       line-height: 1.7;
     }
 
-      .btn {
+    /* ============ BUTTONS ============ */
+    .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: var(--spacing-2);
       padding: 14px 28px;
       border-radius: var(--radius-medium);
@@ -89,91 +131,85 @@
       font-weight: var(--fw-heading-semibold);
       font-size: 0.95rem;
       cursor: pointer;
-      transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+                  box-shadow var(--transition-fast), transform var(--transition-fast);
       text-decoration: none;
       border: 1px solid transparent;
       letter-spacing: 0.01em;
-      will-change: transform;
+      min-height: 48px;
+      white-space: nowrap;
     }
-    .btn:active {
-      transform: scale(0.97);
-    }
+    .btn:active { transform: scale(0.97); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
     .btn-primary {
       background: var(--accent);
       color: #fff;
       border-color: var(--accent);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
     .btn-primary:hover {
       background: var(--accent-hover);
       border-color: var(--accent-hover);
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 14px rgba(16,185,129,0.35);
     }
-    .btn-primary:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-    }
-
     .btn-secondary {
       background: transparent;
       color: var(--accent);
-      border-color: rgba(16, 185, 129, 0.35);
+      border-color: rgba(16,185,129,0.35);
     }
     .btn-secondary:hover {
-      background: rgba(16, 185, 129, 0.08);
+      background: rgba(16,185,129,0.08);
       border-color: var(--accent);
     }
-
     .btn-outline {
       background: transparent;
-      color: var(--muted);
+      color: var(--fg-muted);
       border-color: var(--border);
     }
     .btn-outline:hover {
       color: var(--fg);
-      border-color: var(--muted);
-    }
-    .btn-outline:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
+      border-color: var(--border-hover);
     }
 
     /* ============ HEADER ============ */
     .header {
       position: sticky;
       top: 0;
-      z-index: var(--z-index-sticky);
-      background: rgba(10, 14, 23, 0.85);
+      z-index: var(--z-sticky);
+      background: rgba(10,14,23,0.9);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
+      transition: background var(--transition-medium), border-color var(--transition-medium);
     }
     .header-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: var(--spacing-4) 0;
+      position: relative;
     }
     .logo {
       font-family: var(--font-display);
       font-weight: var(--fw-display-bold);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: var(--fg);
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: var(--spacing-2);
+      flex-shrink: 0;
     }
     .logo span { color: var(--accent); }
     .logo-icon {
-      width: 28px;
-      height: 28px;
+      width: 28px; height: 28px;
       background: var(--accent);
       border-radius: 50%;
       display: grid;
       place-items: center;
-      font-size: 14px;
+      font-size: 13px;
+      flex-shrink: 0;
     }
     .header-nav {
       display: flex;
@@ -186,25 +222,34 @@
       font-size: 0.9rem;
       transition: color var(--transition-fast);
     }
-    .header-nav a:hover { color: var(--accent); }
+    .header-nav a:hover { color: var(--fg); }
     .header-cta {
-      padding: 10px 22px;
+      padding: 10px 20px;
       font-size: 0.85rem;
-      background: #047857;
-      border-color: #047857;
+      min-height: 40px;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
     .header-cta:hover {
-      background: #065f46 !important;
-      border-color: #065f46 !important;
+      background: var(--accent-hover) !important;
+      border-color: var(--accent-hover) !important;
     }
     .mobile-menu-btn {
       display: none;
       background: none;
-      border: none;
+      border: 1px solid var(--border);
       color: var(--fg);
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       cursor: pointer;
+      border-radius: var(--radius-medium);
+      width: 44px; height: 44px;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--transition-fast);
+      flex-shrink: 0;
     }
+    .mobile-menu-btn:hover { border-color: var(--border-hover); }
 
     /* ============ HERO ============ */
     .hero {
@@ -215,21 +260,17 @@
     .hero::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
+      top: -40%; right: -15%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(6,182,212,0.07) 0%, transparent 70%);
       pointer-events: none;
     }
     .hero::after {
       content: '';
       position: absolute;
-      bottom: -30%;
-      left: -10%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+      bottom: -30%; left: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 70%);
       pointer-events: none;
     }
     .hero-content {
@@ -239,14 +280,19 @@
       grid-template-columns: 1fr 1fr;
       gap: var(--spacing-16);
       align-items: center;
+      animation: heroFadeIn 0.7s ease-out forwards;
+    }
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .hero-tag {
       display: inline-flex;
       align-items: center;
       gap: var(--spacing-2);
       padding: 6px 14px;
-      background: rgba(16, 185, 129, 0.08);
-      border: 1px solid rgba(16, 185, 129, 0.18);
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
       border-radius: 999px;
       font-size: 0.78rem;
       color: var(--accent);
@@ -254,41 +300,20 @@
       margin-bottom: var(--spacing-5);
       letter-spacing: 0.02em;
     }
-    .hero-content {
-      animation: heroFadeIn 0.7s ease-out forwards;
-    }
-    @keyframes heroFadeIn {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero-stat-item {
-      opacity: 0;
-      animation: statSlideUp 0.5s ease-out forwards;
-    }
-    .hero-stat-item:nth-child(1) { animation-delay: 0.7s; }
-    .hero-stat-item:nth-child(2) { animation-delay: 0.8s; }
-    .hero-stat-item:nth-child(3) { animation-delay: 0.9s; }
-    @keyframes statSlideUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .hero-tag-dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       background: var(--accent);
       border-radius: 50%;
       animation: pulse-dot 2s ease-in-out infinite;
     }
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      50%       { opacity: 0.35; }
     }
     .hero h1 {
       font-family: var(--font-display);
       font-weight: var(--fw-display-bold);
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-size: clamp(2rem, 5vw, 3.4rem);
       line-height: 1.15;
       margin-bottom: var(--spacing-5);
       text-wrap: balance;
@@ -300,21 +325,22 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .hero p {
+    .hero-subtitle {
       color: var(--fg-muted);
       font-size: 1.1rem;
       line-height: 1.7;
-      max-width: 520px;
+      max-width: 500px;
       margin-bottom: var(--spacing-8);
     }
     .hero-actions {
       display: flex;
-      gap: var(--spacing-4);
+      gap: var(--spacing-3);
       flex-wrap: wrap;
+      align-items: center;
     }
     .hero-stats {
       display: flex;
-      gap: var(--spacing-12);
+      gap: var(--spacing-10);
       margin-top: var(--spacing-10);
       padding-top: var(--spacing-6);
       border-top: 1px solid var(--border);
@@ -322,30 +348,38 @@
     .hero-stat-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
+      opacity: 0;
+      animation: statUp 0.5s ease-out forwards;
+    }
+    .hero-stat-item:nth-child(1) { animation-delay: 0.6s; }
+    .hero-stat-item:nth-child(2) { animation-delay: 0.75s; }
+    .hero-stat-item:nth-child(3) { animation-delay: 0.9s; }
+    @keyframes statUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .hero-stat-value {
       font-family: var(--font-display);
       font-weight: var(--fw-display-bold);
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       color: var(--fg);
       line-height: 1.2;
     }
     .hero-stat-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--fg-muted);
-      line-height: 1.4;
     }
 
+    /* Hero visual */
     .hero-visual {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
     }
     .hero-graph {
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
       aspect-ratio: 4/3;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -353,64 +387,40 @@
       padding: var(--spacing-6);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     }
     .hero-graph::before {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 30% 60%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 70% 40%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+        radial-gradient(circle at 30% 60%, rgba(16,185,129,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 70% 40%, rgba(6,182,212,0.04) 0%, transparent 50%);
     }
-    .chart-line {
+    .bg-grid {
       position: absolute;
-      bottom: 40%;
-      left: 10%;
-      right: 10%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent-secondary) 80%, transparent);
-      opacity: 0.3;
-    }
-    .chart-line-2 {
-      position: absolute;
-      bottom: 55%;
-      left: 15%;
-      right: 15%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent) 30%, transparent);
-      opacity: 0.15;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(55,65,81,0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(55,65,81,0.15) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      pointer-events: none;
     }
     .chart-label {
       position: absolute;
       top: var(--spacing-5);
       right: var(--spacing-5);
-      font-family: var(--font-code);
       font-size: 0.7rem;
       color: var(--accent);
       letter-spacing: 0.1em;
-    }
-    .chart-value {
-      position: absolute;
-      bottom: var(--spacing-6);
-      right: var(--spacing-6);
-      font-family: var(--font-display);
-      font-weight: var(--fw-display-bold);
-      font-size: 1.6rem;
-      color: var(--fg);
-      opacity: 0.6;
-    }
-    .chart-value span {
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-      font-family: var(--font-body);
-      font-weight: var(--fw-body-regular);
+      font-family: monospace;
     }
     .chart-bars {
       position: absolute;
       bottom: 25%;
-      left: 15%;
-      right: 15%;
+      left: 15%; right: 15%;
       display: flex;
       align-items: flex-end;
       gap: 4px;
@@ -420,39 +430,72 @@
       flex: 1;
       background: linear-gradient(to top, var(--accent), var(--accent-secondary));
       border-radius: 2px 2px 0 0;
-      opacity: 0.2;
-      animation: bar-rise 1.5s ease-out forwards;
+      opacity: 0;
+      animation: barRise 1.5s ease-out forwards;
     }
-    .chart-bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
-    .chart-bar:nth-child(2) { height: 55%; animation-delay: 0.2s; }
-    .chart-bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
-    .chart-bar:nth-child(4) { height: 70%; animation-delay: 0.4s; }
-    .chart-bar:nth-child(5) { height: 50%; animation-delay: 0.5s; }
-    .chart-bar:nth-child(6) { height: 85%; animation-delay: 0.6s; }
-    .chart-bar:nth-child(7) { height: 65%; animation-delay: 0.7s; }
-    .chart-bar:nth-child(8) { height: 90%; animation-delay: 0.8s; }
-    .chart-bar:nth-child(9) { height: 45%; animation-delay: 0.9s; }
-    .chart-bar:nth-child(10) { height: 75%; animation-delay: 1.0s; }
-    @keyframes bar-rise {
-      from { height: 0%; opacity: 0; }
-      to { opacity: 0.3; }
+    .chart-bar:nth-child(1)  { height:30%; animation-delay:0.1s; }
+    .chart-bar:nth-child(2)  { height:55%; animation-delay:0.2s; }
+    .chart-bar:nth-child(3)  { height:40%; animation-delay:0.3s; }
+    .chart-bar:nth-child(4)  { height:70%; animation-delay:0.4s; }
+    .chart-bar:nth-child(5)  { height:50%; animation-delay:0.5s; }
+    .chart-bar:nth-child(6)  { height:85%; animation-delay:0.6s; }
+    .chart-bar:nth-child(7)  { height:65%; animation-delay:0.7s; }
+    .chart-bar:nth-child(8)  { height:90%; animation-delay:0.8s; }
+    .chart-bar:nth-child(9)  { height:45%; animation-delay:0.9s; }
+    .chart-bar:nth-child(10) { height:75%; animation-delay:1.0s; }
+    @keyframes barRise {
+      from { height:0%; opacity:0; }
+      to   { opacity:0.35; }
     }
-    .bg-grid {
+    .chart-line {
       position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(55, 65, 81, 0.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(55, 65, 81, 0.15) 1px, transparent 1px);
-      background-size: 40px 40px;
-      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-      pointer-events: none;
+      bottom: 40%; left: 10%; right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent-secondary) 80%, transparent);
+      opacity: 0.3;
     }
+    .chart-value {
+      position: absolute;
+      bottom: var(--spacing-6); right: var(--spacing-6);
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+    .chart-value span {
+      font-size: 0.78rem;
+      color: var(--fg-muted);
+      font-family: var(--font-body);
+      font-weight: var(--fw-body-regular);
+    }
+
+    /* ============ TRUST BAR ============ */
+    .trust-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--spacing-6) 0;
+    }
+    .trust-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-10);
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      font-size: 0.82rem;
+      color: var(--fg-muted);
+    }
+    .trust-item span:first-child { color: var(--accent); font-size: 1rem; }
 
     /* ============ BENEFITS ============ */
     .benefits-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: var(--spacing-6);
       margin-top: var(--spacing-10);
     }
@@ -460,37 +503,46 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-large);
-      padding: var(--spacing-10);
+      padding: var(--spacing-8);
+      position: relative;
       transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     }
     .benefit-card:hover {
-      border-color: rgba(16, 185, 129, 0.2);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      border-color: rgba(16,185,129,0.25);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
     }
+    .benefit-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(16,185,129,0.07), rgba(6,182,212,0.03));
+      opacity: 0;
+      transition: opacity var(--transition-medium);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .benefit-card:hover::after { opacity: 1; }
+    .benefit-card > * { position: relative; z-index: 1; }
     .benefit-icon {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border-radius: var(--radius-medium);
       display: grid;
       place-items: center;
       font-size: 1.2rem;
       margin-bottom: var(--spacing-5);
     }
-    .benefit-icon.acc { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
-    .benefit-icon.cyan { background: rgba(6, 182, 212, 0.1); color: var(--accent-secondary); }
-    .benefit-icon.gold { background: rgba(251, 191, 36, 0.1); color: var(--warning); }
-    .benefit-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+    .benefit-icon.acc    { background: rgba(16,185,129,0.1);  color: var(--accent); }
+    .benefit-icon.cyan   { background: rgba(6,182,212,0.1);   color: var(--accent-secondary); }
+    .benefit-icon.gold   { background: rgba(251,191,36,0.1);  color: var(--warning); }
+    .benefit-icon.purple { background: rgba(139,92,246,0.1);  color: #8b5cf6; }
     .benefit-card h3 {
       font-family: var(--font-heading);
       font-weight: var(--fw-heading-semibold);
-      font-size: 1.1rem;
+      font-size: 1rem;
       margin-bottom: var(--spacing-3);
     }
-    .benefit-card p {
-      color: var(--fg-muted);
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
+    .benefit-card p { color: var(--fg-muted); font-size: 0.88rem; line-height: 1.7; }
 
     /* ============ HOW IT WORKS ============ */
     .steps-grid {
@@ -510,13 +562,9 @@
       background: linear-gradient(90deg, var(--accent), var(--border), var(--accent-secondary));
       opacity: 0.3;
     }
-    .step-card {
-      text-align: center;
-      position: relative;
-    }
+    .step-card { text-align: center; position: relative; }
     .step-number {
-      width: 64px;
-      height: 64px;
+      width: 64px; height: 64px;
       border-radius: 50%;
       background: var(--surface);
       border: 2px solid var(--accent);
@@ -529,39 +577,28 @@
       margin: 0 auto var(--spacing-6);
       position: relative;
       z-index: 1;
+      transition: transform var(--transition-medium), box-shadow var(--transition-medium);
     }
-    .step-card:nth-child(3) .step-number {
+    .step-card:hover .step-number {
+      transform: scale(1.06);
+      box-shadow: 0 0 24px rgba(16,185,129,0.15);
+    }
+    .step-card:last-child .step-number {
       border-color: var(--accent-secondary);
       color: var(--accent-secondary);
     }
     .step-card h3 {
       font-family: var(--font-heading);
       font-weight: var(--fw-heading-semibold);
-      font-size: 1.1rem;
+      font-size: 1rem;
       margin-bottom: var(--spacing-3);
     }
-    .step-card p {
-      color: var(--fg-muted);
-      font-size: 0.9rem;
-      line-height: 1.7;
-      max-width: 310px;
-      margin: 0 auto;
-    }
-    .step-arrow {
-      position: absolute;
-      top: 48px;
-      right: calc(-1 * var(--spacing-4));
-      color: var(--fg-muted);
-      font-size: 1.2rem;
-      transform: translateY(-50%);
-      z-index: 2;
-      opacity: 0.3;
-    }
+    .step-card p { color: var(--fg-muted); font-size: 0.88rem; line-height: 1.7; max-width: 300px; margin: 0 auto; }
 
     /* ============ TESTIMONIALS ============ */
     .testimonials-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: var(--spacing-6);
       margin-top: var(--spacing-10);
     }
@@ -569,183 +606,56 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-large);
-      padding: var(--spacing-10);
+      padding: var(--spacing-8);
+      transition: border-color var(--transition-medium), background var(--transition-medium);
     }
-    .testimonial-stars {
-      color: var(--warning);
-      font-size: 0.9rem;
-      margin-bottom: var(--spacing-4);
-      letter-spacing: 2px;
+    .testimonial-card:hover {
+      border-color: rgba(16,185,129,0.2);
+      background: rgba(16,185,129,0.015);
     }
-    .testimonial-quote {
-      color: var(--fg);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      margin-bottom: var(--spacing-6);
-      font-style: italic;
-    }
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-3);
-    }
+    .testimonial-stars { color: var(--warning); font-size: 0.88rem; margin-bottom: var(--spacing-4); letter-spacing: 2px; }
+    .testimonial-quote { color: var(--fg); font-size: 0.92rem; line-height: 1.7; margin-bottom: var(--spacing-6); font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: var(--spacing-3); }
     .testimonial-avatar {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
       display: grid;
       place-items: center;
       color: #fff;
       font-weight: var(--fw-heading-bold);
-      font-size: 0.85rem;
-    }
-    .testimonial-name {
-      font-weight: var(--fw-heading-semibold);
-      font-size: 0.9rem;
-    }
-    .testimonial-role {
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-    }
-    /* ============ PRICING ============ */
-    .pricing {
-      text-align: center;
-    }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      max-width: 800px;
-      margin: 48px auto 0;
-    }
-    .pricing-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 40px 32px;
-      text-align: center;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
-    .pricing-card:hover {
-      border-color: var(--border-hover);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-    }
-    .pricing-card.featured {
-      border-color: var(--accent);
-      position: relative;
-      box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(16,185,129,0.12);
-    }
-    .pricing-card.featured::before {
-      content: "MÁS POPULAR";
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent);
-      color: #fff;
-      font: 700 0.65rem/1 var(--font-mono, monospace);
-      letter-spacing: 0.15em;
-      padding: 4px 16px;
-      border-radius: 999px;
-    }
-    .pricing-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 0 0 4px;
-      color: var(--fg);
-    }
-    .pricing-card .price {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--fg);
-      margin: 16px 0 4px;
-    }
-    .pricing-card .price-sub {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin: 0 0 24px;
-    }
-    .pricing-card ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 32px;
-      flex: 1;
-      text-align: left;
-    }
-    .pricing-card ul li {
-      padding: 8px 0;
-      font-size: 0.9rem;
-      color: var(--fg);
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      line-height: 1.4;
-    }
-    .pricing-card ul li::before {
-      content: "✓";
-      color: var(--accent);
-      font-weight: 700;
+      font-size: 0.82rem;
       flex-shrink: 0;
     }
-    .pricing-card .btn {
-      width: 100%;
-    }
-    .pricing-note {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 32px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 640px) {
-      .pricing-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      .pricing-card {
-        padding: 32px 24px;
-      }
-      .pricing-card .price {
-        font-size: 2rem;
-      }
-    }
+    .testimonial-name  { font-weight: var(--fw-heading-semibold); font-size: 0.88rem; }
+    .testimonial-role  { font-size: 0.78rem; color: var(--fg-muted); }
 
     /* ============ FAQ ============ */
-    .faq-list {
-      max-width: 720px;
-      margin: var(--spacing-10) auto 0;
-    }
-    .faq-item {
-      border-bottom: 1px solid var(--border);
-    }
+    .faq-list { max-width: 720px; margin: var(--spacing-10) auto 0; }
+    .faq-item { border-bottom: 1px solid var(--border); }
     .faq-question {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: var(--spacing-4);
-      padding: var(--spacing-6) 0;
+      padding: var(--spacing-5) 0;
       background: none;
       border: none;
       color: var(--fg);
       font-family: var(--font-heading);
       font-weight: var(--fw-heading-medium);
-      font-size: 1rem;
+      font-size: 0.97rem;
       text-align: left;
       cursor: pointer;
       transition: color var(--transition-fast);
+      min-height: 44px;
     }
     .faq-question:hover { color: var(--accent); }
     .faq-question-icon {
-      width: 28px;
-      height: 28px;
+      width: 26px; height: 26px;
       border-radius: 50%;
-      background: rgba(16, 185, 129, 0.1);
+      background: rgba(16,185,129,0.1);
       display: grid;
       place-items: center;
       font-size: 1rem;
@@ -755,21 +665,65 @@
       line-height: 1;
     }
     .faq-item.open .faq-question-icon { background: var(--accent); color: #fff; transform: rotate(45deg); }
-    .faq-item.open .faq-question-icon { transform: rotate(45deg); }
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height var(--transition-medium), padding var(--transition-medium);
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s ease; }
+    .faq-item.open .faq-answer { max-height: 400px; padding-bottom: var(--spacing-5); }
+    .faq-answer p { color: var(--fg-muted); font-size: 0.9rem; line-height: 1.75; }
+
+    /* ============ PRICING ============ */
+    .pricing { text-align: center; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-8);
+      max-width: 780px;
+      margin: var(--spacing-12) auto 0;
     }
-    .faq-item.open .faq-answer {
-      max-height: 300px;
-      padding-bottom: var(--spacing-5);
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-10) var(--spacing-8);
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
-    .faq-answer p {
-      color: var(--fg-muted);
-      font-size: 0.9rem;
-      line-height: 1.7;
+    .pricing-card:hover { border-color: var(--border-hover); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+    .pricing-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(16,185,129,0.12);
     }
+    .pricing-card.featured::before {
+      content: "MÁS POPULAR";
+      position: absolute;
+      top: -13px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      padding: 4px 16px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .pricing-card h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--fg); margin-bottom: 4px; }
+    .pricing-card .price { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: var(--fg); margin: var(--spacing-4) 0 4px; }
+    .pricing-card .price-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: var(--spacing-6); }
+    .pricing-card ul { list-style: none; padding: 0; margin: 0 0 var(--spacing-8); flex: 1; text-align: left; }
+    .pricing-card ul li {
+      padding: 7px 0;
+      font-size: 0.88rem;
+      color: var(--fg);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.4;
+    }
+    .pricing-card ul li::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .pricing-card .btn { width: 100%; }
+    .pricing-note { font-size: 0.72rem; color: var(--muted); margin-top: var(--spacing-6); line-height: 1.5; text-align: center; }
 
     /* ============ CTA FINAL ============ */
     .cta-section {
@@ -780,12 +734,10 @@
     .cta-section::before {
       content: '';
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 900px;
-      height: 900px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, transparent 60%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 60%);
       pointer-events: none;
     }
     .cta-box {
@@ -793,44 +745,32 @@
       z-index: 1;
       text-align: center;
       background: var(--surface);
-      border: 1px solid rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16,185,129,0.18);
       border-radius: var(--radius-xl);
       padding: var(--spacing-16) var(--spacing-8);
-      max-width: 800px;
+      max-width: 780px;
       margin: 0 auto;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
     }
     .cta-box h2 {
       font-family: var(--font-display);
       font-weight: var(--fw-display-bold);
-      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
       margin-bottom: var(--spacing-5);
-      text-wrap: pretty;
+      text-wrap: balance;
     }
     .cta-box p {
       color: var(--fg-muted);
-      font-size: 1.05rem;
-      max-width: 520px;
+      font-size: 1rem;
+      max-width: 500px;
       margin: 0 auto var(--spacing-8);
       line-height: 1.7;
     }
-    .cta-actions {
-      display: flex;
-      justify-content: center;
-      gap: var(--spacing-4);
-      flex-wrap: wrap;
-    }
-    .cta-guarantee {
-      margin-top: var(--spacing-5);
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-    }
+    .cta-actions { display: flex; justify-content: center; gap: var(--spacing-4); flex-wrap: wrap; }
+    .cta-guarantee { margin-top: var(--spacing-5); font-size: 0.78rem; color: var(--fg-muted); }
 
     /* ============ FOOTER ============ */
-    .footer {
-      border-top: 1px solid var(--border);
-      padding: var(--spacing-10) 0;
-    }
+    .footer { border-top: 1px solid var(--border); padding: var(--spacing-10) 0; }
     .footer-inner {
       display: flex;
       justify-content: space-between;
@@ -838,187 +778,131 @@
       flex-wrap: wrap;
       gap: var(--spacing-4);
     }
-    .footer-copy {
-      font-size: 0.85rem;
+    .footer-copy { font-size: 0.82rem; color: var(--fg-muted); }
+    .footer-links { display: flex; gap: var(--spacing-6); flex-wrap: wrap; }
+    .footer-links a {
       color: var(--fg-muted);
+      font-size: 0.82rem;
+      text-decoration: none;
+      transition: color var(--transition-fast);
     }
-    .footer-links {
-      display: flex;
-      gap: var(--spacing-6);
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ============ SCROLL REVEAL ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
-    .footer-links span {
-      color: var(--fg-muted);
-      font-size: 0.85rem;
-      cursor: default;
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
 
     /* ============ RESPONSIVE ============ */
     @media (max-width: 1024px) {
-      .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .hero p { margin: 0 auto var(--spacing-8); max-width: 600px; }
-      .hero-actions { justify-content: center; }
-      .hero-stats { justify-content: center; margin-top: var(--spacing-8); }
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero-subtitle { margin: 0 auto var(--spacing-8); }
+      .hero-actions  { justify-content: center; }
+      .hero-stats    { justify-content: center; margin-top: var(--spacing-8); }
       .hero-stat-item { align-items: center; }
-      .hero-visual { display: none; }
-      .steps-grid { gap: var(--spacing-10); }
-      .section-desc { margin-left: auto; margin-right: auto; text-align: center; }
+      .hero-visual   { display: none; }
+      .section-desc  { margin-left: auto; margin-right: auto; text-align: center; }
       .section-title { text-align: center; }
       .section-label { text-align: center; }
     }
 
     @media (max-width: 768px) {
-      .header-nav { display: none; }
-      .mobile-menu-btn { display: block; }
-      .steps-grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-10);
+      /* Header */
+      .header-nav   { display: none; }
+      .mobile-menu-btn { display: inline-flex; }
+
+      /* Mobile menu open */
+      .header-nav.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: rgba(10,14,23,0.98);
+        padding: var(--spacing-4) var(--spacing-6) var(--spacing-6);
+        border-bottom: 1px solid var(--border);
+        gap: 0;
+        z-index: 99;
       }
-      .steps-grid::before { display: none; }
-      .step-arrow { display: none; }
-      .step-card p { max-width: 400px; }
+      .header-nav.open a {
+        font-size: 1rem;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(55,65,81,0.25);
+        width: 100%;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+      }
+      .header-nav.open a.btn {
+        margin-top: var(--spacing-4);
+        border-bottom: none;
+        justify-content: center;
+        border-radius: var(--radius-medium);
+        min-height: 48px;
+      }
+
+      /* Content */
       .section { padding: var(--spacing-20) 0; }
       .cta-section { padding: var(--spacing-20) 0; }
-      .cta-box { padding: var(--spacing-12) var(--spacing-6); }
+      .steps-grid { grid-template-columns: 1fr; gap: var(--spacing-8); }
+      .steps-grid::before { display: none; }
+      .step-card p { max-width: 460px; margin-left: auto; margin-right: auto; }
       .testimonials-grid { grid-template-columns: 1fr; gap: var(--spacing-5); }
       .benefits-grid { grid-template-columns: 1fr; gap: var(--spacing-5); }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; gap: var(--spacing-6); }
       .hero-stats { gap: var(--spacing-8); }
-      .hero-stat-value { font-size: 1.2rem; }
-      .section-title { font-size: clamp(1.5rem, 5vw, 2rem); }
-      .benefit-card { padding: var(--spacing-8); }
-      .testimonial-card { padding: var(--spacing-8); }
+      .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+      .footer-links { justify-content: center; }
     }
 
     @media (max-width: 480px) {
-      .hero { padding: var(--spacing-20) 0 var(--spacing-16); }
-      .hero h1 { font-size: clamp(1.8rem, 7vw, 2.8rem); }
-      .hero p { font-size: 1rem; }
-      .hero-stats {
-        flex-direction: column;
-        gap: var(--spacing-5);
-        align-items: flex-start;
-      }
+      .container { width: min(1200px, 94%); }
+
+      /* Hero */
+      .hero { padding: var(--spacing-16) 0 var(--spacing-12); }
+      .hero h1 { font-size: clamp(1.7rem, 8vw, 2.3rem); }
+      .hero-subtitle { font-size: 0.97rem; }
+      .hero-stats { flex-direction: column; gap: var(--spacing-4); align-items: flex-start; }
       .hero-actions { flex-direction: column; align-items: stretch; }
-      .hero-actions .btn { justify-content: center; }
+      .hero-actions .btn { width: 100%; }
+
+      /* Typography */
+      .section-title { font-size: clamp(1.3rem, 6vw, 1.7rem); }
+      .section-desc  { font-size: 0.93rem; }
+
+      /* Buttons */
+      .btn { padding: 13px 20px; font-size: 0.88rem; }
+
+      /* CTA */
+      .cta-box { padding: var(--spacing-10) var(--spacing-5); }
+      .cta-box h2 { font-size: clamp(1.25rem, 6vw, 1.6rem); }
       .cta-actions { flex-direction: column; align-items: stretch; }
-      .cta-actions .btn { justify-content: center; }
-      .section-title { font-size: 1.5rem; }
-      .faq-question { font-size: 0.95rem; padding: var(--spacing-4) 0; }
-      .btn {
-        font-size: 0.85rem;
-        padding: 12px 20px;
-        white-space: normal;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        hyphens: auto;
-      }
-      .pricing-card .btn {
-        font-size: 0.8rem;
-        padding: 10px 16px;
-        width: 100%;
-      }
-      .cta-box .btn {
-        width: 100%;
-        text-align: center;
-      }
+      .cta-actions .btn { width: 100%; }
+
+      /* Cards */
+      .benefit-card { padding: var(--spacing-6); }
+      .testimonial-card { padding: var(--spacing-6); }
+      .pricing-card { padding: var(--spacing-8) var(--spacing-5); }
+      .pricing-card .price { font-size: 2rem; }
+
+      /* FAQ */
+      .faq-question { font-size: 0.9rem; }
+
+      /* Steps */
+      .step-number { width: 52px; height: 52px; font-size: 1.2rem; }
+
+      /* Trust bar */
+      .trust-bar-inner { gap: var(--spacing-5); }
+      .trust-item { font-size: 0.78rem; }
     }
 
-    /* ============ MICRO-INTERACTIONS ============ */
-
-    /* Scroll reveal */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* Card glow overlay */
-    .benefit-card {
-      position: relative;
-    }
-    .benefit-card::after {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.03));
-      opacity: 0;
-      transition: opacity var(--transition-medium);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .benefit-card > * { position: relative; z-index: 1; }
-    .benefit-card:hover::after { opacity: 1; }
-
-    /* Step hover */
-    .step-number {
-      transition: transform var(--transition-medium), box-shadow var(--transition-medium);
-    }
-    .step-card:hover .step-number {
-      transform: scale(1.06);
-      box-shadow: 0 0 24px rgba(16, 185, 129, 0.12);
-    }
-
-    /* Testimonial hover */
-    .testimonial-card {
-      transition: border-color var(--transition-medium), background var(--transition-medium);
-    }
-    .testimonial-card:hover {
-      border-color: rgba(16, 185, 129, 0.15);
-      background: rgba(16, 185, 129, 0.015);
-    }
-
-    /* Header scroll refinement */
-    .header {
-      transition: border-bottom-color var(--transition-medium), background var(--transition-medium);
-    }
-
-    /* CTA entrance */
-    .cta-box {
-      animation: ctaFadeIn 0.7s ease-out forwards;
-    }
-    @keyframes ctaFadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Chart bar refinement */
-    .chart-bar {
-      transition: opacity var(--transition-medium);
-    }
-
-    /* Footer links */
-    .footer-links span {
-      position: relative;
-    }
-    .footer-links span::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform var(--transition-fast);
-    }
-    .footer-links span:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    /* Reduced motion */
+    /* ============ REDUCED MOTION ============ */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -1035,84 +919,73 @@
   <!-- ============ HEADER ============ -->
   <header class="header">
     <div class="container header-inner">
-      <span class="logo">
-        <span class="logo-icon">⟠</span>
+      <a href="index.html" class="logo" aria-label="BotTrader — Inicio">
+        <span class="logo-icon" aria-hidden="true">⟠</span>
         Bot<span>Trader</span>
-      </span>
-      <nav class="header-nav">
+      </a>
+      <nav class="header-nav" aria-label="Navegación principal">
         <a href="#beneficios">Beneficios</a>
         <a href="#como-funciona">Cómo funciona</a>
-        <a href="#testimonios">Testimonios</a>
+        <a href="#precios">Precios</a>
         <a href="#faq">FAQ</a>
-        <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary header-cta">Comenzar</a>
+        <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
+           class="btn btn-primary header-cta">Comenzar gratis</a>
       </nav>
-      <button class="mobile-menu-btn" aria-label="Menú">☰</button>
+      <button class="mobile-menu-btn" aria-label="Abrir menú" aria-expanded="false">☰</button>
     </div>
   </header>
 
   <!-- ============ HERO ============ -->
-  <section class="hero">
+  <section class="hero" aria-labelledby="hero-heading">
     <div class="container">
       <div class="hero-content">
         <div>
           <div class="hero-tag">
-            <span class="hero-tag-dot"></span>
+            <span class="hero-tag-dot" aria-hidden="true"></span>
             Trading automatizado en Solana
           </div>
-          <h1>
+          <h1 id="hero-heading">
             Automatiza tu operativa con<br />
             <em>reglas claras y control real</em>
           </h1>
-          <p>
-            BotTrader te ayuda a ejecutar estrategias de forma consistente, 
-            con alertas útiles, panel limpio y control total sobre tu riesgo.
+          <p class="hero-subtitle">
+            BotTrader ejecuta tus estrategias en Solana de forma automática, 
+            con alertas en Telegram y control total sobre tu riesgo. 
+            Tus fondos nunca salen de tu wallet. En beta — primeras 50 plazas gratuitas.
           </p>
           <div class="hero-actions">
-            <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-
-          Probar BotTrader
-
-        </a>
-            <a href="#como-funciona" class="btn btn-secondary">
-              Ver cómo funciona
-            </a>
-            <a href="dashboard.html" class="btn btn-outline">
-              Ver demo del dashboard
-            </a>
+            <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
+               class="btn btn-primary">🚀 Probar gratis en Telegram</a>
+            <a href="#como-funciona" class="btn btn-secondary">Ver cómo funciona</a>
+            <a href="dashboard.html" class="btn btn-outline">Demo del dashboard</a>
           </div>
-          <div class="hero-stats">
+          <div class="hero-stats" aria-label="Estadísticas principales">
             <div class="hero-stat-item">
-              <div class="hero-stat-value">7</div>
-              <div class="hero-stat-label">Estrategias activas</div>
+              <div class="hero-stat-value">Beta</div>
+              <div class="hero-stat-label">Mayo 2026 — activo</div>
             </div>
             <div class="hero-stat-item">
-              <div class="hero-stat-value">—</div>
-              <div class="hero-stat-label">Alertas en tiempo real</div>
+              <div class="hero-stat-value">0%</div>
+              <div class="hero-stat-label">Custodia de fondos</div>
             </div>
             <div class="hero-stat-item">
-              <div class="hero-stat-value">—</div>
-              <div class="hero-stat-label">Control de riesgo configurable</div>
+              <div class="hero-stat-value">50</div>
+              <div class="hero-stat-label">Plazas gratuitas</div>
             </div>
           </div>
         </div>
-        <div class="hero-visual">
+        <div class="hero-visual" aria-hidden="true">
           <div class="hero-graph">
             <div class="bg-grid"></div>
             <div class="chart-label">SOL/USDC</div>
             <div class="chart-bars">
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
-              <div class="chart-bar"></div>
+              <div class="chart-bar"></div><div class="chart-bar"></div>
+              <div class="chart-bar"></div><div class="chart-bar"></div>
+              <div class="chart-bar"></div><div class="chart-bar"></div>
+              <div class="chart-bar"></div><div class="chart-bar"></div>
+              <div class="chart-bar"></div><div class="chart-bar"></div>
             </div>
             <div class="chart-line"></div>
-            <div class="chart-line-2"></div>
             <div class="chart-value">+18.4% <span>este mes</span></div>
           </div>
         </div>
@@ -1120,111 +993,90 @@
     </div>
   </section>
 
+  <!-- ============ TRUST BAR ============ -->
+  <div class="trust-bar" aria-label="Garantías del servicio">
+    <div class="container trust-bar-inner">
+      <div class="trust-item"><span>🔒</span><span>Non-custodial — tus fondos, tu control</span></div>
+      <div class="trust-item"><span>⚡</span><span>Red Solana — ejecución en segundos</span></div>
+      <div class="trust-item"><span>📲</span><span>Alertas en Telegram en tiempo real</span></div>
+      <div class="trust-item"><span>🛡️</span><span>Sin KYC, sin formularios</span></div>
+    </div>
+  </div>
+
   <!-- ============ BENEFICIOS ============ -->
-  <section id="beneficios" class="section">
+  <section id="beneficios" class="section" aria-labelledby="beneficios-heading">
     <div class="container">
       <p class="section-label">Beneficios</p>
-      <h2 class="section-title">Por qué los traders eligen BotTrader</h2>
+      <h2 class="section-title" id="beneficios-heading">Por qué los traders eligen BotTrader</h2>
       <p class="section-desc">
         Diseñado para traders que buscan consistencia, sin depender de 
         pantallas ni emociones. Claridad, velocidad y control en cada operación.
       </p>
       <div class="benefits-grid">
         <div class="benefit-card reveal reveal-delay-1">
-          <div class="benefit-icon acc">⚡</div>
+          <div class="benefit-icon acc" aria-hidden="true">⚡</div>
           <h3>Velocidad de Solana</h3>
-          <p>
-            El bot opera directamente sobre la red de Solana, ejecutando 
-            entradas y salidas en segundos. Sin demoras de red, sin 
-            depender de terceros, sin esperas innecesarias.
-          </p>
+          <p>El bot opera directamente sobre la red de Solana, ejecutando entradas y salidas en segundos. Sin demoras, sin intermediarios.</p>
         </div>
         <div class="benefit-card reveal reveal-delay-2">
-          <div class="benefit-icon cyan">🛡️</div>
+          <div class="benefit-icon cyan" aria-hidden="true">🛡️</div>
           <h3>Sin custodia de fondos</h3>
-          <p>
-            Tus tokens permanecen en tu wallet en todo momento. BotTrader 
-            solo firma las transacciones que tú autorizas mediante 
-            contratos inteligentes auditados. El control es siempre tuyo.
-          </p>
+          <p>Tus tokens permanecen en tu wallet en todo momento. BotTrader solo firma las transacciones que tú autorizas. El control es siempre tuyo.</p>
         </div>
         <div class="benefit-card reveal reveal-delay-3">
-          <div class="benefit-icon gold">📊</div>
+          <div class="benefit-icon gold" aria-hidden="true">📊</div>
           <h3>Estrategias configurables</h3>
-          <p>
-            Elige entre estrategias prediseñadas o define tus propias 
-            reglas de entrada, salida, stop loss y trailing stop. 
-            Todo desde un panel claro, sin necesidad de scripting.
-          </p>
+          <p>Elige entre estrategias prediseñadas o define tus propias reglas de entrada, salida, stop loss y trailing stop. Sin código.</p>
         </div>
         <div class="benefit-card reveal reveal-delay-4">
-          <div class="benefit-icon purple">📋</div>
+          <div class="benefit-icon purple" aria-hidden="true">📋</div>
           <h3>Operativa transparente</h3>
-          <p>
-            Cada operación queda registrada en el panel. Puedes revisar 
-            el historial, ajustar parámetros y pausar el bot cuando 
-            quieras. Sin cajas negras ni algoritmos opacos.
-          </p>
+          <p>Cada operación queda registrada en el panel. Revisa el historial, ajusta parámetros y pausa el bot cuando quieras.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ CÓMO FUNCIONA ============ -->
-  <section id="como-funciona" class="section" style="background: var(--surface);">
+  <section id="como-funciona" class="section" style="background: var(--surface);" aria-labelledby="steps-heading">
     <div class="container">
       <p class="section-label">Cómo funciona</p>
-      <h2 class="section-title">Empieza en 3 pasos simples</h2>
+      <h2 class="section-title" id="steps-heading">Empieza en 3 pasos simples</h2>
       <p class="section-desc">
-        No necesitas experiencia técnica ni conocimientos de trading algorítmico. 
-        Configura tu bot en menos de 5 minutos.
+        No necesitas experiencia técnica. Configura tu bot en menos de 5 minutos.
       </p>
       <div class="steps-grid">
         <div class="step-card reveal reveal-delay-1">
-          <div class="step-number">1</div>
-          <h3>Conecta tu wallet</h3>
-          <p>
-            Conecta tu wallet de Solana (Phantom, Backpack o Solflare) con 
-            un solo clic. Sin formularios, sin registros, sin KYC.
-          </p>
+          <div class="step-number" aria-hidden="true">1</div>
+          <h3>Abre el bot en Telegram</h3>
+          <p>Busca <strong>@CryptoTerminalAlpha_Bot</strong> en Telegram y pulsa Iniciar. Sin registro, sin formularios, sin KYC.</p>
         </div>
         <div class="step-card reveal reveal-delay-2">
-          <div class="step-number">2</div>
+          <div class="step-number" aria-hidden="true">2</div>
           <h3>Configura tu estrategia</h3>
-          <p>
-            Elige entre estrategias predefinidas o personaliza riesgo, pares 
-            de trading, horarios y objetivos de gestión.
-          </p>
+          <p>Elige entre estrategias predefinidas o personaliza riesgo, pares de trading y objetivos de gestión.</p>
         </div>
         <div class="step-card reveal reveal-delay-3">
-          <div class="step-number">3</div>
-          <h3>Activa y monitorea</h3>
-          <p>
-            Activa el bot con un clic y revisa el comportamiento de tu estrategia desde un panel claro, con notificaciones útiles en tiempo real.
-          </p>
+          <div class="step-number" aria-hidden="true">3</div>
+          <h3>Activa y recibe alertas</h3>
+          <p>Activa el bot con un clic y recibe notificaciones en tiempo real directamente en Telegram.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ TESTIMONIOS ============ -->
-  <section id="testimonios" class="section">
+  <section id="testimonios" class="section" aria-labelledby="testimonios-heading">
     <div class="container">
       <p class="section-label">Testimonios</p>
-      <h2 class="section-title">Lo que dicen nuestros usuarios</h2>
-      <p class="section-desc">
-        Esto es lo que cuentan quienes ya usan BotTrader en su operativa diaria.
-      </p>
+      <h2 class="section-title" id="testimonios-heading">Lo que dicen nuestros usuarios</h2>
+      <p class="section-desc">Quienes ya usan BotTrader en su operativa diaria.</p>
       <div class="testimonials-grid">
         <div class="testimonial-card reveal reveal-delay-1">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">
-            "Lo que más valoro es poder definir mis reglas y que el bot las 
-            ejecute sin intervención. Me ha ayudado a ser más disciplinado 
-            y a no tomar decisiones emocionales en mercado volátil."
-          </p>
+          <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+          <p class="testimonial-quote">"Lo que más valoro es poder definir mis reglas y que el bot las ejecute sin intervención. Me ha ayudado a ser más disciplinado y a no tomar decisiones emocionales."</p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">CP</div>
+            <div class="testimonial-avatar" aria-hidden="true">CP</div>
             <div>
               <div class="testimonial-name">Carlos P.</div>
               <div class="testimonial-role">Trader independiente, 3 años en crypto</div>
@@ -1232,14 +1084,10 @@
           </div>
         </div>
         <div class="testimonial-card reveal reveal-delay-2">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-quote">
-            "Probé primero en el entorno controlado y eso me dio confianza 
-            para pasar a producción. Hoy gestiono varias estrategias desde 
-            un solo panel y sé exactamente lo que está pasando en cada una."
-          </p>
+          <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
+          <p class="testimonial-quote">"Probé primero en el entorno controlado y eso me dio confianza para pasar a producción. Hoy gestiono varias estrategias desde un solo panel."</p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">MG</div>
+            <div class="testimonial-avatar" aria-hidden="true">MG</div>
             <div>
               <div class="testimonial-name">María G.</div>
               <div class="testimonial-role">Inversora en DeFi, 2 años</div>
@@ -1247,15 +1095,10 @@
           </div>
         </div>
         <div class="testimonial-card reveal reveal-delay-3">
-          <div class="testimonial-stars">★★★★☆</div>
-          <p class="testimonial-quote">
-            "Me gusta que puedo empezar con lo básico e ir añadiendo 
-            complejidad cuando me siento cómodo. La transparencia del 
-            historial de operaciones me ha ayudado a entender mejor 
-            qué funciona y qué no en mi estrategia."
-          </p>
+          <div class="testimonial-stars" aria-label="4 estrellas">★★★★☆</div>
+          <p class="testimonial-quote">"Me gusta que puedo empezar con lo básico e ir añadiendo complejidad. La transparencia del historial me ha ayudado a entender mejor qué funciona."</p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">AL</div>
+            <div class="testimonial-avatar" aria-hidden="true">AL</div>
             <div>
               <div class="testimonial-name">Andrés L.</div>
               <div class="testimonial-role">Desarrollador Solana</div>
@@ -1267,183 +1110,138 @@
   </section>
 
   <!-- ============ FAQ ============ -->
-  <section id="faq" class="section" style="background: var(--surface);">
+  <section id="faq" class="section" style="background: var(--surface);" aria-labelledby="faq-heading">
     <div class="container">
       <p class="section-label">FAQ</p>
-      <h2 class="section-title">Preguntas frecuentes</h2>
-      <p class="section-desc" style="margin-bottom: 0;">
-        Todo lo que necesitas saber antes de empezar a operar con BotTrader.
-      </p>
+      <h2 class="section-title" id="faq-heading">Preguntas frecuentes</h2>
+      <p class="section-desc" style="margin-bottom:0;">Todo lo que necesitas saber antes de empezar.</p>
       <div class="faq-list reveal">
+
         <div class="faq-item open">
-          <button class="faq-question" onclick="toggleFaq(this)">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="true">
             ¿Es seguro conectar mi wallet?
-            <span class="faq-question-icon">+</span>
+            <span class="faq-question-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>
-              Sí. BotTrader nunca tiene acceso a tus fondos. Solo solicitamos 
-              permisos de lectura y firma de transacciones a través de 
-              contratos inteligentes auditados por firma de seguridad 
-              independiente. Tus claves privadas nunca abandonan tu wallet.
-            </p>
+            <p>Sí. BotTrader nunca tiene acceso a tus fondos. Solo solicitamos permisos de lectura y firma de transacciones. Tus claves privadas nunca abandonan tu wallet.</p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
             ¿Qué wallets son compatibles?
-            <span class="faq-question-icon">+</span>
+            <span class="faq-question-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>
-              BotTrader es compatible con Phantom, Backpack, Solflare, 
-              Ledger (vía Ethereum/Solana), y cualquier wallet que soporte 
-              el protocolo WalletConnect de Solana.
-            </p>
+            <p>BotTrader es compatible con Phantom, Backpack, Solflare, Ledger (vía Solana) y cualquier wallet que soporte WalletConnect de Solana.</p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
             ¿Cuánto cuesta usar BotTrader?
-            <span class="faq-question-icon">+</span>
+            <span class="faq-question-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>
-              Ofrecemos un plan gratuito con límite de volumen mensual y 
-              estrategias básicas. El plan Pro cuesta 0.5 SOL/mes e incluye 
-              estrategias avanzadas, trailing stop y soporte prioritario. 
-              Sin comisiones ocultas ni porcentaje sobre ganancias.
-            </p>
+            <p>El plan Free es gratuito y da acceso básico al bot de Telegram. El plan Pro cuesta 19 €/mes e incluye alertas completas, canal privado y señales más frecuentes. Sin comisiones ocultas.</p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
             ¿Qué rentabilidad puedo esperar?
-            <span class="faq-question-icon">+</span>
+            <span class="faq-question-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>
-              El rendimiento depende de las condiciones del mercado, la 
-              configuración que elijas y el nivel de riesgo que asumas. 
-              No publicamos promedios porque cada estrategia y cada momento 
-              de mercado son distintos. Recomendamos probar cualquier 
-              configuración en un entorno controlado antes de operar con 
-              fondos reales.
-            </p>
+            <p>El rendimiento depende de las condiciones del mercado y la configuración que elijas. No publicamos promedios porque cada estrategia y cada momento de mercado son distintos. Recomendamos probar en un entorno controlado antes de operar con fondos reales.</p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
             ¿Necesito experiencia en trading?
-            <span class="faq-question-icon">+</span>
+            <span class="faq-question-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>
-              No. BotTrader está diseñado tanto para principiantes como para 
-              traders experimentados. Las estrategias predefinidas vienen con 
-              parámetros optimizados que puedes usar sin configurar nada. 
-              Conforme ganes confianza, puedes personalizar cada detalle.
-            </p>
+            <p>No. BotTrader está diseñado para principiantes y para traders experimentados. Las estrategias predefinidas vienen con parámetros optimizados que puedes usar sin configurar nada.</p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            ¿El bot es sin custodia (non-custodial)?
-            <span class="faq-question-icon">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            ¿El bot es non-custodial?
+            <span class="faq-question-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>
-              Sí. BotTrader opera de forma non-custodial: tus fondos nunca 
-              salen de tu exchange ni de tu wallet. Solo utilizamos permisos de lectura 
-              y ejecución limitada a través de tus API keys. En ningún momento tenemos 
-              acceso a tus fondos.
-            </p>
+            <p>Sí. Tus fondos nunca salen de tu wallet ni de tu exchange. Solo usamos permisos de lectura y ejecución limitada. En ningún momento tenemos acceso a tus fondos.</p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            ¿Cómo se gestionan mis API keys?
-            <span class="faq-question-icon">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            ¿Tiene BotTrader auditoría de seguridad?
+            <span class="faq-question-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>
-              Tus API keys se almacenan cifradas y nunca se comparten ni se 
-              exponen. Solo se usan para ejecutar las operaciones que tú configuras 
-              previamente. Puedes revocarlas en cualquier momento desde tu exchange.
-            </p>
+            <p>Estamos en fase de validación. Antes del lanzamiento completo realizaremos una auditoría de seguridad independiente. Puedes seguir el progreso en nuestros canales oficiales.</p>
           </div>
         </div>
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            ¿Tiene BotTrader auditoría de seguridad externa?
-            <span class="faq-question-icon">+</span>
-          </button>
-          <div class="faq-answer">
-            <p>
-              Actualmente estamos en fase de desarrollo y validación. Antes 
-              del lanzamiento completo del producto realizaremos una auditoría de 
-              seguridad independiente. Puedes seguir el progreso en nuestros canales 
-              oficiales.
-            </p>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ============ PRECIOS ============ -->
-  <section id="precios" class="section">
+  <section id="precios" class="section" aria-labelledby="precios-heading">
     <div class="container">
       <div class="pricing reveal">
-        <p class="section-label">PLANES</p>
-        <h2 class="section-title">Elige el plan que mejor se adapte a tu operativa</h2>
+        <p class="section-label">Planes</p>
+        <h2 class="section-title" id="precios-heading">Elige el plan que mejor se adapte a tu operativa</h2>
       </div>
       <div class="pricing-grid reveal">
         <div class="pricing-card">
-          <h3>Free</h3>
+          <h3>Free Beta</h3>
           <div class="price">0 €</div>
-          <div class="price-sub">Sin coste, sin compromiso</div>
+          <div class="price-sub">50 plazas · sin tarjeta</div>
           <ul>
-            <li>Acceso básico al bot de Telegram</li>
-            <li>Muestra limitada de alertas</li>
-            <li>Visión general del sistema</li>
-            <li>Sin coste, sin tarjeta</li>
+            <li>Acceso completo al bot de Telegram</li>
+            <li>Todas las alertas en tiempo real</li>
+            <li>Estrategias predefinidas incluidas</li>
+            <li>A cambio: tu feedback honesto</li>
           </ul>
-          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Empezar gratis</a>
+          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
+             class="btn btn-secondary">Unirme a la beta</a>
         </div>
         <div class="pricing-card featured">
           <h3>Pro</h3>
           <div class="price">19 €</div>
-          <div class="price-sub">por mes</div>
+          <div class="price-sub">por mes · próximamente</div>
           <ul>
-            <li>Alertas completas en tiempo real</li>
-            <li>Acceso premium al canal privado de Telegram</li>
-            <li>Seguimiento ampliado y señales más frecuentes</li>
-            <li>Experiencia completa dentro de BotTrader</li>
+            <li>Todo lo del plan beta</li>
+            <li>Canal privado VIP de Telegram</li>
+            <li>Señales avanzadas y prioritarias</li>
+            <li>Soporte directo del equipo</li>
           </ul>
-          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Acceder a Pro</a>
+          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
+             class="btn btn-primary">Reservar plaza Pro</a>
         </div>
       </div>
-      <p class="pricing-note reveal">BotTrader no garantiza rentabilidad. La información es orientativa.</p>
+      <p class="pricing-note reveal">BotTrader no garantiza rentabilidad. La información proporcionada es orientativa y no constituye asesoramiento financiero.</p>
     </div>
   </section>
 
   <!-- ============ CTA FINAL ============ -->
-  <section id="comenzar" class="cta-section">
+  <section id="comenzar" class="cta-section" aria-labelledby="cta-heading">
     <div class="container">
       <div class="cta-box reveal">
-        <h2>Empieza con BotTrader y prueba tu flujo<br />antes de operar en real</h2>
-        <p>
-          Configura tu estrategia, revisa tus reglas y valida el comportamiento 
-          del bot en un entorno controlado antes de pasar a producción.
-        </p>
+        <h2 id="cta-heading">Estamos en beta — 50 plazas gratuitas disponibles</h2>
+        <p>Abre el bot en Telegram, conecta tu wallet y activa tu primera estrategia. Sin formularios, sin tarjeta. A cambio solo pedimos tu feedback.</p>
         <div class="cta-actions">
-          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Abrir en Telegram</a>
-          <a href="#como-funciona" class="btn btn-secondary">Ver cómo funciona</a>
+          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
+             class="btn btn-primary">🚀 Unirme a la beta gratis</a>
+          <a href="dashboard.html" class="btn btn-secondary">Ver demo del dashboard</a>
         </div>
-        <p class="cta-guarantee">
-          🔒 Tus fondos nunca salen de tu wallet. Sin custodia. Con control sobre tus fondos.
-        </p>
+        <p class="cta-guarantee">🔒 Non-custodial · Tus fondos permanecen en tu wallet · Sin KYC</p>
       </div>
     </div>
   </section>
@@ -1452,25 +1250,31 @@
   <footer class="footer">
     <div class="container footer-inner">
       <p class="footer-copy">© 2026 BotTrader. Todos los derechos reservados.</p>
-      <div class="footer-links">
-        <span>Términos</span>
-        <span>Privacidad</span>
-        <span>Auditoría</span>
-        <span>Soporte</span>
-      </div>
+      <nav class="footer-links" aria-label="Enlaces del pie de página">
+        <a href="#">Términos</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Auditoría</a>
+        <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer">Soporte</a>
+      </nav>
     </div>
   </footer>
 
   <script>
+    /* FAQ accordion */
     function toggleFaq(btn) {
       var item = btn.parentElement;
-      var open = item.classList.contains('open');
+      var isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item.open').forEach(function(el) {
         el.classList.remove('open');
+        el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
       });
-      if (!open) item.classList.add('open');
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
     }
 
+    /* Smooth scroll for anchor links */
     document.querySelectorAll('a[href^="#"]').forEach(function(a) {
       a.addEventListener('click', function(e) {
         var id = this.getAttribute('href');
@@ -1483,24 +1287,39 @@
       });
     });
 
-    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-      var nav = document.querySelector('.header-nav');
-      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-      if (nav.style.display === 'flex') {
-        nav.style.flexDirection = 'column';
-        nav.style.position = 'absolute';
-        nav.style.top = '100%';
-        nav.style.left = '0';
-        nav.style.right = '0';
-        nav.style.background = 'rgba(10, 14, 23, 0.95)';
-        nav.style.padding = '16px';
-        nav.style.borderBottom = '1px solid var(--border)';
-        nav.style.gap = '12px';
+    /* Mobile menu */
+    var menuBtn = document.querySelector('.mobile-menu-btn');
+    var nav     = document.querySelector('.header-nav');
+    menuBtn.addEventListener('click', function() {
+      var open = nav.classList.toggle('open');
+      this.textContent = open ? '✕' : '☰';
+      this.setAttribute('aria-expanded', open ? 'true' : 'false');
+      this.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    });
+    /* Close menu on nav link click */
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        nav.classList.remove('open');
+        menuBtn.textContent = '☰';
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.setAttribute('aria-label', 'Abrir menú');
+      });
+    });
+    /* Close on outside click */
+    document.addEventListener('click', function(e) {
+      if (nav.classList.contains('open') && !nav.contains(e.target) && !menuBtn.contains(e.target)) {
+        nav.classList.remove('open');
+        menuBtn.textContent = '☰';
+        menuBtn.setAttribute('aria-expanded', 'false');
       }
     });
 
-    // Scroll-triggered reveal
+    /* Scroll reveal */
     (function() {
+      if (!window.IntersectionObserver) {
+        document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
+        return;
+      }
       var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
@@ -1508,12 +1327,10 @@
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-      document.querySelectorAll('.reveal').forEach(function(el) {
-        observer.observe(el);
-      });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
     })();
   </script>
+
 </body>
 </html>

@@ -3,34 +3,56 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0a0e17" />
   <title>BotTrader — Dashboard</title>
-  <link rel="stylesheet" href="colors_and_type.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
   <style>
+    /* ============ VARIABLES ============ */
     :root {
-      --bg: #0a0e17; --surface: #111827; --surface-hover: #1f2937;
-      --fg: #e5e7eb; --fg-muted: #9ca3af;
-      --border: #374151; --border-hover: #4b5563;
-      --accent: #10b981; --accent-hover: #059669; --accent-secondary: #06b6d4;
-      --success: #34d399; --warning: #fbbf24; --error: #f87171;
-      --font-display: 'Orbitron','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-      --font-heading: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      --font-body: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      --font-caption: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      --font-code: 'Fira Code','Courier New',monospace;
-      --fw-display-regular: 400; --fw-display-medium: 600; --fw-display-bold: 700;
-      --fw-heading-medium: 500; --fw-heading-semibold: 600; --fw-heading-bold: 700;
-      --fw-body-regular: 400; --fw-body-medium: 500;
-      --spacing-6: 24px; --spacing-8: 32px; --spacing-10: 40px; --spacing-12: 48px;
-      --spacing-16: 64px; --spacing-20: 80px; --spacing-24: 96px; --spacing-28: 112px; --spacing-32: 128px;
-      --radius-medium: 8px; --radius-large: 12px; --radius-xl: 16px;
-      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
-      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);
-      --transition-fast: 150ms ease-out; --transition-medium: 200ms ease-out;
-      --transition-slow: 300ms ease-out;
+      --bg: #0a0e17;
+      --surface: #111827;
+      --surface-hover: #1f2937;
+      --fg: #e5e7eb;
+      --fg-muted: #9ca3af;
+      --border: #374151;
+      --border-hover: #4b5563;
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --accent-secondary: #06b6d4;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --error: #f87171;
+
+      --font-display: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-code:    'Fira Code', 'Courier New', monospace;
+
+      --fw-display-bold:    700;
+      --fw-heading-bold:    700;
+      --fw-heading-semibold:600;
+      --fw-heading-medium:  500;
+      --fw-body-regular:    400;
+      --fw-body-medium:     500;
+      --fw-code-medium:     500;
+
+      --spacing-1: 4px;  --spacing-2: 8px;   --spacing-3: 12px;
+      --spacing-4: 16px; --spacing-5: 20px;  --spacing-6: 24px;
+      --spacing-8: 32px; --spacing-10: 40px; --spacing-12: 48px;
+
+      --radius-s:      6px;
+      --radius-medium: 8px;
+      --radius-large:  12px;
+      --radius-xl:     16px;
+
+      --transition-fast:   150ms ease-out;
+      --transition-medium: 200ms ease-out;
     }
+
+    /* ============ RESET ============ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -40,14 +62,16 @@
       font-weight: var(--fw-body-regular);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       display: flex;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
+    /* ============ BUTTONS ============ */
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: var(--spacing-2);
       padding: 10px 20px;
       border-radius: var(--radius-medium);
@@ -55,35 +79,144 @@
       font-weight: var(--fw-heading-semibold);
       font-size: 0.85rem;
       cursor: pointer;
-      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
       text-decoration: none;
       border: 1px solid transparent;
       letter-spacing: 0.01em;
-      will-change: transform;
+      white-space: nowrap;
     }
-    .btn:active {
-      transform: scale(0.97);
-    }
+    .btn:active { transform: scale(0.97); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .btn-primary {
-      background: #047857;
+      background: var(--accent);
       color: #fff;
-      border-color: #047857;
+      border-color: var(--accent);
     }
     .btn-primary:hover {
-      background: #065f46;
-      border-color: #065f46;
-      box-shadow: 0 2px 10px rgba(4, 120, 87, 0.25);
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
     }
-    .btn-primary:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+    .btn-sm { padding: 6px 14px; font-size: 0.78rem; }
+
+    /* ============ MOBILE TOP BAR (hidden on desktop) ============ */
+    .mobile-topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10,14,23,0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 var(--spacing-4);
+      height: 56px;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-3);
     }
-    .btn-sm {
-      padding: 6px 14px;
-      font-size: 0.78rem;
+    .mobile-topbar-logo {
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: 1rem;
+      color: var(--fg);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+    }
+    .mobile-topbar-logo span { color: var(--accent); }
+    .mobile-topbar-logo-icon {
+      width: 22px; height: 22px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+    }
+    .mobile-nav-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      border-radius: var(--radius-medium);
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: border-color var(--transition-fast);
+      flex-shrink: 0;
+    }
+    .mobile-nav-btn:hover { border-color: var(--border-hover); }
+
+    /* Mobile drawer overlay */
+    .mobile-drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 299;
+    }
+    .mobile-drawer-overlay.open { display: block; }
+
+    /* Mobile drawer (sidebar slide-in) */
+    .mobile-drawer {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+    }
+    .mobile-drawer.open { transform: translateX(0); }
+    .mobile-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-4) var(--spacing-5);
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-drawer-logo {
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: 1rem;
+      color: var(--fg);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+    }
+    .mobile-drawer-logo span { color: var(--accent); }
+    .mobile-drawer-close {
+      background: var(--surface-hover);
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+      border-radius: 50%;
+      width: 32px; height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background var(--transition-fast);
+    }
+    .mobile-drawer-close:hover { background: var(--border); color: var(--fg); }
+    .mobile-drawer-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--spacing-3);
+    }
+    .mobile-drawer-bottom {
+      padding: var(--spacing-3);
+      border-top: 1px solid var(--border);
     }
 
-    /* ============ SIDEBAR ============ */
+    /* ============ SIDEBAR (desktop) ============ */
     .sidebar {
       width: 240px;
       flex-shrink: 0;
@@ -106,11 +239,12 @@
       font-size: 1.1rem;
       color: var(--fg);
       text-decoration: none;
+      transition: opacity var(--transition-fast);
     }
+    .sidebar-logo:hover { opacity: 0.85; }
     .sidebar-logo span { color: var(--accent); }
     .sidebar-logo-icon {
-      width: 26px;
-      height: 26px;
+      width: 26px; height: 26px;
       background: var(--accent);
       border-radius: 50%;
       display: grid;
@@ -124,14 +258,15 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      overflow-y: auto;
     }
     .sidebar-section-label {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--fg-muted);
       padding: var(--spacing-4) var(--spacing-2) var(--spacing-2);
-      opacity: 0.6;
+      opacity: 0.55;
     }
     .sidebar-link {
       display: flex;
@@ -144,23 +279,40 @@
       font-size: 0.88rem;
       font-weight: var(--fw-body-medium);
       transition: background var(--transition-fast), color var(--transition-fast);
+      position: relative;
     }
     .sidebar-link:hover { background: var(--surface-hover); color: var(--fg); }
-    .sidebar-link.active {
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--accent);
+    .sidebar-link.active { background: rgba(16,185,129,0.1); color: var(--accent); }
+
+    /* Active left-border indicator */
+    .sidebar-link::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 15%; bottom: 15%;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 0 3px 3px 0;
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: transform 0.2s ease;
     }
+    .sidebar-link.active::before { transform: scaleY(1); }
+
     .sidebar-link-icon {
       width: 20px;
       text-align: center;
       font-size: 1rem;
       flex-shrink: 0;
+      transition: color var(--transition-fast);
     }
+    .sidebar-link:hover .sidebar-link-icon,
+    .sidebar-link.active .sidebar-link-icon { color: var(--accent); }
+
     .sidebar-link .badge {
       margin-left: auto;
       background: var(--accent);
       color: #fff;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       padding: 1px 7px;
       border-radius: 999px;
       font-weight: var(--fw-heading-bold);
@@ -169,31 +321,45 @@
       padding: var(--spacing-4) var(--spacing-3);
       border-top: 1px solid var(--border);
     }
+
+    /* Telegram CTA in sidebar */
+    .sidebar-tg-cta {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      padding: 10px 12px;
+      border-radius: var(--radius-medium);
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.18);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: var(--fw-heading-semibold);
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+      margin-bottom: var(--spacing-3);
+    }
+    .sidebar-tg-cta:hover { background: rgba(16,185,129,0.14); border-color: rgba(16,185,129,0.3); }
+
     .wallet-status {
       display: flex;
       align-items: center;
       gap: var(--spacing-3);
       padding: 10px 12px;
       border-radius: var(--radius-medium);
-      background: rgba(16, 185, 129, 0.06);
-      border: 1px solid rgba(16, 185, 129, 0.12);
+      background: rgba(16,185,129,0.06);
+      border: 1px solid rgba(16,185,129,0.12);
+      transition: background var(--transition-fast), border-color var(--transition-fast);
     }
+    .wallet-status:hover { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.22); }
     .wallet-dot {
-      width: 8px;
-      height: 8px;
+      width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--accent);
       flex-shrink: 0;
+      animation: pulse-live 2s ease-in-out infinite;
     }
-    .wallet-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .wallet-label {
-      font-size: 0.7rem;
-      color: var(--fg-muted);
-      line-height: 1.2;
-    }
+    .wallet-info { flex: 1; min-width: 0; }
+    .wallet-label { font-size: 0.68rem; color: var(--fg-muted); line-height: 1.2; }
     .wallet-address {
       font-family: var(--font-code);
       font-size: 0.7rem;
@@ -211,6 +377,8 @@
       padding: var(--spacing-8);
       overflow-y: auto;
     }
+
+    /* ============ TOP BAR ============ */
     .top-bar {
       display: flex;
       align-items: center;
@@ -219,16 +387,8 @@
       flex-wrap: wrap;
       gap: var(--spacing-4);
     }
-    .top-bar-left {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-4);
-    }
-    .page-title {
-      font-family: var(--font-heading);
-      font-weight: var(--fw-heading-bold);
-      font-size: 1.4rem;
-    }
+    .top-bar-left { display: flex; align-items: center; gap: var(--spacing-4); }
+    .page-title { font-family: var(--font-heading); font-weight: var(--fw-heading-bold); font-size: 1.4rem; }
     .live-indicator {
       display: inline-flex;
       align-items: center;
@@ -238,21 +398,16 @@
       font-weight: var(--fw-body-medium);
     }
     .live-dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--success);
       animation: pulse-live 1.5s ease-in-out infinite;
     }
     @keyframes pulse-live {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      50%       { opacity: 0.3; }
     }
-    .top-bar-right {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-3);
-    }
+    .top-bar-right { display: flex; align-items: center; gap: var(--spacing-3); }
     .top-time {
       font-family: var(--font-code);
       font-size: 0.8rem;
@@ -260,8 +415,7 @@
       font-weight: var(--fw-code-medium);
     }
     .notif-btn {
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border-radius: 50%;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -270,16 +424,15 @@
       cursor: pointer;
       display: grid;
       place-items: center;
-      transition: background var(--transition-fast), border-color var(--transition-fast);
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
       position: relative;
     }
     .notif-btn:hover { border-color: var(--border-hover); color: var(--fg); }
+    .notif-btn:active { transform: scale(0.92); }
     .notif-dot {
       position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 8px;
-      height: 8px;
+      top: 6px; right: 6px;
+      width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--accent);
       border: 2px solid var(--bg);
@@ -288,7 +441,7 @@
     /* ============ METRICS ============ */
     .metrics-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: var(--spacing-4);
       margin-bottom: var(--spacing-6);
     }
@@ -297,9 +450,21 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-medium);
       padding: var(--spacing-5);
+      animation: metricUp 0.45s ease-out forwards;
+      opacity: 0;
+      transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
+    }
+    .metric-card:hover { border-color: rgba(16,185,129,0.15); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .metric-card:nth-child(1) { animation-delay: 0.05s; }
+    .metric-card:nth-child(2) { animation-delay: 0.10s; }
+    .metric-card:nth-child(3) { animation-delay: 0.15s; }
+    .metric-card:nth-child(4) { animation-delay: 0.20s; }
+    @keyframes metricUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .metric-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--fg-muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -314,16 +479,16 @@
     .metric-value.green { color: var(--accent); }
     .metric-value.white { color: var(--fg); }
     .metric-change {
-      font-size: 0.75rem;
-      margin-top: var(--spacing-1);
+      font-size: 0.72rem;
+      margin-top: 4px;
       display: inline-flex;
       align-items: center;
       gap: 3px;
     }
-    .metric-change.up { color: var(--success); }
+    .metric-change.up   { color: var(--success); }
     .metric-change.down { color: var(--error); }
 
-    /* ============ MAIN GRID ============ */
+    /* ============ CARDS ============ */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -334,52 +499,29 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-medium);
+      transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
     }
+    .card:hover { border-color: rgba(16,185,129,0.1); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: var(--spacing-5) var(--spacing-6) 0;
     }
-    .card-title {
-      font-family: var(--font-heading);
-      font-weight: var(--fw-heading-semibold);
-      font-size: 0.95rem;
-    }
-    .card-subtitle {
-      font-size: 0.75rem;
-      color: var(--fg-muted);
-    }
-    .card-body { padding: var(--spacing-5) var(--spacing-6) var(--spacing-6); }
+    .card-title  { font-family: var(--font-heading); font-weight: var(--fw-heading-semibold); font-size: 0.95rem; }
+    .card-subtitle { font-size: 0.72rem; color: var(--fg-muted); margin-top: 2px; }
+    .card-body   { padding: var(--spacing-5) var(--spacing-6) var(--spacing-6); }
+    .card-header .btn:hover { background: rgba(55,65,81,0.25) !important; }
 
-    /* Strategy Summary */
-    .strategy-progress {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-4);
-      margin-top: var(--spacing-3);
-    }
-    .strategy-row {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-4);
-    }
-    .strategy-row-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .strategy-row-name {
-      font-size: 0.85rem;
-      font-weight: var(--fw-heading-medium);
-      margin-bottom: 2px;
-    }
-    .strategy-row-meta {
-      font-size: 0.72rem;
-      color: var(--fg-muted);
-    }
+    /* Strategy progress bars */
+    .strategy-progress { display: flex; flex-direction: column; gap: var(--spacing-4); margin-top: var(--spacing-3); }
+    .strategy-row { display: flex; align-items: center; gap: var(--spacing-4); }
+    .strategy-row-info { flex: 1; min-width: 0; }
+    .strategy-row-name { font-size: 0.85rem; font-weight: var(--fw-heading-medium); margin-bottom: 2px; }
+    .strategy-row-meta { font-size: 0.72rem; color: var(--fg-muted); }
     .strategy-bar {
       height: 6px;
-      background: rgba(55, 65, 81, 0.5);
+      background: rgba(55,65,81,0.5);
       border-radius: 999px;
       overflow: hidden;
       flex: 1;
@@ -388,11 +530,11 @@
     .strategy-bar-fill {
       height: 100%;
       border-radius: 999px;
-      transition: width 0.6s ease;
+      transition: width 0.8s ease;
     }
     .strategy-bar-fill.green { background: var(--accent); }
-    .strategy-bar-fill.cyan { background: var(--accent-secondary); }
-    .strategy-bar-fill.gold { background: var(--warning); }
+    .strategy-bar-fill.cyan  { background: var(--accent-secondary); }
+    .strategy-bar-fill.gold  { background: var(--warning); }
     .strategy-row-pnl {
       font-family: var(--font-code);
       font-size: 0.82rem;
@@ -404,83 +546,74 @@
     .strategy-row-pnl.neg { color: var(--error); }
 
     /* ============ TABLE ============ */
-    .table-section {
-      margin-bottom: var(--spacing-6);
-    }
+    .table-section { margin-bottom: var(--spacing-6); }
     .table-wrap {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    table { width: 100%; border-collapse: collapse; min-width: 480px; }
     thead th {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--fg-muted);
       font-weight: var(--fw-heading-semibold);
-      padding: var(--spacing-3) var(--spacing-5);
+      padding: var(--spacing-3) var(--spacing-4);
       text-align: left;
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
     }
     tbody td {
-      padding: var(--spacing-3) var(--spacing-5);
+      padding: var(--spacing-3) var(--spacing-4);
       font-size: 0.85rem;
-      border-bottom: 1px solid rgba(55, 65, 81, 0.3);
+      border-bottom: 1px solid rgba(55,65,81,0.3);
       white-space: nowrap;
     }
     tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: rgba(55, 65, 81, 0.15); }
-    .pair-label {
-      font-family: var(--font-code);
-      font-weight: var(--fw-code-medium);
-      font-size: 0.82rem;
-    }
+    tbody tr:hover { background: rgba(55,65,81,0.12); }
+    .pair-label  { font-family: var(--font-code); font-weight: var(--fw-code-medium); font-size: 0.82rem; }
     .tag {
       display: inline-block;
       font-size: 0.68rem;
       padding: 2px 10px;
       border-radius: 999px;
       font-weight: var(--fw-heading-medium);
+      transition: opacity var(--transition-fast);
     }
-    .tag.long { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
-    .tag.short { background: rgba(248, 113, 113, 0.1); color: var(--error); }
+    .tag:hover { opacity: 0.8; }
+    .tag.long  { background: rgba(16,185,129,0.1);  color: var(--accent); }
+    .tag.short { background: rgba(248,113,113,0.1); color: var(--error); }
     .pnl-pos { color: var(--accent); font-family: var(--font-code); font-weight: var(--fw-code-medium); }
-    .pnl-neg { color: var(--error); font-family: var(--font-code); font-weight: var(--fw-code-medium); }
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.75rem;
-    }
-    .status-pill-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-    .status-pill-dot.active { background: var(--accent); }
+    .pnl-neg { color: var(--error);  font-family: var(--font-code); font-weight: var(--fw-code-medium); }
+    .status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; }
+    .status-pill-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .status-pill-dot.active  { background: var(--accent); }
     .status-pill-dot.pending { background: var(--warning); }
-    .status-pill-dot.closed { background: var(--fg-muted); }
+    .status-pill-dot.closed  { background: var(--fg-muted); }
 
     /* ============ ACTIVITY + ALERTS ============ */
-    .bottom-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-6);
-    }
+    .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-6); }
     .activity-item {
       display: flex;
       align-items: flex-start;
       gap: var(--spacing-3);
       padding: var(--spacing-3) 0;
-      border-bottom: 1px solid rgba(55, 65, 81, 0.2);
+      border-bottom: 1px solid rgba(55,65,81,0.2);
+      animation: itemFadeIn 0.3s ease-out forwards;
+      opacity: 0;
     }
     .activity-item:last-child { border-bottom: none; }
+    .activity-item:nth-child(1) { animation-delay: 0.05s; }
+    .activity-item:nth-child(2) { animation-delay: 0.10s; }
+    .activity-item:nth-child(3) { animation-delay: 0.15s; }
+    .activity-item:nth-child(4) { animation-delay: 0.20s; }
+    .activity-item:nth-child(5) { animation-delay: 0.25s; }
+    @keyframes itemFadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .activity-icon {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       border-radius: 50%;
       display: grid;
       place-items: center;
@@ -488,40 +621,31 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .activity-icon.buy { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
-    .activity-icon.sell { background: rgba(248, 113, 113, 0.1); color: var(--error); }
-    .activity-icon.info { background: rgba(6, 182, 212, 0.1); color: var(--accent-secondary); }
-    .activity-content {
-      flex: 1;
-      min-width: 0;
-    }
-    .activity-title {
-      font-size: 0.85rem;
-      font-weight: var(--fw-heading-medium);
-    }
-    .activity-meta {
-      font-size: 0.72rem;
-      color: var(--fg-muted);
-      margin-top: 1px;
-    }
-    .activity-time {
-      font-size: 0.7rem;
-      color: var(--fg-muted);
-      white-space: nowrap;
-      font-family: var(--font-code);
-    }
+    .activity-icon.buy  { background: rgba(16,185,129,0.1);  color: var(--accent); }
+    .activity-icon.sell { background: rgba(248,113,113,0.1); color: var(--error); }
+    .activity-icon.info { background: rgba(6,182,212,0.1);   color: var(--accent-secondary); }
+    .activity-content { flex: 1; min-width: 0; }
+    .activity-title { font-size: 0.85rem; font-weight: var(--fw-heading-medium); }
+    .activity-meta  { font-size: 0.72rem; color: var(--fg-muted); margin-top: 1px; }
+    .activity-time  { font-size: 0.7rem; color: var(--fg-muted); white-space: nowrap; font-family: var(--font-code); }
 
     .alert-item {
       display: flex;
       align-items: flex-start;
       gap: var(--spacing-3);
       padding: var(--spacing-3) 0;
-      border-bottom: 1px solid rgba(55, 65, 81, 0.2);
+      border-bottom: 1px solid rgba(55,65,81,0.2);
+      animation: itemFadeIn 0.3s ease-out forwards;
+      opacity: 0;
     }
     .alert-item:last-child { border-bottom: none; }
+    .alert-item:nth-child(1) { animation-delay: 0.05s; }
+    .alert-item:nth-child(2) { animation-delay: 0.10s; }
+    .alert-item:nth-child(3) { animation-delay: 0.15s; }
+    .alert-item:nth-child(4) { animation-delay: 0.20s; }
+    .alert-item:nth-child(5) { animation-delay: 0.25s; }
     .alert-icon {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       border-radius: 50%;
       display: grid;
       place-items: center;
@@ -529,225 +653,21 @@
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .alert-icon.warn { background: rgba(251, 191, 36, 0.1); color: var(--warning); }
-    .alert-icon.ok { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
-    .alert-icon.info { background: rgba(6, 182, 212, 0.1); color: var(--accent-secondary); }
+    .alert-icon.warn { background: rgba(251,191,36,0.1);  color: var(--warning); }
+    .alert-icon.ok   { background: rgba(16,185,129,0.1);  color: var(--accent); }
+    .alert-icon.info { background: rgba(6,182,212,0.1);   color: var(--accent-secondary); }
     .alert-content { flex: 1; min-width: 0; }
     .alert-title { font-size: 0.85rem; font-weight: var(--fw-heading-medium); }
-    .alert-meta { font-size: 0.72rem; color: var(--fg-muted); margin-top: 1px; }
-    .alert-time { font-size: 0.7rem; color: var(--fg-muted); white-space: nowrap; font-family: var(--font-code); }
+    .alert-meta  { font-size: 0.72rem; color: var(--fg-muted); margin-top: 1px; }
+    .alert-time  { font-size: 0.7rem; color: var(--fg-muted); white-space: nowrap; font-family: var(--font-code); }
 
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 1024px) {
-      .dashboard-grid { grid-template-columns: 1fr; }
-      .bottom-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .main { padding: var(--spacing-5); }
-      .metrics-row { grid-template-columns: repeat(2, 1fr); }
-      .top-bar { flex-direction: column; align-items: flex-start; }
-    }
-    @media (max-width: 480px) {
-      .metrics-row { grid-template-columns: 1fr; }
-      .card-body { padding: var(--spacing-4); }
-      .main { padding: var(--spacing-4); }
-    }
-
-    /* ============ MICRO-INTERACTIONS ============ */
-
-    /* Sidebar active indicator */
-    .sidebar-link {
-      position: relative;
-    }
-    .sidebar-link::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 10%;
-      bottom: 10%;
-      width: 3px;
-      background: var(--accent);
-      border-radius: 0 3px 3px 0;
-      transform: scaleY(0);
-      transform-origin: center;
-      transition: transform 0.2s ease;
-    }
-    .sidebar-link.active::before {
-      transform: scaleY(1);
-    }
-    .sidebar-link .sidebar-link-icon {
-      transition: color var(--transition-fast);
-    }
-    .sidebar-link:hover .sidebar-link-icon {
-      color: var(--accent);
-    }
-    .sidebar-link.active .sidebar-link-icon {
-      color: var(--accent);
-    }
-
-    /* Metric card entrance stagger */
-    .metric-card {
-      animation: metricUp 0.45s ease-out forwards;
-      opacity: 0;
-    }
-    .metric-card:nth-child(1) { animation-delay: 0.05s; }
-    .metric-card:nth-child(2) { animation-delay: 0.1s; }
-    .metric-card:nth-child(3) { animation-delay: 0.15s; }
-    .metric-card:nth-child(4) { animation-delay: 0.2s; }
-    @keyframes metricUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Card hover refinement */
-    .card {
-      transition: border-color var(--transition-medium), box-shadow var(--transition-medium), background var(--transition-medium);
-    }
-    .card:hover {
-      border-color: rgba(16, 185, 129, 0.1);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-    .card-header .btn:hover {
-      background: rgba(55, 65, 81, 0.25) !important;
-    }
-    .estrategia-card {
-      transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
-    }
-    .estrategia-card:hover {
-      border-color: rgba(16, 185, 129, 0.12);
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    }
-    .estrategia-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-    }
-    .estrategia-actions .btn-sm {
-      white-space: nowrap;
-    }
-    .estrategia-link {
-      font-size: 0.72rem;
-      color: var(--accent);
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: color var(--transition-fast);
-    }
-    .estrategia-link:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
-    }
-    .estrategia-card.en-pausa {
-      opacity: 0.6;
-    }
-    .estrategia-card.en-pausa .estrategia-link {
-      color: var(--fg-muted);
-    }
-
-    /* Modal overlay */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 14, 23, 0.75);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-overlay.active {
-      display: flex;
-    }
-    .modal-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-l);
-      padding: var(--spacing-8);
-      max-width: 480px;
-      width: 90%;
-      animation: modalIn 0.2s ease-out;
-      position: relative;
-    }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.96) translateY(6px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    .modal-close {
-      position: absolute;
-      top: var(--spacing-4);
-      right: var(--spacing-4);
-      background: var(--surface-hover);
-      border: 1px solid var(--border);
-      color: var(--fg-muted);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      font-size: 16px;
-      line-height: 1;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: background var(--transition-fast), color var(--transition-fast);
-    }
-    .modal-close:hover {
-      background: var(--border);
-      color: var(--fg);
-    }
-    .modal-title {
-      font-family: var(--font-heading);
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--fg);
-      margin-bottom: var(--spacing-6);
-    }
-    .modal-row {
-      display: flex;
-      justify-content: space-between;
-      padding: var(--spacing-2) 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.88rem;
-    }
-    .modal-row:last-of-type {
-      border-bottom: none;
-    }
-    .modal-label {
-      color: var(--fg-muted);
-    }
-    .modal-value {
-      color: var(--fg);
-      font-family: var(--font-code);
-      font-size: 0.82rem;
-    }
-    .modal-note {
-      margin-top: var(--spacing-4);
-      padding: var(--spacing-3);
-      background: rgba(16, 185, 129, 0.06);
-      border-left: 3px solid var(--accent);
-      border-radius: var(--radius-s);
-      font-size: 0.82rem;
-      color: var(--fg-muted);
-      line-height: 1.6;
-    }
-    .modal-pnl {
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .modal-pnl.neg {
-      color: var(--error);
-    }
-
-    /* View section transition */
-    .view-section.active {
-      animation: viewFadeIn 0.25s ease-out;
-    }
+    /* ============ VIEW SECTIONS ============ */
+    .view-section { display: none; }
+    .view-section.active { display: block; animation: viewFadeIn 0.25s ease-out; }
     @keyframes viewFadeIn {
       from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-
-    /* Table row stagger on view activation */
     .view-section.active tbody tr {
       animation: rowFadeIn 0.3s ease-out forwards;
       opacity: 0;
@@ -756,109 +676,88 @@
     .view-section.active tbody tr:nth-child(2) { animation-delay: 0.08s; }
     .view-section.active tbody tr:nth-child(3) { animation-delay: 0.12s; }
     .view-section.active tbody tr:nth-child(4) { animation-delay: 0.16s; }
-    .view-section.active tbody tr:nth-child(5) { animation-delay: 0.2s; }
+    .view-section.active tbody tr:nth-child(5) { animation-delay: 0.20s; }
     .view-section.active tbody tr:nth-child(6) { animation-delay: 0.24s; }
-    .view-section.active tbody tr:nth-child(7) { animation-delay: 0.28s; }
     @keyframes rowFadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Activity + alert items stagger */
-    .activity-item, .alert-item {
-      animation: itemFadeIn 0.3s ease-out forwards;
-      opacity: 0;
+    /* ============ FILTERS ============ */
+    .filter-row {
+      display: flex;
+      gap: var(--spacing-3);
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: var(--spacing-4);
     }
-    .activity-item:nth-child(1), .alert-item:nth-child(1) { animation-delay: 0.05s; }
-    .activity-item:nth-child(2), .alert-item:nth-child(2) { animation-delay: 0.1s; }
-    .activity-item:nth-child(3), .alert-item:nth-child(3) { animation-delay: 0.15s; }
-    .activity-item:nth-child(4), .alert-item:nth-child(4) { animation-delay: 0.2s; }
-    .activity-item:nth-child(5), .alert-item:nth-child(5) { animation-delay: 0.25s; }
-
-    /* Strategy bar animate width */
-    .strategy-bar-fill {
-      transition: width 0.8s ease;
+    .filter-row select, .filter-row input[type="text"] {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      padding: 8px 12px;
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
     }
-
-    /* Toggle switch refinement */
-    .toggle-switch {
-      transition: background var(--transition-fast);
+    .filter-row select:focus, .filter-row input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.15);
     }
-    .toggle-switch:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-    .toggle-switch:hover {
-      opacity: 0.85;
-    }
-
-    /* Select/input hover + focus */
-    select:hover, input[type="text"]:hover {
+    .filter-row select:hover, .filter-row input[type="text"]:hover {
       border-color: var(--border-hover);
     }
 
-    /* Wallet status hover */
-    .wallet-status {
-      transition: border-color var(--transition-fast), background var(--transition-fast);
+    /* ============ ESTRATEGIAS ============ */
+    .estrategia-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      padding: var(--spacing-5);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-5);
+      transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
     }
-    .wallet-status:hover {
-      border-color: rgba(16, 185, 129, 0.25);
-      background: rgba(16, 185, 129, 0.1);
+    .estrategia-card + .estrategia-card { margin-top: var(--spacing-3); }
+    .estrategia-card:hover { border-color: rgba(16,185,129,0.15); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .estrategia-card.en-pausa { opacity: 0.6; }
+    .estrategia-info { flex: 1; min-width: 0; }
+    .estrategia-name { font-family: var(--font-heading); font-weight: var(--fw-heading-semibold); font-size: 0.92rem; }
+    .estrategia-meta { font-size: 0.78rem; color: var(--fg-muted); margin-top: 2px; }
+    .estrategia-status { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; }
+    .estrategia-status .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .estrategia-status .dot.on  { background: var(--accent); }
+    .estrategia-status .dot.off { background: var(--fg-muted); }
+    .estrategia-pnl {
+      font-family: var(--font-code);
+      font-size: 0.82rem;
+      font-weight: var(--fw-code-medium);
+      min-width: 60px;
+      text-align: right;
     }
+    .estrategia-pnl.pos { color: var(--accent); }
+    .estrategia-pnl.neutral { color: var(--fg-muted); }
+    .estrategia-actions { display: flex; align-items: center; gap: var(--spacing-2); }
+    .estrategia-link {
+      font-size: 0.72rem;
+      color: var(--accent);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color var(--transition-fast);
+      padding: 4px 0;
+    }
+    .estrategia-link:hover { color: var(--accent-hover); text-decoration: underline; }
+    .estrategia-card.en-pausa .estrategia-link { color: var(--fg-muted); }
 
-    /* Live dot refinement */
-    .live-dot {
-      transition: opacity var(--transition-fast);
-    }
-
-    /* Notif button hover refinement */
-    .notif-btn {
-      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-    }
-    .notif-btn:active {
-      transform: scale(0.92);
-    }
-
-    /* Setting row hover */
-    .setting-row {
-      transition: background var(--transition-fast);
-    }
-    .setting-row:hover {
-      background: rgba(55, 65, 81, 0.08);
-    }
-
-    /* Tag subtle hover */
-    .tag {
-      transition: opacity var(--transition-fast);
-    }
-    .tag:hover {
-      opacity: 0.8;
-    }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      .view-section.active { animation: none; }
-      .metric-card { opacity: 1; }
-      .activity-item, .alert-item { opacity: 1; }
-      .view-section.active tbody tr { opacity: 1; }
-    }
-
-    /* ============ VIEW SECTIONS (tab navigation) ============ */
-    .view-section { display: none; }
-    .view-section.active { display: block; }
+    /* ============ SETTINGS ============ */
     .settings-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--spacing-6);
       margin-bottom: var(--spacing-6);
-    }
-    @media (max-width: 768px) {
-      .settings-grid { grid-template-columns: 1fr; }
     }
     .setting-group {
       background: var(--surface);
@@ -880,10 +779,16 @@
       justify-content: space-between;
       padding: var(--spacing-3) 0;
       border-bottom: 1px solid rgba(55,65,81,0.2);
+      gap: var(--spacing-4);
+      transition: background var(--transition-fast);
     }
+    .setting-row:hover { background: rgba(55,65,81,0.05); }
     .setting-row:last-child { border-bottom: none; }
     .setting-label { font-size: 0.88rem; }
-    .setting-desc { font-size: 0.75rem; color: var(--fg-muted); margin-top: 2px; }
+    .setting-desc  { font-size: 0.72rem; color: var(--fg-muted); margin-top: 2px; }
+    .setting-control { flex-shrink: 0; }
+
+    /* Toggle switch */
     .toggle-switch {
       width: 40px; height: 22px;
       border-radius: 999px;
@@ -905,99 +810,243 @@
       transition: transform var(--transition-fast);
     }
     .toggle-switch.on::after { transform: translateX(18px); }
-    .filter-row {
-      display: flex;
-      gap: var(--spacing-3);
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: var(--spacing-4);
-    }
-    .filter-row select, .filter-row input {
-      background: var(--surface);
+    .toggle-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .toggle-switch:hover { opacity: 0.85; }
+
+    /* Setting selects */
+    .setting-select {
+      background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius-medium);
-      padding: 8px 12px;
+      padding: 6px 10px;
       color: var(--fg);
       font-family: var(--font-body);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
-    .filter-row select:focus, .filter-row input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.15);
+    .setting-select:focus { outline: none; border-color: var(--accent); }
+
+    /* ============ MODAL ============ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,14,23,0.8);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-4);
     }
-    .estrategia-card {
+    .modal-overlay.active { display: flex; }
+    .modal-box {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius-medium);
-      padding: var(--spacing-5);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-8);
+      max-width: 480px;
+      width: 100%;
+      animation: modalIn 0.2s ease-out;
+      position: relative;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(6px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-close {
+      position: absolute;
+      top: var(--spacing-4); right: var(--spacing-4);
+      background: var(--surface-hover);
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      font-size: 14px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .modal-close:hover { background: var(--border); color: var(--fg); }
+    .modal-title { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; color: var(--fg); margin-bottom: var(--spacing-6); padding-right: var(--spacing-8); }
+    .modal-row {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: var(--spacing-5);
+      padding: var(--spacing-2) 0;
+      border-bottom: 1px solid rgba(55,65,81,0.3);
+      font-size: 0.88rem;
+      gap: var(--spacing-4);
     }
-    .estrategia-card + .estrategia-card { margin-top: var(--spacing-3); }
-    .estrategia-info { flex: 1; min-width: 0; }
-    .estrategia-name {
-      font-family: var(--font-heading);
-      font-weight: var(--fw-heading-semibold);
-      font-size: 0.92rem;
+    .modal-row:last-of-type { border-bottom: none; }
+    .modal-label { color: var(--fg-muted); }
+    .modal-value { color: var(--fg); font-family: var(--font-code); font-size: 0.82rem; text-align: right; }
+    .modal-note {
+      margin-top: var(--spacing-4);
+      padding: var(--spacing-3);
+      background: rgba(16,185,129,0.06);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius-s);
+      font-size: 0.82rem;
+      color: var(--fg-muted);
+      line-height: 1.6;
     }
-    .estrategia-meta { font-size: 0.78rem; color: var(--fg-muted); margin-top: 2px; }
-    .estrategia-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.75rem;
+    .modal-pnl     { color: var(--accent); font-weight: 600; }
+    .modal-pnl.neg { color: var(--error); }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1100px) {
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .bottom-grid    { grid-template-columns: 1fr; }
+      .settings-grid  { grid-template-columns: 1fr; }
     }
-    .estrategia-status .dot {
-      width: 6px; height: 6px; border-radius: 50%;
+
+    @media (max-width: 768px) {
+      /* Hide desktop sidebar, show mobile topbar */
+      .sidebar { display: none; }
+      .mobile-topbar { display: flex; }
+      /* Remove top margin from main since topbar handles it */
+      body { flex-direction: column; }
+      .main { padding: var(--spacing-4); }
+      .top-bar { margin-bottom: var(--spacing-5); }
+      .top-bar-right { width: 100%; justify-content: space-between; }
+      .estrategia-card { flex-wrap: wrap; }
+      .estrategia-info { flex-basis: 100%; }
+      .estrategia-actions { margin-left: auto; }
+      .filter-row select, .filter-row input[type="text"] { flex: 1 1 140px; min-width: 0; }
     }
-    .estrategia-status .dot.on { background: var(--accent); }
-    .estrategia-status .dot.off { background: var(--fg-muted); }
+
+    @media (max-width: 480px) {
+      .metrics-row { grid-template-columns: 1fr; }
+      .main { padding: var(--spacing-3); }
+      .card-body { padding: var(--spacing-4); }
+      .card-header { padding: var(--spacing-4) var(--spacing-4) 0; }
+      .metric-value { font-size: 1.25rem; }
+      .page-title   { font-size: 1.1rem; }
+      .btn     { min-height: 44px; }
+      .btn-sm  { min-height: 36px; }
+      .estrategia-card { padding: var(--spacing-4); }
+      .filter-row { flex-direction: column; }
+      .filter-row select, .filter-row input[type="text"] { width: 100%; }
+      .modal-box { padding: var(--spacing-6); }
+      .setting-row { flex-wrap: wrap; }
+    }
+
+    /* ============ REDUCED MOTION ============ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .metric-card, .activity-item, .alert-item { opacity: 1; }
+      .view-section.active tbody tr { opacity: 1; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- ============ SIDEBAR ============ -->
-  <aside class="sidebar">
-    <a href="landing.html" class="sidebar-logo">
-      <span class="sidebar-logo-icon">⟠</span>
+  <!-- ============ MOBILE TOP BAR ============ -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <a href="index.html" class="mobile-topbar-logo" aria-label="BotTrader — Inicio">
+      <span class="mobile-topbar-logo-icon" aria-hidden="true">⟠</span>
       Bot<span>Trader</span>
     </a>
-    <nav class="sidebar-nav">
+    <button class="mobile-nav-btn" id="mobileNavBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  </div>
+
+  <!-- Mobile drawer overlay -->
+  <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="mobile-drawer-header">
+      <a href="index.html" class="mobile-drawer-logo" aria-label="BotTrader — Inicio">
+        <span aria-hidden="true">⟠ Bot</span><span>Trader</span>
+      </a>
+      <button class="mobile-drawer-close" id="drawerClose" aria-label="Cerrar menú">✕</button>
+    </div>
+    <nav class="mobile-drawer-nav" aria-label="Navegación del dashboard">
       <div class="sidebar-section-label">Navegación</div>
       <a href="#" class="sidebar-link active" data-view="section-dashboard">
-        <span class="sidebar-link-icon">◉</span>
+        <span class="sidebar-link-icon" aria-hidden="true">◉</span>Dashboard
+      </a>
+      <a href="#" class="sidebar-link" data-view="section-estrategias">
+        <span class="sidebar-link-icon" aria-hidden="true">▣</span>Estrategias
+        <span class="badge">7</span>
+      </a>
+      <a href="#" class="sidebar-link" data-view="section-trading">
+        <span class="sidebar-link-icon" aria-hidden="true">⇅</span>Trading
+      </a>
+      <a href="#" class="sidebar-link" data-view="section-historial">
+        <span class="sidebar-link-icon" aria-hidden="true">☰</span>Historial
+      </a>
+      <div class="sidebar-section-label" style="margin-top:var(--spacing-4);">Monitor</div>
+      <a href="#" class="sidebar-link" data-view="section-alertas">
+        <span class="sidebar-link-icon" aria-hidden="true">⚠</span>Alertas
+        <span class="badge" style="background:var(--warning);color:#000;">3</span>
+      </a>
+      <a href="#" class="sidebar-link" data-view="section-ajustes">
+        <span class="sidebar-link-icon" aria-hidden="true">⚙</span>Ajustes
+      </a>
+    </nav>
+    <div class="mobile-drawer-bottom">
+      <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="sidebar-tg-cta">
+        <span>📲</span> Abrir en Telegram
+      </a>
+      <div class="wallet-status">
+        <div class="wallet-dot" aria-hidden="true"></div>
+        <div class="wallet-info">
+          <div class="wallet-label">Wallet conectada</div>
+          <div class="wallet-address">8xR3...kP9m</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SIDEBAR (desktop) ============ -->
+  <aside class="sidebar" aria-label="Navegación lateral">
+    <a href="index.html" class="sidebar-logo" aria-label="BotTrader — Volver al inicio">
+      <span class="sidebar-logo-icon" aria-hidden="true">⟠</span>
+      Bot<span>Trader</span>
+    </a>
+    <nav class="sidebar-nav" aria-label="Secciones del dashboard">
+      <div class="sidebar-section-label">Navegación</div>
+      <a href="#" class="sidebar-link active" data-view="section-dashboard">
+        <span class="sidebar-link-icon" aria-hidden="true">◉</span>
         Dashboard
       </a>
       <a href="#" class="sidebar-link" data-view="section-estrategias">
-        <span class="sidebar-link-icon">▣</span>
+        <span class="sidebar-link-icon" aria-hidden="true">▣</span>
         Estrategias
         <span class="badge">7</span>
       </a>
       <a href="#" class="sidebar-link" data-view="section-trading">
-        <span class="sidebar-link-icon">⇅</span>
+        <span class="sidebar-link-icon" aria-hidden="true">⇅</span>
         Trading
       </a>
       <a href="#" class="sidebar-link" data-view="section-historial">
-        <span class="sidebar-link-icon">☰</span>
+        <span class="sidebar-link-icon" aria-hidden="true">☰</span>
         Historial
       </a>
-
       <div class="sidebar-section-label" style="margin-top:var(--spacing-4);">Monitor</div>
       <a href="#" class="sidebar-link" data-view="section-alertas">
-        <span class="sidebar-link-icon">⚠</span>
+        <span class="sidebar-link-icon" aria-hidden="true">⚠</span>
         Alertas
         <span class="badge" style="background:var(--warning);color:#000;">3</span>
       </a>
       <a href="#" class="sidebar-link" data-view="section-ajustes">
-        <span class="sidebar-link-icon">⚙</span>
+        <span class="sidebar-link-icon" aria-hidden="true">⚙</span>
         Ajustes
       </a>
     </nav>
     <div class="sidebar-bottom">
+      <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="sidebar-tg-cta">
+        <span>📲</span> Abrir en Telegram
+      </a>
       <div class="wallet-status">
-        <div class="wallet-dot"></div>
+        <div class="wallet-dot" aria-hidden="true"></div>
         <div class="wallet-info">
           <div class="wallet-label">Wallet conectada</div>
           <div class="wallet-address">8xR3...kP9m</div>
@@ -1007,34 +1056,34 @@
   </aside>
 
   <!-- ============ MAIN ============ -->
-  <div class="main">
+  <div class="main" id="mainContent">
 
     <!-- Top bar -->
     <div class="top-bar">
       <div class="top-bar-left">
-        <h1 class="page-title">Dashboard</h1>
-        <span class="live-indicator">
-          <span class="live-dot"></span>
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+        <span class="live-indicator" aria-live="polite">
+          <span class="live-dot" aria-hidden="true"></span>
           En vivo
         </span>
       </div>
       <div class="top-bar-right">
-        <span class="top-time" id="liveTime">--:--:-- UTC</span>
-        <button class="notif-btn" aria-label="Notificaciones">
+        <time class="top-time" id="liveTime" aria-label="Hora UTC">--:--:-- UTC</time>
+        <button class="notif-btn" aria-label="Notificaciones (3 sin leer)">
           🔔
-          <span class="notif-dot"></span>
+          <span class="notif-dot" aria-hidden="true"></span>
         </button>
       </div>
     </div>
 
-    <!-- ============================================================
-         SECTION: DASHBOARD (default view)
-         ============================================================ -->
-    <div class="view-section active" id="section-dashboard">
+    <!-- ================================================
+         SECTION: DASHBOARD
+         ================================================ -->
+    <div class="view-section active" id="section-dashboard" role="region" aria-labelledby="pageTitle">
 
       <div class="metrics-row">
         <div class="metric-card">
-          <div class="metric-label">P&L Total</div>
+          <div class="metric-label">P&amp;L Total</div>
           <div class="metric-value green">+2,847.32</div>
           <div class="metric-change up">▲ +12.4% esta semana</div>
         </div>
@@ -1068,7 +1117,7 @@
               <div class="strategy-row">
                 <div class="strategy-row-info">
                   <div class="strategy-row-name">Momentum SOL</div>
-                  <div class="strategy-row-meta">Long · Par: SOL/USDC</div>
+                  <div class="strategy-row-meta">Long · SOL/USDC</div>
                 </div>
                 <div class="strategy-bar"><div class="strategy-bar-fill green" style="width:78%;"></div></div>
                 <div class="strategy-row-pnl pos">+843.20</div>
@@ -1076,7 +1125,7 @@
               <div class="strategy-row">
                 <div class="strategy-row-info">
                   <div class="strategy-row-name">Grid Trading</div>
-                  <div class="strategy-row-meta">Neutral · Par: SOL/USDT</div>
+                  <div class="strategy-row-meta">Neutral · SOL/USDT</div>
                 </div>
                 <div class="strategy-bar"><div class="strategy-bar-fill cyan" style="width:62%;"></div></div>
                 <div class="strategy-row-pnl pos">+512.75</div>
@@ -1092,7 +1141,7 @@
               <div class="strategy-row">
                 <div class="strategy-row-info">
                   <div class="strategy-row-name">Mean Reversion</div>
-                  <div class="strategy-row-meta">Short · Par: BONK/USDC</div>
+                  <div class="strategy-row-meta">Short · BONK/USDC</div>
                 </div>
                 <div class="strategy-bar"><div class="strategy-bar-fill green" style="width:31%;"></div></div>
                 <div class="strategy-row-pnl pos">+127.45</div>
@@ -1112,29 +1161,25 @@
             <div style="display:flex;flex-direction:column;gap:var(--spacing-4);">
               <div>
                 <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>SOL/USDC</span>
-                  <span style="color:var(--accent);font-family:var(--font-code);font-weight:var(--fw-code-medium);">42%</span>
+                  <span>SOL/USDC</span><span style="color:var(--accent);font-family:var(--font-code);">42%</span>
                 </div>
                 <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill green" style="width:42%;"></div></div>
               </div>
               <div>
                 <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>SOL/USDT</span>
-                  <span style="color:var(--accent-secondary);font-family:var(--font-code);font-weight:var(--fw-code-medium);">28%</span>
+                  <span>SOL/USDT</span><span style="color:var(--accent-secondary);font-family:var(--font-code);">28%</span>
                 </div>
                 <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill cyan" style="width:28%;"></div></div>
               </div>
               <div>
                 <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>BONK/USDC</span>
-                  <span style="color:var(--warning);font-family:var(--font-code);font-weight:var(--fw-code-medium);">18%</span>
+                  <span>BONK/USDC</span><span style="color:var(--warning);font-family:var(--font-code);">18%</span>
                 </div>
                 <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill gold" style="width:18%;"></div></div>
               </div>
               <div>
                 <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>JUP/USDC</span>
-                  <span style="color:var(--fg-muted);font-family:var(--font-code);font-weight:var(--fw-code-medium);">12%</span>
+                  <span>JUP/USDC</span><span style="color:var(--fg-muted);font-family:var(--font-code);">12%</span>
                 </div>
                 <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill" style="width:12%;background:var(--fg-muted);"></div></div>
               </div>
@@ -1152,77 +1197,57 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>Par</th>
-                <th>Tipo</th>
-                <th>Entrada</th>
-                <th>Actual</th>
-                <th>P&L</th>
-                <th>Stop Loss</th>
-                <th>Take Profit</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
+            <thead><tr>
+              <th>Par</th><th>Tipo</th><th>Entrada</th><th>Actual</th>
+              <th>P&amp;L</th><th>Stop Loss</th><th>Take Profit</th><th>Estado</th>
+            </tr></thead>
             <tbody>
               <tr>
                 <td><span class="pair-label">SOL/USDC</span></td>
                 <td><span class="tag long">Long</span></td>
-                <td>$168.42</td>
-                <td>$174.80</td>
+                <td>$168.42</td><td>$174.80</td>
                 <td class="pnl-pos">+$38.40</td>
-                <td>$162.00</td>
-                <td>$180.00</td>
+                <td>$162.00</td><td>$180.00</td>
                 <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
               </tr>
               <tr>
                 <td><span class="pair-label">SOL/USDT</span></td>
                 <td><span class="tag long">Long</span></td>
-                <td>$170.10</td>
-                <td>$174.80</td>
+                <td>$170.10</td><td>$174.80</td>
                 <td class="pnl-pos">+$28.20</td>
-                <td>$165.50</td>
-                <td>$182.00</td>
+                <td>$165.50</td><td>$182.00</td>
                 <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
               </tr>
               <tr>
                 <td><span class="pair-label">BONK/USDC</span></td>
                 <td><span class="tag short">Short</span></td>
-                <td>$0.000042</td>
-                <td>$0.000039</td>
+                <td>$0.000042</td><td>$0.000039</td>
                 <td class="pnl-pos">+$15.60</td>
-                <td>$0.000044</td>
-                <td>$0.000035</td>
+                <td>$0.000044</td><td>$0.000035</td>
                 <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
               </tr>
               <tr>
                 <td><span class="pair-label">JUP/USDC</span></td>
                 <td><span class="tag long">Long</span></td>
-                <td>$0.82</td>
-                <td>$0.79</td>
+                <td>$0.82</td><td>$0.79</td>
                 <td class="pnl-neg">−$6.00</td>
-                <td>$0.76</td>
-                <td>$0.92</td>
+                <td>$0.76</td><td>$0.92</td>
                 <td><span class="status-pill"><span class="status-pill-dot pending"></span>En riesgo</span></td>
               </tr>
               <tr>
                 <td><span class="pair-label">PYTH/USDC</span></td>
                 <td><span class="tag long">Long</span></td>
-                <td>$0.34</td>
-                <td>$0.36</td>
+                <td>$0.34</td><td>$0.36</td>
                 <td class="pnl-pos">+$8.80</td>
-                <td>$0.31</td>
-                <td>$0.40</td>
+                <td>$0.31</td><td>$0.40</td>
                 <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
               </tr>
               <tr>
                 <td><span class="pair-label">RAY/USDC</span></td>
                 <td><span class="tag short">Short</span></td>
-                <td>$1.85</td>
-                <td>$1.92</td>
+                <td>$1.85</td><td>$1.92</td>
                 <td class="pnl-neg">−$4.20</td>
-                <td>$2.00</td>
-                <td>$1.70</td>
+                <td>$2.00</td><td>$1.70</td>
                 <td><span class="status-pill"><span class="status-pill-dot pending"></span>En riesgo</span></td>
               </tr>
             </tbody>
@@ -1240,7 +1265,7 @@
           </div>
           <div class="card-body">
             <div class="activity-item">
-              <div class="activity-icon buy">→</div>
+              <div class="activity-icon buy" aria-hidden="true">→</div>
               <div class="activity-content">
                 <div class="activity-title">Compra SOL/USDC</div>
                 <div class="activity-meta">12.5 SOL a $174.80 · Estrategia: Momentum</div>
@@ -1248,7 +1273,7 @@
               <div class="activity-time">2 min</div>
             </div>
             <div class="activity-item">
-              <div class="activity-icon sell">←</div>
+              <div class="activity-icon sell" aria-hidden="true">←</div>
               <div class="activity-content">
                 <div class="activity-title">Venta BONK/USDC</div>
                 <div class="activity-meta">50,000 BONK a $0.000039 · Take profit alcanzado</div>
@@ -1256,7 +1281,7 @@
               <div class="activity-time">14 min</div>
             </div>
             <div class="activity-item">
-              <div class="activity-icon buy">→</div>
+              <div class="activity-icon buy" aria-hidden="true">→</div>
               <div class="activity-content">
                 <div class="activity-title">Compra JUP/USDC</div>
                 <div class="activity-meta">200 JUP a $0.79 · Estrategia: Grid</div>
@@ -1264,7 +1289,7 @@
               <div class="activity-time">37 min</div>
             </div>
             <div class="activity-item">
-              <div class="activity-icon info">⚡</div>
+              <div class="activity-icon info" aria-hidden="true">⚡</div>
               <div class="activity-content">
                 <div class="activity-title">Ajuste automático: stop loss</div>
                 <div class="activity-meta">Trailing stop actualizado para SOL/USDC</div>
@@ -1272,7 +1297,7 @@
               <div class="activity-time">1h</div>
             </div>
             <div class="activity-item">
-              <div class="activity-icon sell">←</div>
+              <div class="activity-icon sell" aria-hidden="true">←</div>
               <div class="activity-content">
                 <div class="activity-title">Venta parcial SOL/USDT</div>
                 <div class="activity-meta">5 SOL a $174.80 · Reducción de riesgo</div>
@@ -1292,7 +1317,7 @@
           </div>
           <div class="card-body">
             <div class="alert-item">
-              <div class="alert-icon warn">⚠</div>
+              <div class="alert-icon warn" aria-hidden="true">⚠</div>
               <div class="alert-content">
                 <div class="alert-title">JUP/USDC cerca de stop loss</div>
                 <div class="alert-meta">Precio actual $0.79 · Stop en $0.76</div>
@@ -1300,7 +1325,7 @@
               <div class="alert-time">5 min</div>
             </div>
             <div class="alert-item">
-              <div class="alert-icon ok">✓</div>
+              <div class="alert-icon ok" aria-hidden="true">✓</div>
               <div class="alert-content">
                 <div class="alert-title">Take profit: BONK/USDC</div>
                 <div class="alert-meta">Posición cerrada en $0.000039</div>
@@ -1308,7 +1333,7 @@
               <div class="alert-time">14 min</div>
             </div>
             <div class="alert-item">
-              <div class="alert-icon warn">⚠</div>
+              <div class="alert-icon warn" aria-hidden="true">⚠</div>
               <div class="alert-content">
                 <div class="alert-title">RAY/USDC superó stop loss</div>
                 <div class="alert-meta">Precio $1.92 · Stop en $2.00</div>
@@ -1316,7 +1341,7 @@
               <div class="alert-time">42 min</div>
             </div>
             <div class="alert-item">
-              <div class="alert-icon info">⚡</div>
+              <div class="alert-icon info" aria-hidden="true">⚡</div>
               <div class="alert-content">
                 <div class="alert-title">Nueva versión disponible</div>
                 <div class="alert-meta">BotTrader v2.4.1 lista para instalar</div>
@@ -1324,7 +1349,7 @@
               <div class="alert-time">3h</div>
             </div>
             <div class="alert-item">
-              <div class="alert-icon ok">✓</div>
+              <div class="alert-icon ok" aria-hidden="true">✓</div>
               <div class="alert-content">
                 <div class="alert-title">Auditoría completada</div>
                 <div class="alert-meta">Contrato verificado sin incidentes</div>
@@ -1337,26 +1362,26 @@
 
     </div><!-- /section-dashboard -->
 
-    <!-- ============================================================
+    <!-- ================================================
          SECTION: ESTRATEGIAS
-         ============================================================ -->
-    <div class="view-section" id="section-estrategias">
+         ================================================ -->
+    <div class="view-section" id="section-estrategias" role="region" aria-label="Estrategias">
 
       <div class="filter-row">
-        <select>
+        <select aria-label="Filtrar por estado">
           <option>Estado: Todas</option>
           <option>Activas</option>
           <option>En pausa</option>
           <option>Detenidas</option>
         </select>
-        <select>
+        <select aria-label="Filtrar por par">
           <option>Par: Todos</option>
           <option>SOL/USDC</option>
           <option>SOL/USDT</option>
           <option>BONK/USDC</option>
           <option>JUP/USDC</option>
         </select>
-        <input type="text" placeholder="Buscar estrategia..." style="flex:1;min-width:180px;">
+        <input type="text" placeholder="Buscar estrategia..." aria-label="Buscar estrategia" style="flex:1;min-width:160px;">
       </div>
 
       <div class="estrategia-card" data-strategy="Momentum SOL" data-par="SOL/USDC" data-tipo="Long" data-riesgo="2.5%" data-pnl="+843.20" data-estado="Activa" data-nota="Estrategia de seguimiento de tendencia en SOL con rebalanceo cada 4 horas.">
@@ -1364,24 +1389,24 @@
           <div class="estrategia-name">Momentum SOL</div>
           <div class="estrategia-meta">Long · SOL/USDC · Riesgo: 2.5%</div>
         </div>
-        <div class="estrategia-status"><span class="dot on"></span>Activa</div>
-        <div style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent);">+843.20</div>
+        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
+        <div class="estrategia-pnl pos">+843.20</div>
         <div class="estrategia-actions">
           <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle">Ver detalle</a>
+          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
         </div>
       </div>
 
-      <div class="estrategia-card" data-strategy="Grid Trading" data-par="SOL/USDT" data-tipo="Neutral" data-riesgo="2.0%" data-pnl="+512.75" data-estado="Activa" data-nota="Estrategia de grid automatizado en rango definido entre $140 y $180 con 20 niveles.">
+      <div class="estrategia-card" data-strategy="Grid Trading" data-par="SOL/USDT" data-tipo="Neutral" data-riesgo="2.0%" data-pnl="+512.75" data-estado="Activa" data-nota="Grid automatizado en rango $140–$180 con 20 niveles.">
         <div class="estrategia-info">
           <div class="estrategia-name">Grid Trading</div>
           <div class="estrategia-meta">Neutral · SOL/USDT · Riesgo: 2.0%</div>
         </div>
-        <div class="estrategia-status"><span class="dot on"></span>Activa</div>
-        <div style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent);">+512.75</div>
+        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
+        <div class="estrategia-pnl pos">+512.75</div>
         <div class="estrategia-actions">
           <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle">Ver detalle</a>
+          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
         </div>
       </div>
 
@@ -1390,37 +1415,37 @@
           <div class="estrategia-name">Arbitraje DEX</div>
           <div class="estrategia-meta">Arbitraje · Varios pares · Riesgo: 1.5%</div>
         </div>
-        <div class="estrategia-status"><span class="dot on"></span>Activa</div>
-        <div style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent);">+298.10</div>
+        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
+        <div class="estrategia-pnl pos">+298.10</div>
         <div class="estrategia-actions">
           <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle">Ver detalle</a>
+          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
         </div>
       </div>
 
-      <div class="estrategia-card" data-strategy="Mean Reversion" data-par="BONK/USDC" data-tipo="Short" data-riesgo="1.8%" data-pnl="+127.45" data-estado="Activa" data-nota="Estrategia de reversión a la media en BONK con entrada en sobrecompra y salida gradual.">
+      <div class="estrategia-card" data-strategy="Mean Reversion" data-par="BONK/USDC" data-tipo="Short" data-riesgo="1.8%" data-pnl="+127.45" data-estado="Activa" data-nota="Reversión a la media en BONK con entrada en sobrecompra y salida gradual.">
         <div class="estrategia-info">
           <div class="estrategia-name">Mean Reversion</div>
           <div class="estrategia-meta">Short · BONK/USDC · Riesgo: 1.8%</div>
         </div>
-        <div class="estrategia-status"><span class="dot on"></span>Activa</div>
-        <div style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent);">+127.45</div>
+        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
+        <div class="estrategia-pnl pos">+127.45</div>
         <div class="estrategia-actions">
           <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle">Ver detalle</a>
+          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
         </div>
       </div>
 
-      <div class="estrategia-card en-pausa" data-strategy="Scalping JUP" data-par="JUP/USDC" data-tipo="Long" data-riesgo="1.2%" data-pnl="—" data-estado="En pausa" data-nota="Estrategia de scalping en JUP con entradas rápidas y stops ajustados. Pausada por límite de drawdown diario.">
+      <div class="estrategia-card en-pausa" data-strategy="Scalping JUP" data-par="JUP/USDC" data-tipo="Long" data-riesgo="1.2%" data-pnl="—" data-estado="En pausa" data-nota="Scalping en JUP con entradas rápidas y stops ajustados. Pausada por límite de drawdown diario.">
         <div class="estrategia-info">
           <div class="estrategia-name">Scalping JUP</div>
           <div class="estrategia-meta">Long · JUP/USDC · Riesgo: 1.2%</div>
         </div>
-        <div class="estrategia-status"><span class="dot off"></span>En pausa</div>
-        <div style="font-family:var(--font-code);font-size:0.82rem;color:var(--fg-muted);">—</div>
+        <div class="estrategia-status"><span class="dot off" aria-hidden="true"></span>En pausa</div>
+        <div class="estrategia-pnl neutral">—</div>
         <div class="estrategia-actions">
           <button class="btn btn-sm btn-toggle btn-primary">Reanudar</button>
-          <a class="estrategia-link" data-action="ver-detalle">Ver detalle</a>
+          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
         </div>
       </div>
 
@@ -1429,19 +1454,19 @@
           <div class="estrategia-name">TWAP Venta</div>
           <div class="estrategia-meta">Venta programada · SOL/USDC · Riesgo: 0.5%</div>
         </div>
-        <div class="estrategia-status"><span class="dot off"></span>Completada</div>
-        <div style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent);">+42.30</div>
+        <div class="estrategia-status"><span class="dot off" aria-hidden="true"></span>Completada</div>
+        <div class="estrategia-pnl pos">+42.30</div>
         <div class="estrategia-actions">
-          <a class="estrategia-link" data-action="ver-detalle">Ver detalle</a>
+          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
         </div>
       </div>
 
     </div><!-- /section-estrategias -->
 
-    <!-- ============================================================
+    <!-- ================================================
          SECTION: TRADING
-         ============================================================ -->
-    <div class="view-section" id="section-trading">
+         ================================================ -->
+    <div class="view-section" id="section-trading" role="region" aria-label="Trading manual">
 
       <div class="dashboard-grid">
         <div class="card">
@@ -1454,36 +1479,33 @@
           <div class="card-body">
             <div style="display:flex;flex-direction:column;gap:var(--spacing-4);">
               <div>
-                <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:4px;">Par</div>
+                <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Par</label>
                 <select style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-body);font-size:0.88rem;">
-                  <option>SOL/USDC</option>
-                  <option>SOL/USDT</option>
-                  <option>BONK/USDC</option>
-                  <option>JUP/USDC</option>
+                  <option>SOL/USDC</option><option>SOL/USDT</option>
+                  <option>BONK/USDC</option><option>JUP/USDC</option>
                 </select>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-3);">
                 <div>
-                  <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:4px;">Tipo</div>
+                  <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Tipo</label>
                   <select style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-body);font-size:0.88rem;">
-                    <option>Long</option>
-                    <option>Short</option>
+                    <option>Long</option><option>Short</option>
                   </select>
                 </div>
                 <div>
-                  <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:4px;">Cantidad (SOL)</div>
-                  <input type="text" value="10" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
+                  <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Cantidad (SOL)</label>
+                  <input type="number" value="10" min="0" step="0.1" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
                 </div>
               </div>
               <div>
-                <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:4px;">Stop Loss</div>
+                <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Stop Loss</label>
                 <input type="text" placeholder="$162.00" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
               </div>
               <div>
-                <div style="font-size:0.75rem;color:var(--fg-muted);margin-bottom:4px;">Take Profit</div>
+                <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Take Profit</label>
                 <input type="text" placeholder="$180.00" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
               </div>
-              <button class="btn btn-primary" style="justify-content:center;">Ejecutar operación</button>
+              <button class="btn btn-primary" style="justify-content:center;min-height:48px;">Ejecutar operación</button>
             </div>
           </div>
         </div>
@@ -1498,15 +1520,7 @@
           <div class="card-body" style="padding:0;">
             <div class="table-wrap">
               <table>
-                <thead>
-                  <tr>
-                    <th>Par</th>
-                    <th>Tipo</th>
-                    <th>Entrada</th>
-                    <th>Actual</th>
-                    <th>P&L</th>
-                  </tr>
-                </thead>
+                <thead><tr><th>Par</th><th>Tipo</th><th>Entrada</th><th>Actual</th><th>P&amp;L</th></tr></thead>
                 <tbody>
                   <tr><td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td><td>$168.42</td><td>$174.80</td><td class="pnl-pos">+$38.40</td></tr>
                   <tr><td><span class="pair-label">SOL/USDT</span></td><td><span class="tag long">Long</span></td><td>$170.10</td><td>$174.80</td><td class="pnl-pos">+$28.20</td></tr>
@@ -1525,23 +1539,13 @@
         <div class="card-header">
           <div>
             <div class="card-title">Ejecuciones recientes</div>
-            <div class="card-subtitle">Últimas 10 operaciones ejecutadas por el bot</div>
+            <div class="card-subtitle">Últimas operaciones ejecutadas por el bot</div>
           </div>
         </div>
         <div class="card-body" style="padding:0;">
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr>
-                  <th>Hora</th>
-                  <th>Par</th>
-                  <th>Tipo</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Total</th>
-                  <th>Estrategia</th>
-                </tr>
-              </thead>
+              <thead><tr><th>Hora</th><th>Par</th><th>Tipo</th><th>Precio</th><th>Cantidad</th><th>Total</th><th>Estrategia</th></tr></thead>
               <tbody>
                 <tr><td>14:32</td><td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td><td>$174.80</td><td>12.5</td><td>$2,185.00</td><td>Momentum</td></tr>
                 <tr><td>14:18</td><td><span class="pair-label">BONK/USDC</span></td><td><span class="tag short">Short</span></td><td>$0.000039</td><td>50,000</td><td>$1.95</td><td>Mean Rev.</td></tr>
@@ -1556,29 +1560,22 @@
 
     </div><!-- /section-trading -->
 
-    <!-- ============================================================
+    <!-- ================================================
          SECTION: HISTORIAL
-         ============================================================ -->
-    <div class="view-section" id="section-historial">
+         ================================================ -->
+    <div class="view-section" id="section-historial" role="region" aria-label="Historial">
 
       <div class="filter-row">
-        <select>
-          <option>Últimos 7 días</option>
-          <option>Últimos 30 días</option>
-          <option>Últimos 90 días</option>
-          <option>Personalizado</option>
+        <select aria-label="Período">
+          <option>Últimos 7 días</option><option>Últimos 30 días</option>
+          <option>Últimos 90 días</option><option>Personalizado</option>
         </select>
-        <select>
-          <option>Todas las estrategias</option>
-          <option>Momentum SOL</option>
-          <option>Grid Trading</option>
-          <option>Arbitraje DEX</option>
-          <option>Mean Reversion</option>
+        <select aria-label="Estrategia">
+          <option>Todas las estrategias</option><option>Momentum SOL</option>
+          <option>Grid Trading</option><option>Arbitraje DEX</option><option>Mean Reversion</option>
         </select>
-        <select>
-          <option>Todos los tipos</option>
-          <option>Compra</option>
-          <option>Venta</option>
+        <select aria-label="Tipo">
+          <option>Todos los tipos</option><option>Compra</option><option>Venta</option>
         </select>
         <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Filtrar</button>
         <span style="font-size:0.78rem;color:var(--fg-muted);margin-left:auto;">847 operaciones</span>
@@ -1588,95 +1585,55 @@
         <div class="card-body" style="padding:0;">
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Par</th>
-                  <th>Tipo</th>
-                  <th>Entrada</th>
-                  <th>Salida</th>
-                  <th>Volumen</th>
-                  <th>P&L</th>
-                  <th>Estrategia</th>
-                  <th>Duración</th>
-                </tr>
-              </thead>
+              <thead><tr><th>Fecha</th><th>Par</th><th>Tipo</th><th>Entrada</th><th>Salida</th><th>Volumen</th><th>P&amp;L</th><th>Estrategia</th><th>Duración</th></tr></thead>
               <tbody>
                 <tr>
                   <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-23</td>
-                  <td><span class="pair-label">SOL/USDC</span></td>
-                  <td><span class="tag long">Long</span></td>
-                  <td>$168.42</td>
-                  <td>$174.80</td>
-                  <td>12.5 SOL</td>
-                  <td class="pnl-pos">+$79.75</td>
-                  <td>Momentum</td>
+                  <td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td>
+                  <td>$168.42</td><td>$174.80</td><td>12.5 SOL</td>
+                  <td class="pnl-pos">+$79.75</td><td>Momentum</td>
                   <td style="font-size:0.78rem;color:var(--fg-muted);">4h 12m</td>
                 </tr>
                 <tr>
                   <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-23</td>
-                  <td><span class="pair-label">BONK/USDC</span></td>
-                  <td><span class="tag short">Short</span></td>
-                  <td>$0.000042</td>
-                  <td>$0.000039</td>
-                  <td>50,000 BONK</td>
-                  <td class="pnl-pos">+$15.60</td>
-                  <td>Mean Rev.</td>
+                  <td><span class="pair-label">BONK/USDC</span></td><td><span class="tag short">Short</span></td>
+                  <td>$0.000042</td><td>$0.000039</td><td>50,000 BONK</td>
+                  <td class="pnl-pos">+$15.60</td><td>Mean Rev.</td>
                   <td style="font-size:0.78rem;color:var(--fg-muted);">2h 08m</td>
                 </tr>
                 <tr>
                   <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-22</td>
-                  <td><span class="pair-label">SOL/USDT</span></td>
-                  <td><span class="tag long">Long</span></td>
-                  <td>$170.10</td>
-                  <td>$174.80</td>
-                  <td>5.0 SOL</td>
-                  <td class="pnl-pos">+$23.50</td>
-                  <td>Grid</td>
+                  <td><span class="pair-label">SOL/USDT</span></td><td><span class="tag long">Long</span></td>
+                  <td>$170.10</td><td>$174.80</td><td>5.0 SOL</td>
+                  <td class="pnl-pos">+$23.50</td><td>Grid</td>
                   <td style="font-size:0.78rem;color:var(--fg-muted);">6h 30m</td>
                 </tr>
                 <tr>
                   <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-22</td>
-                  <td><span class="pair-label">JUP/USDC</span></td>
-                  <td><span class="tag long">Long</span></td>
-                  <td>$0.82</td>
-                  <td>$0.79</td>
-                  <td>200 JUP</td>
-                  <td class="pnl-neg">−$6.00</td>
-                  <td>Grid</td>
+                  <td><span class="pair-label">JUP/USDC</span></td><td><span class="tag long">Long</span></td>
+                  <td>$0.82</td><td>$0.79</td><td>200 JUP</td>
+                  <td class="pnl-neg">−$6.00</td><td>Grid</td>
                   <td style="font-size:0.78rem;color:var(--fg-muted);">1h 45m</td>
                 </tr>
                 <tr>
                   <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-21</td>
-                  <td><span class="pair-label">PYTH/USDC</span></td>
-                  <td><span class="tag long">Long</span></td>
-                  <td>$0.34</td>
-                  <td>$0.36</td>
-                  <td>500 PYTH</td>
-                  <td class="pnl-pos">+$10.00</td>
-                  <td>Arbitraje</td>
+                  <td><span class="pair-label">PYTH/USDC</span></td><td><span class="tag long">Long</span></td>
+                  <td>$0.34</td><td>$0.36</td><td>500 PYTH</td>
+                  <td class="pnl-pos">+$10.00</td><td>Arbitraje</td>
                   <td style="font-size:0.78rem;color:var(--fg-muted);">3h 20m</td>
                 </tr>
                 <tr>
                   <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-21</td>
-                  <td><span class="pair-label">RAY/USDC</span></td>
-                  <td><span class="tag short">Short</span></td>
-                  <td>$1.85</td>
-                  <td>$1.92</td>
-                  <td>50 RAY</td>
-                  <td class="pnl-neg">−$4.20</td>
-                  <td>Grid</td>
+                  <td><span class="pair-label">RAY/USDC</span></td><td><span class="tag short">Short</span></td>
+                  <td>$1.85</td><td>$1.92</td><td>50 RAY</td>
+                  <td class="pnl-neg">−$4.20</td><td>Grid</td>
                   <td style="font-size:0.78rem;color:var(--fg-muted);">5h 10m</td>
                 </tr>
                 <tr>
                   <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-20</td>
-                  <td><span class="pair-label">SOL/USDC</span></td>
-                  <td><span class="tag long">Long</span></td>
-                  <td>$165.80</td>
-                  <td>$172.40</td>
-                  <td>20 SOL</td>
-                  <td class="pnl-pos">+$132.00</td>
-                  <td>Momentum</td>
+                  <td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td>
+                  <td>$165.80</td><td>$172.40</td><td>20 SOL</td>
+                  <td class="pnl-pos">+$132.00</td><td>Momentum</td>
                   <td style="font-size:0.78rem;color:var(--fg-muted);">8h 05m</td>
                 </tr>
               </tbody>
@@ -1687,18 +1644,15 @@
 
     </div><!-- /section-historial -->
 
-    <!-- ============================================================
+    <!-- ================================================
          SECTION: ALERTAS
-         ============================================================ -->
-    <div class="view-section" id="section-alertas">
+         ================================================ -->
+    <div class="view-section" id="section-alertas" role="region" aria-label="Alertas">
 
       <div class="filter-row">
-        <select>
-          <option>Todas las alertas</option>
-          <option>Sin leer</option>
-          <option>Riesgo</option>
-          <option>Ejecución</option>
-          <option>Sistema</option>
+        <select aria-label="Tipo de alerta">
+          <option>Todas las alertas</option><option>Sin leer</option>
+          <option>Riesgo</option><option>Ejecución</option><option>Sistema</option>
         </select>
         <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Marcar todas leídas</button>
         <span style="font-size:0.78rem;color:var(--fg-muted);margin-left:auto;">3 sin leer · 24 totales</span>
@@ -1706,12 +1660,13 @@
 
       <div class="card">
         <div class="card-body">
+
           <div class="alert-item" style="background:rgba(251,191,36,0.05);border-radius:var(--radius-medium);padding:var(--spacing-4);">
-            <div class="alert-icon warn">⚠</div>
+            <div class="alert-icon warn" aria-hidden="true">⚠</div>
             <div class="alert-content">
               <div class="alert-title">JUP/USDC cerca de stop loss</div>
               <div class="alert-meta">Precio actual $0.79 · Stop en $0.76 · Distancia: 3.8%</div>
-              <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);">
+              <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);flex-wrap:wrap;">
                 <button class="btn btn-sm btn-primary">Ajustar stop</button>
                 <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Ignorar</button>
               </div>
@@ -1720,20 +1675,20 @@
           </div>
 
           <div class="alert-item">
-            <div class="alert-icon ok">✓</div>
+            <div class="alert-icon ok" aria-hidden="true">✓</div>
             <div class="alert-content">
               <div class="alert-title">Take profit alcanzado: BONK/USDC</div>
-              <div class="alert-meta">Posición cerrada automáticamente en $0.000039 · Ganancia: +$15.60</div>
+              <div class="alert-meta">Posición cerrada en $0.000039 · Ganancia: +$15.60</div>
             </div>
             <div class="alert-time">hace 14 min</div>
           </div>
 
           <div class="alert-item" style="background:rgba(248,113,113,0.05);border-radius:var(--radius-medium);padding:var(--spacing-4);">
-            <div class="alert-icon warn">⚠</div>
+            <div class="alert-icon warn" aria-hidden="true">⚠</div>
             <div class="alert-content">
               <div class="alert-title">RAY/USDC superó stop loss</div>
               <div class="alert-meta">Precio $1.92 · Stop en $2.00 · Diferencia: −4.0%</div>
-              <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);">
+              <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);flex-wrap:wrap;">
                 <button class="btn btn-sm" style="background:var(--error);color:#fff;border-color:var(--error);">Cerrar posición</button>
                 <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Revisar</button>
               </div>
@@ -1742,7 +1697,7 @@
           </div>
 
           <div class="alert-item">
-            <div class="alert-icon info">⚡</div>
+            <div class="alert-icon info" aria-hidden="true">⚡</div>
             <div class="alert-content">
               <div class="alert-title">Nueva versión disponible</div>
               <div class="alert-meta">BotTrader v2.4.1 incluye mejoras en trailing stop y nuevas estrategias.</div>
@@ -1751,155 +1706,100 @@
           </div>
 
           <div class="alert-item">
-            <div class="alert-icon ok">✓</div>
+            <div class="alert-icon ok" aria-hidden="true">✓</div>
             <div class="alert-content">
               <div class="alert-title">Auditoría de seguridad completada</div>
-              <div class="alert-meta">Contrato inteligente verificado por firma independiente sin incidentes.</div>
+              <div class="alert-meta">Contrato verificado por firma independiente sin incidentes.</div>
             </div>
             <div class="alert-time">hace 1d</div>
           </div>
 
-          <div class="alert-item">
-            <div class="alert-icon info">⚡</div>
-            <div class="alert-content">
-              <div class="alert-title">Límite de volumen semanal alcanzado</div>
-              <div class="alert-meta">Plan Pro: 45,000 SOL / 50,000 SOL esta semana.</div>
-            </div>
-            <div class="alert-time">hace 2d</div>
-          </div>
         </div>
       </div>
 
     </div><!-- /section-alertas -->
 
-    <!-- ============================================================
+    <!-- ================================================
          SECTION: AJUSTES
-         ============================================================ -->
-    <div class="view-section" id="section-ajustes">
+         ================================================ -->
+    <div class="view-section" id="section-ajustes" role="region" aria-label="Ajustes">
 
       <div class="settings-grid">
 
         <div class="setting-group">
           <div class="setting-group-title">Gestión de riesgo</div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Stop loss automático</div>
-              <div class="setting-desc">Aplica stop loss por defecto a nuevas posiciones</div>
-            </div>
-            <button class="toggle-switch on" aria-label="Toggle"></button>
+            <div><div class="setting-label">Stop loss automático</div><div class="setting-desc">Aplica stop loss por defecto a nuevas posiciones</div></div>
+            <button class="toggle-switch on" aria-label="Stop loss automático activado"></button>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Trailing stop</div>
-              <div class="setting-desc">Ajusta el stop loss automáticamente cuando el precio sube</div>
-            </div>
-            <button class="toggle-switch on" aria-label="Toggle"></button>
+            <div><div class="setting-label">Trailing stop</div><div class="setting-desc">Ajusta el stop loss cuando el precio sube</div></div>
+            <button class="toggle-switch on" aria-label="Trailing stop activado"></button>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Límite de pérdida diario</div>
-              <div class="setting-desc">Detiene todas las estrategias si se supera el límite</div>
-            </div>
-            <button class="toggle-switch" aria-label="Toggle"></button>
+            <div><div class="setting-label">Límite de pérdida diario</div><div class="setting-desc">Detiene todas las estrategias si se supera el límite</div></div>
+            <button class="toggle-switch" aria-label="Límite de pérdida diario desactivado"></button>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Notificar stop loss</div>
-              <div class="setting-desc">Recibe alerta cuando una posición alcance el stop</div>
-            </div>
-            <button class="toggle-switch on" aria-label="Toggle"></button>
+            <div><div class="setting-label">Notificar stop loss</div><div class="setting-desc">Recibe alerta cuando una posición alcance el stop</div></div>
+            <button class="toggle-switch on" aria-label="Notificar stop loss activado"></button>
           </div>
         </div>
 
         <div class="setting-group">
           <div class="setting-group-title">Notificaciones</div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Alertas en tiempo real</div>
-              <div class="setting-desc">Notificaciones push para eventos de trading</div>
-            </div>
-            <button class="toggle-switch on" aria-label="Toggle"></button>
+            <div><div class="setting-label">Alertas en tiempo real</div><div class="setting-desc">Notificaciones push para eventos de trading</div></div>
+            <button class="toggle-switch on" aria-label="Alertas en tiempo real activadas"></button>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Resumen diario</div>
-              <div class="setting-desc">Correo con resumen de operaciones del día</div>
-            </div>
-            <button class="toggle-switch" aria-label="Toggle"></button>
+            <div><div class="setting-label">Resumen diario</div><div class="setting-desc">Correo con resumen de operaciones del día</div></div>
+            <button class="toggle-switch" aria-label="Resumen diario desactivado"></button>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Alertas de riesgo</div>
-              <div class="setting-desc">Notificaciones cuando una posición entre en zona de riesgo</div>
-            </div>
-            <button class="toggle-switch on" aria-label="Toggle"></button>
+            <div><div class="setting-label">Alertas de riesgo</div><div class="setting-desc">Notificaciones cuando una posición entre en zona de riesgo</div></div>
+            <button class="toggle-switch on" aria-label="Alertas de riesgo activadas"></button>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Actualizaciones del producto</div>
-              <div class="setting-desc">Nuevas versiones, estrategias y mejoras</div>
-            </div>
-            <button class="toggle-switch on" aria-label="Toggle"></button>
+            <div><div class="setting-label">Actualizaciones del producto</div><div class="setting-desc">Nuevas versiones, estrategias y mejoras</div></div>
+            <button class="toggle-switch on" aria-label="Actualizaciones activadas"></button>
           </div>
         </div>
 
         <div class="setting-group">
           <div class="setting-group-title">Wallet</div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Wallet conectada</div>
-              <div class="setting-desc">8xR3...kP9m · Phantom</div>
-            </div>
+            <div><div class="setting-label">Wallet conectada</div><div class="setting-desc">8xR3...kP9m · Phantom</div></div>
             <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Desconectar</button>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Comisión por operación</div>
-              <div class="setting-desc">0.3% · Descuento por volumen: 0.25%</div>
-            </div>
+            <div><div class="setting-label">Comisión por operación</div><div class="setting-desc">0.3% · Descuento por volumen aplicado</div></div>
             <span style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent);">0.25%</span>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Modo seguro</div>
-              <div class="setting-desc">Requiere confirmación manual para cada operación</div>
-            </div>
-            <button class="toggle-switch" aria-label="Toggle"></button>
+            <div><div class="setting-label">Modo seguro</div><div class="setting-desc">Requiere confirmación manual para cada operación</div></div>
+            <button class="toggle-switch" aria-label="Modo seguro desactivado"></button>
           </div>
         </div>
 
         <div class="setting-group">
           <div class="setting-group-title">Preferencias generales</div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Moneda base</div>
-              <div class="setting-desc">Unidad principal para mostrar saldos y P&L</div>
-            </div>
-            <select style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:6px 10px;color:var(--fg);font-family:var(--font-body);font-size:0.82rem;">
-              <option>SOL</option>
-              <option>USDC</option>
-              <option>USD</option>
+            <div><div class="setting-label">Moneda base</div><div class="setting-desc">Unidad principal para mostrar saldos y P&amp;L</div></div>
+            <select class="setting-select" aria-label="Moneda base">
+              <option>SOL</option><option>USDC</option><option>USD</option>
             </select>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Formato de precio</div>
-              <div class="setting-desc">Decimales mostrados en precios y cantidades</div>
-            </div>
-            <select style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:6px 10px;color:var(--fg);font-family:var(--font-body);font-size:0.82rem;">
-              <option>2 decimales</option>
-              <option>4 decimales</option>
-              <option>8 decimales</option>
+            <div><div class="setting-label">Formato de precio</div><div class="setting-desc">Decimales mostrados en precios y cantidades</div></div>
+            <select class="setting-select" aria-label="Formato de precio">
+              <option>2 decimales</option><option>4 decimales</option><option>8 decimales</option>
             </select>
           </div>
           <div class="setting-row">
-            <div>
-              <div class="setting-label">Tema</div>
-              <div class="setting-desc">Apariencia visual de la interfaz</div>
-            </div>
-            <select style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:6px 10px;color:var(--fg);font-family:var(--font-body);font-size:0.82rem;">
-              <option>Oscuro</option>
-              <option>Claro</option>
+            <div><div class="setting-label">Tema</div><div class="setting-desc">Apariencia visual de la interfaz</div></div>
+            <select class="setting-select" aria-label="Tema">
+              <option>Oscuro</option><option>Claro</option>
             </select>
           </div>
         </div>
@@ -1908,143 +1808,179 @@
 
     </div><!-- /section-ajustes -->
 
-  </div>
+  </div><!-- /main -->
 
   <!-- Modal overlay -->
-  <div class="modal-overlay" id="modal-overlay">
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-box">
-      <button class="modal-close" id="modal-close">✕</button>
+      <button class="modal-close" id="modal-close" aria-label="Cerrar modal">✕</button>
       <div class="modal-title" id="modal-title">Detalle de estrategia</div>
       <div id="modal-body"></div>
     </div>
   </div>
 
   <script>
-    (function() {
-      // ---- Clock ----
-      var t = document.getElementById('liveTime');
-      if (t) {
-        function update() {
-          var d = new Date();
-          var h = String(d.getUTCHours()).padStart(2, '0');
-          var m = String(d.getUTCMinutes()).padStart(2, '0');
-          var s = String(d.getUTCSeconds()).padStart(2, '0');
-          t.textContent = h + ':' + m + ':' + s + ' UTC';
+  (function() {
+
+    /* ---- Reloj UTC ---- */
+    var timeEl = document.getElementById('liveTime');
+    if (timeEl) {
+      function updateClock() {
+        var d = new Date();
+        timeEl.textContent =
+          String(d.getUTCHours()).padStart(2,'0') + ':' +
+          String(d.getUTCMinutes()).padStart(2,'0') + ':' +
+          String(d.getUTCSeconds()).padStart(2,'0') + ' UTC';
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+
+    /* ---- Navegación por secciones (sidebar + drawer) ---- */
+    var allNavLinks   = document.querySelectorAll('.sidebar-link[data-view]');
+    var viewSections  = document.querySelectorAll('.view-section');
+    var pageTitle     = document.getElementById('pageTitle');
+
+    function activateView(targetId, clickedLink) {
+      allNavLinks.forEach(function(l) { l.classList.remove('active'); });
+      document.querySelectorAll('.sidebar-link[data-view="' + targetId + '"]')
+        .forEach(function(l) { l.classList.add('active'); });
+
+      viewSections.forEach(function(s) { s.classList.remove('active'); });
+      var target = document.getElementById(targetId);
+      if (target) {
+        target.classList.add('active');
+        if (pageTitle) {
+          var txt = (clickedLink || document.querySelector('.sidebar-link[data-view="' + targetId + '"]'))
+            .textContent.replace(/[◉▣⇅☰⚠⚙]/g,'').replace(/\d+/g,'').trim();
+          pageTitle.textContent = txt;
         }
-        update();
-        setInterval(update, 1000);
       }
+      // Close mobile drawer if open
+      closeMobileDrawer();
+    }
 
-      // ---- View navigation (sidebar tabs) ----
-      var sidebarLinks = document.querySelectorAll('.sidebar-link[data-view]');
-      var viewSections = document.querySelectorAll('.view-section');
-      var pageTitle = document.querySelector('.page-title');
-
-      sidebarLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          var targetId = this.getAttribute('data-view');
-          if (!targetId) return;
-
-          // Deactivate all links
-          sidebarLinks.forEach(function(l) { l.classList.remove('active'); });
-          this.classList.add('active');
-
-          // Hide all sections, show target
-          viewSections.forEach(function(s) { s.classList.remove('active'); });
-          var target = document.getElementById(targetId);
-          if (target) {
-            target.classList.add('active');
-            // Update page title from link text (trim icon + badge)
-            var txt = this.textContent.replace(/[◉▣⇅☰⚠⚙]/g, '').trim();
-            if (pageTitle) pageTitle.textContent = txt;
-          }
-        });
+    allNavLinks.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var id = this.getAttribute('data-view');
+        if (id) activateView(id, this);
       });
+    });
 
-      // ---- Toggle switches ----
-      document.querySelectorAll('.toggle-switch').forEach(function(s) {
-        s.addEventListener('click', function() {
-          this.classList.toggle('on');
-        });
+    /* ---- Toggle switches ---- */
+    document.querySelectorAll('.toggle-switch').forEach(function(sw) {
+      sw.addEventListener('click', function() {
+        var isOn = this.classList.toggle('on');
+        this.setAttribute('aria-label',
+          this.getAttribute('aria-label').replace(/activad[oa]|desactivad[oa]/,
+            isOn ? (this.getAttribute('aria-label').match(/[ao]$/) ? 'activado' : 'activada')
+                 : (this.getAttribute('aria-label').match(/[ao]$/) ? 'desactivado' : 'desactivada')
+          )
+        );
       });
+    });
 
-      // ---- Estrategias: Pausar / Reanudar toggle ----
-      document.querySelectorAll('.estrategia-card .btn-toggle').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          var card = this.closest('.estrategia-card');
-          var statusEl = card.querySelector('.estrategia-status');
-          var pnlEl = card.querySelector('[style*="font-family:var(--font-code)"]');
-          var isActive = statusEl && statusEl.textContent.trim() === 'Activa';
+    /* ---- Estrategias: Pausar / Reanudar ---- */
+    document.querySelectorAll('.estrategia-card .btn-toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var card     = this.closest('.estrategia-card');
+        var statusEl = card.querySelector('.estrategia-status');
+        var pnlEl    = card.querySelector('.estrategia-pnl');
+        var isActive = statusEl && statusEl.textContent.trim().startsWith('Activa');
 
-          if (isActive) {
-            // Pausar
-            card.classList.add('en-pausa');
-            statusEl.innerHTML = '<span class="dot off"></span>En pausa';
-            this.className = 'btn btn-sm btn-toggle btn-primary';
-            this.textContent = 'Reanudar';
-            if (pnlEl) pnlEl.style.color = '';
-            card.setAttribute('data-estado', 'En pausa');
-          } else {
-            // Reanudar
-            card.classList.remove('en-pausa');
-            statusEl.innerHTML = '<span class="dot on"></span>Activa';
-            this.className = 'btn btn-sm btn-toggle';
-            this.style.background = 'var(--surface-hover)';
-            this.style.color = 'var(--fg-muted)';
-            this.style.borderColor = 'var(--border)';
-            this.textContent = 'Pausar';
-            if (pnlEl) pnlEl.style.color = 'var(--accent)';
-            card.setAttribute('data-estado', 'Activa');
-          }
-        });
+        if (isActive) {
+          card.classList.add('en-pausa');
+          statusEl.innerHTML = '<span class="dot off" aria-hidden="true"></span>En pausa';
+          this.className = 'btn btn-sm btn-toggle btn-primary';
+          this.textContent = 'Reanudar';
+          if (pnlEl) { pnlEl.classList.remove('pos'); pnlEl.classList.add('neutral'); }
+          card.setAttribute('data-estado', 'En pausa');
+        } else {
+          card.classList.remove('en-pausa');
+          statusEl.innerHTML = '<span class="dot on" aria-hidden="true"></span>Activa';
+          this.className = 'btn btn-sm btn-toggle';
+          this.style.cssText = 'background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);';
+          this.textContent = 'Pausar';
+          if (pnlEl) { pnlEl.classList.remove('neutral'); pnlEl.classList.add('pos'); }
+          card.setAttribute('data-estado', 'Activa');
+        }
       });
+    });
 
-      // ---- Estrategias: Ver detalle modal ----
-      var overlay = document.getElementById('modal-overlay');
-      var modalTitle = document.getElementById('modal-title');
-      var modalBody = document.getElementById('modal-body');
+    /* ---- Modal: Ver detalle ---- */
+    var overlay    = document.getElementById('modal-overlay');
+    var modalTitle = document.getElementById('modal-title');
+    var modalBody  = document.getElementById('modal-body');
 
-      function openModal(name, par, tipo, riesgo, pnl, estado, nota) {
-        var isNeg = pnl && pnl.charAt(0) === '-';
-        var pnlClass = isNeg ? 'modal-pnl neg' : 'modal-pnl';
-        modalTitle.textContent = name;
-        modalBody.innerHTML =
-          '<div class="modal-row"><span class="modal-label">Par</span><span class="modal-value">' + par + '</span></div>' +
-          '<div class="modal-row"><span class="modal-label">Tipo</span><span class="modal-value">' + tipo + '</span></div>' +
-          '<div class="modal-row"><span class="modal-label">Riesgo</span><span class="modal-value">' + riesgo + '</span></div>' +
-          '<div class="modal-row"><span class="modal-label">Estado</span><span class="modal-value">' + estado + '</span></div>' +
-          '<div class="modal-row"><span class="modal-label">P&L</span><span class="modal-value ' + pnlClass + '">' + pnl + ' SOL</span></div>' +
-          '<div class="modal-note">' + nota + '</div>';
-        overlay.classList.add('active');
-      }
+    function openModal(name, par, tipo, riesgo, pnl, estado, nota) {
+      var isNeg = pnl && pnl.charAt(0) === '-';
+      modalTitle.textContent = name;
+      modalBody.innerHTML =
+        '<div class="modal-row"><span class="modal-label">Par</span><span class="modal-value">'    + par    + '</span></div>' +
+        '<div class="modal-row"><span class="modal-label">Tipo</span><span class="modal-value">'   + tipo   + '</span></div>' +
+        '<div class="modal-row"><span class="modal-label">Riesgo</span><span class="modal-value">' + riesgo + '</span></div>' +
+        '<div class="modal-row"><span class="modal-label">Estado</span><span class="modal-value">' + estado + '</span></div>' +
+        '<div class="modal-row"><span class="modal-label">P&L</span><span class="modal-value ' + (isNeg ? 'modal-pnl neg' : 'modal-pnl') + '">' + pnl + ' SOL</span></div>' +
+        '<div class="modal-note">' + nota + '</div>';
+      overlay.classList.add('active');
+      overlay.removeAttribute('aria-hidden');
+      document.getElementById('modal-close').focus();
+    }
 
-      document.querySelectorAll('[data-action="ver-detalle"]').forEach(function(link) {
-        link.addEventListener('click', function() {
-          var card = this.closest('.estrategia-card');
-          if (!card) return;
-          openModal(
-            card.getAttribute('data-strategy'),
-            card.getAttribute('data-par'),
-            card.getAttribute('data-tipo'),
-            card.getAttribute('data-riesgo'),
-            card.getAttribute('data-pnl'),
-            card.getAttribute('data-estado'),
-            card.getAttribute('data-nota')
-          );
-        });
-      });
+    function closeModal() {
+      overlay.classList.remove('active');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
 
-      document.getElementById('modal-close').addEventListener('click', function() {
-        overlay.classList.remove('active');
+    document.querySelectorAll('[data-action="ver-detalle"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        var card = this.closest('.estrategia-card');
+        if (!card) return;
+        openModal(
+          card.getAttribute('data-strategy'),
+          card.getAttribute('data-par'),
+          card.getAttribute('data-tipo'),
+          card.getAttribute('data-riesgo'),
+          card.getAttribute('data-pnl'),
+          card.getAttribute('data-estado'),
+          card.getAttribute('data-nota')
+        );
       });
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) overlay.classList.remove('active');
+      link.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
       });
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') overlay.classList.remove('active');
-      });
-    })();
+    });
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+    /* ---- Mobile drawer ---- */
+    var mobileBtn      = document.getElementById('mobileNavBtn');
+    var drawer         = document.getElementById('mobileDrawer');
+    var drawerOverlay  = document.getElementById('drawerOverlay');
+    var drawerClose    = document.getElementById('drawerClose');
+
+    function openMobileDrawer() {
+      drawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+      drawer.removeAttribute('aria-hidden');
+      mobileBtn.setAttribute('aria-expanded', 'true');
+    }
+    function closeMobileDrawer() {
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      mobileBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    if (mobileBtn) mobileBtn.addEventListener('click', openMobileDrawer);
+    if (drawerClose) drawerClose.addEventListener('click', closeMobileDrawer);
+    if (drawerOverlay) drawerOverlay.addEventListener('click', closeMobileDrawer);
+
+  })();
   </script>
+
 </body>
 </html>
