@@ -2199,7 +2199,45 @@
         walletBtnEl.querySelector('.wallet-address').textContent = addr;
         walletBtnEl.querySelector('span:last-child').textContent = '✓';
       }
-      showToast(name + ' conectada correctamente · ' + addr, '✅', 3500);
+
+      // Show post-connect banner
+      var existing = document.getElementById('wallet-connected-banner');
+      if (existing) existing.remove();
+      var banner = document.createElement('div');
+      banner.id = 'wallet-connected-banner';
+      banner.style.cssText = [
+        'background:rgba(16,185,129,0.08)',
+        'border:1px solid rgba(16,185,129,0.25)',
+        'border-radius:8px',
+        'padding:14px 18px',
+        'margin-bottom:20px',
+        'display:flex',
+        'align-items:flex-start',
+        'gap:12px',
+        'animation:metricUp 0.4s ease-out forwards'
+      ].join(';');
+      banner.innerHTML = [
+        '<span style="font-size:1.2rem;flex-shrink:0;">✅</span>',
+        '<div>',
+          '<div style="font-weight:600;font-size:0.9rem;color:var(--accent);margin-bottom:3px;">' + name + ' conectada · ' + addr + '</div>',
+          '<div style="font-size:0.82rem;color:var(--fg-muted);line-height:1.6;">',
+            'Estás en modo demo. En la versión real aquí verías tu saldo, ',
+            'podrías activar estrategias reales y gestionar tus posiciones ',
+            'directamente desde este panel sin salir de Telegram.',
+          '</div>',
+          '<a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" ',
+            'style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;',
+            'background:var(--accent);color:#fff;padding:8px 16px;border-radius:6px;',
+            'font-size:0.82rem;font-weight:600;text-decoration:none;transition:background 0.15s;">',
+            '📲 Activar BotTrader real en Telegram',
+          '</a>',
+        '</div>'
+      ].join('');
+
+      var mainContent = document.getElementById('mainContent');
+      if (mainContent) mainContent.insertBefore(banner, mainContent.firstChild);
+
+      showToast(name + ' conectada · ' + addr, '✅', 3500);
     };
 
     /* ---- Botones de acción en alertas ---- */
