@@ -933,6 +933,68 @@
       .setting-row { flex-wrap: wrap; }
     }
 
+    /* ============ WALLET MODAL ============ */
+    .wallet-modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(10,14,23,0.85); backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px); z-index: 3000;
+      align-items: center; justify-content: center; padding: var(--spacing-4);
+    }
+    .wallet-modal-overlay.active { display: flex; }
+    .wallet-modal-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: var(--spacing-8);
+      max-width: 400px; width: 100%;
+      animation: modalIn 0.2s ease-out; position: relative;
+    }
+    .wallet-modal-title {
+      font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600;
+      margin-bottom: var(--spacing-2); color: var(--fg);
+    }
+    .wallet-modal-sub { font-size: 0.82rem; color: var(--fg-muted); margin-bottom: var(--spacing-6); line-height: 1.6; }
+    .wallet-options { display: flex; flex-direction: column; gap: var(--spacing-3); margin-bottom: var(--spacing-5); }
+    .wallet-option {
+      display: flex; align-items: center; gap: var(--spacing-4);
+      padding: var(--spacing-4); background: var(--bg);
+      border: 1px solid var(--border); border-radius: var(--radius-medium);
+      cursor: pointer; transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+    .wallet-option:hover { border-color: var(--accent); background: rgba(16,185,129,0.04); }
+    .wallet-option-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .wallet-option-name { font-weight: 600; font-size: 0.9rem; }
+    .wallet-option-desc { font-size: 0.75rem; color: var(--fg-muted); }
+    .wallet-modal-note { font-size: 0.75rem; color: var(--fg-muted); text-align: center; line-height: 1.5; }
+    .wallet-modal-close {
+      position: absolute; top: var(--spacing-4); right: var(--spacing-4);
+      background: var(--surface-hover); border: 1px solid var(--border);
+      color: var(--fg-muted); width: 30px; height: 30px; border-radius: 50%;
+      font-size: 13px; cursor: pointer; display: grid; place-items: center;
+      transition: background var(--transition-fast);
+    }
+    .wallet-modal-close:hover { background: var(--border); color: var(--fg); }
+
+    /* ============ TOAST ============ */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 4000;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-medium); padding: 12px 18px;
+      font-size: 0.85rem; color: var(--fg);
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transform: translateY(80px); opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      max-width: 320px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { font-size: 1rem; flex-shrink: 0; }
+
+    /* ============ EQUITY CHART ============ */
+    .equity-chart-wrap { position: relative; width: 100%; height: 120px; margin-top: var(--spacing-4); }
+    .equity-chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
+    .equity-label { font-size: 0.72rem; color: var(--fg-muted); margin-bottom: var(--spacing-2); }
+    .equity-value { font-family: var(--font-code); font-size: 1.2rem; font-weight: 600; color: var(--accent); }
+    .equity-change { font-size: 0.72rem; color: var(--success); }
+
     /* ============ REDUCED MOTION ============ */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1045,12 +1107,13 @@
       <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="sidebar-tg-cta">
         <span>📲</span> Abrir en Telegram
       </a>
-      <div class="wallet-status">
+      <div class="wallet-status" id="wallet-btn" style="cursor:pointer;" title="Gestionar wallet">
         <div class="wallet-dot" aria-hidden="true"></div>
         <div class="wallet-info">
-          <div class="wallet-label">Wallet conectada</div>
-          <div class="wallet-address">8xR3...kP9m</div>
+          <div class="wallet-label">Demo — conectar wallet</div>
+          <div class="wallet-address">Haz clic aquí</div>
         </div>
+        <span style="font-size:0.7rem;color:var(--accent);margin-left:auto;">→</span>
       </div>
     </div>
   </aside>
@@ -1101,6 +1164,83 @@
           <div class="metric-label">Trades 24h</div>
           <div class="metric-value white">143</div>
           <div class="metric-change" style="color:var(--fg-muted);">Volumen: 1,240 SOL</div>
+        </div>
+      </div>
+
+      <!-- Equity chart + live prices -->
+      <div class="dashboard-grid" style="margin-bottom:var(--spacing-6);">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Curva de equity</div>
+              <div class="card-subtitle">Rendimiento acumulado — últimos 30 días</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:var(--font-code);font-size:1.1rem;font-weight:600;color:var(--accent);">+2,847.32</div>
+              <div style="font-size:0.72rem;color:var(--success);">▲ +12.4% este mes</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="equity-chart-wrap">
+              <svg id="equity-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="equityGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="30" x2="600" y2="30" stroke="#374151" stroke-width="0.5" stroke-dasharray="4,4"/>
+                <line x1="0" y1="60" x2="600" y2="60" stroke="#374151" stroke-width="0.5" stroke-dasharray="4,4"/>
+                <line x1="0" y1="90" x2="600" y2="90" stroke="#374151" stroke-width="0.5" stroke-dasharray="4,4"/>
+                <path id="equity-area" fill="url(#equityGrad)"/>
+                <path id="equity-line" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle id="equity-dot" r="4" fill="#10b981" stroke="#0a0e17" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Precios en vivo</div>
+              <div class="card-subtitle">Simulación · actualiza cada 8s</div>
+            </div>
+            <div class="live-indicator"><span class="live-dot"></span>En vivo</div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:var(--spacing-4);">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--spacing-3) 0;border-bottom:1px solid rgba(55,65,81,0.3);">
+                <div style="display:flex;align-items:center;gap:var(--spacing-3);">
+                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(247,147,26,0.15);display:grid;place-items:center;">₿</div>
+                  <div><div style="font-weight:600;font-size:0.88rem;">Bitcoin</div><div style="font-size:0.72rem;color:var(--fg-muted);">BTC</div></div>
+                </div>
+                <div style="text-align:right;">
+                  <div id="btc-price" style="font-family:var(--font-code);font-weight:600;transition:color 0.3s;">$73,697</div>
+                  <div id="btc-change" style="font-size:0.72rem;color:var(--success);">▲ +2.4%</div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--spacing-3) 0;border-bottom:1px solid rgba(55,65,81,0.3);">
+                <div style="display:flex;align-items:center;gap:var(--spacing-3);">
+                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(98,126,234,0.15);display:grid;place-items:center;">Ξ</div>
+                  <div><div style="font-weight:600;font-size:0.88rem;">Ethereum</div><div style="font-size:0.72rem;color:var(--fg-muted);">ETH</div></div>
+                </div>
+                <div style="text-align:right;">
+                  <div id="eth-price" style="font-family:var(--font-code);font-weight:600;transition:color 0.3s;">$2,014</div>
+                  <div id="eth-change" style="font-size:0.72rem;color:var(--success);">▲ +1.8%</div>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--spacing-3) 0;">
+                <div style="display:flex;align-items:center;gap:var(--spacing-3);">
+                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(20,241,149,0.1);display:grid;place-items:center;">◎</div>
+                  <div><div style="font-weight:600;font-size:0.88rem;">Solana</div><div style="font-size:0.72rem;color:var(--fg-muted);">SOL</div></div>
+                </div>
+                <div style="text-align:right;">
+                  <div id="sol-price" style="font-family:var(--font-code);font-weight:600;transition:color 0.3s;">$82.28</div>
+                  <div id="sol-change" style="font-size:0.72rem;color:var(--success);">▲ +3.1%</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1313,7 +1453,7 @@
               <div class="card-title">Alertas</div>
               <div class="card-subtitle">3 alertas sin revisar</div>
             </div>
-            <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Marcar leídas</button>
+            <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);" data-demo-action="marcar-leidas">Marcar leídas</button>
           </div>
           <div class="card-body">
             <div class="alert-item">
@@ -1505,7 +1645,7 @@
                 <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Take Profit</label>
                 <input type="text" placeholder="$180.00" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
               </div>
-              <button class="btn btn-primary" style="justify-content:center;min-height:48px;">Ejecutar operación</button>
+              <button class="btn btn-primary" style="justify-content:center;min-height:48px;" data-demo-action="ejecutar-op">Ejecutar operación</button>
             </div>
           </div>
         </div>
@@ -1667,8 +1807,8 @@
               <div class="alert-title">JUP/USDC cerca de stop loss</div>
               <div class="alert-meta">Precio actual $0.79 · Stop en $0.76 · Distancia: 3.8%</div>
               <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);flex-wrap:wrap;">
-                <button class="btn btn-sm btn-primary">Ajustar stop</button>
-                <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Ignorar</button>
+                <button class="btn btn-sm btn-primary" data-demo-action="ajustar-stop">Ajustar stop</button>
+                <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);" data-demo-action="marcar-leidas">Ignorar</button>
               </div>
             </div>
             <div class="alert-time">hace 5 min</div>
@@ -1689,8 +1829,8 @@
               <div class="alert-title">RAY/USDC superó stop loss</div>
               <div class="alert-meta">Precio $1.92 · Stop en $2.00 · Diferencia: −4.0%</div>
               <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);flex-wrap:wrap;">
-                <button class="btn btn-sm" style="background:var(--error);color:#fff;border-color:var(--error);">Cerrar posición</button>
-                <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Revisar</button>
+                <button class="btn btn-sm" style="background:var(--error);color:#fff;border-color:var(--error);" data-demo-action="cerrar-pos">Cerrar posición</button>
+                <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);" data-demo-action="marcar-leidas">Revisar</button>
               </div>
             </div>
             <div class="alert-time">hace 42 min</div>
@@ -1809,6 +1949,45 @@
     </div><!-- /section-ajustes -->
 
   </div><!-- /main -->
+
+  <!-- Wallet Modal -->
+  <div class="wallet-modal-overlay" id="wallet-modal" role="dialog" aria-modal="true" aria-labelledby="wallet-modal-title">
+    <div class="wallet-modal-box">
+      <button class="wallet-modal-close" id="wallet-modal-close" aria-label="Cerrar">✕</button>
+      <div class="wallet-modal-title" id="wallet-modal-title">🔗 Conectar wallet</div>
+      <div class="wallet-modal-sub">Elige tu wallet de Solana para conectarte al dashboard. Tus fondos nunca abandonan tu wallet.</div>
+      <div class="wallet-options">
+        <div class="wallet-option" onclick="simulateWalletConnect('Phantom')">
+          <div class="wallet-option-icon">👻</div>
+          <div>
+            <div class="wallet-option-name">Phantom</div>
+            <div class="wallet-option-desc">La wallet más popular de Solana</div>
+          </div>
+        </div>
+        <div class="wallet-option" onclick="simulateWalletConnect('Backpack')">
+          <div class="wallet-option-icon">🎒</div>
+          <div>
+            <div class="wallet-option-name">Backpack</div>
+            <div class="wallet-option-desc">Multi-chain, ligera y rápida</div>
+          </div>
+        </div>
+        <div class="wallet-option" onclick="simulateWalletConnect('Solflare')">
+          <div class="wallet-option-icon">☀️</div>
+          <div>
+            <div class="wallet-option-name">Solflare</div>
+            <div class="wallet-option-desc">Compatible con Ledger hardware</div>
+          </div>
+        </div>
+      </div>
+      <div class="wallet-modal-note">🔒 Solo lectura y firma de transacciones autorizadas. Sin custodia de fondos.</div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">ℹ️</span>
+    <span id="toast-msg">Mensaje</span>
+  </div>
 
   <!-- Modal overlay -->
   <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -1978,6 +2157,121 @@
     if (mobileBtn) mobileBtn.addEventListener('click', openMobileDrawer);
     if (drawerClose) drawerClose.addEventListener('click', closeMobileDrawer);
     if (drawerOverlay) drawerOverlay.addEventListener('click', closeMobileDrawer);
+
+    /* ---- Toast ---- */
+    function showToast(msg, icon, duration) {
+      var t = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      document.getElementById('toast-icon').textContent = icon || 'ℹ️';
+      t.classList.add('show');
+      setTimeout(function() { t.classList.remove('show'); }, duration || 3000);
+    }
+
+    /* ---- Wallet modal ---- */
+    var walletModal = document.getElementById('wallet-modal');
+    var walletBtn   = document.getElementById('wallet-btn');
+    var walletClose = document.getElementById('wallet-modal-close');
+
+    function openWalletModal() { walletModal.classList.add('active'); }
+    function closeWalletModal() { walletModal.classList.remove('active'); }
+
+    if (walletBtn) walletBtn.addEventListener('click', openWalletModal);
+    if (walletClose) walletClose.addEventListener('click', closeWalletModal);
+    walletModal.addEventListener('click', function(e) { if (e.target === walletModal) closeWalletModal(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeWalletModal(); closeModal(); }
+    });
+
+    window.simulateWalletConnect = function(name) {
+      closeWalletModal();
+      var dots = ['8xR3', '7mKp', '4nQs', '2fLw'];
+      var ends = ['kP9m', 'jT4n', 'bR7x', 'yM2k'];
+      var i = Math.floor(Math.random() * dots.length);
+      var addr = dots[i] + '...' + ends[i];
+      var walletInfo = document.querySelectorAll('.wallet-info');
+      walletInfo.forEach(function(el) {
+        el.querySelector('.wallet-label').textContent = name + ' conectada';
+        el.querySelector('.wallet-address').textContent = addr;
+      });
+      var walletBtnEl = document.getElementById('wallet-btn');
+      if (walletBtnEl) {
+        walletBtnEl.querySelector('.wallet-label').textContent = name + ' conectada';
+        walletBtnEl.querySelector('.wallet-address').textContent = addr;
+        walletBtnEl.querySelector('span:last-child').textContent = '✓';
+      }
+      showToast(name + ' conectada correctamente · ' + addr, '✅', 3500);
+    };
+
+    /* ---- Botones de acción en alertas ---- */
+    document.querySelectorAll('[data-demo-action]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var action = this.getAttribute('data-demo-action');
+        var msgs = {
+          'ajustar-stop':    ['🔧 En modo demo — conecta tu wallet para ajustar el stop loss', '⚠️'],
+          'cerrar-pos':      ['🔒 En modo demo — conecta tu wallet para cerrar la posición', '⚠️'],
+          'marcar-leidas':   ['✅ Alertas marcadas como leídas', '✅'],
+          'ejecutar-op':     ['🔒 Conecta tu wallet para ejecutar operaciones reales', '🔒'],
+        };
+        var m = msgs[action] || ['En modo demo', 'ℹ️'];
+        showToast(m[0], m[1]);
+      });
+    });
+
+    /* ---- Precios en vivo (simulación) ---- */
+    var prices = { btc: 73697, eth: 2014, sol: 82.28 };
+    var baseChanges = { btc: 2.4, eth: 1.8, sol: 3.1 };
+
+    function updatePrices() {
+      var assets = ['btc', 'eth', 'sol'];
+      assets.forEach(function(a) {
+        var move = (Math.random() - 0.48) * (a === 'btc' ? 120 : a === 'eth' ? 8 : 0.4);
+        prices[a] = Math.max(prices[a] + move, 1);
+        baseChanges[a] = parseFloat((baseChanges[a] + (Math.random() - 0.48) * 0.15).toFixed(2));
+
+        var priceEl  = document.getElementById(a + '-price');
+        var changeEl = document.getElementById(a + '-change');
+        if (!priceEl) return;
+
+        var formatted = a === 'btc'
+          ? '$' + Math.round(prices[a]).toLocaleString()
+          : a === 'eth'
+            ? '$' + Math.round(prices[a]).toLocaleString()
+            : '$' + prices[a].toFixed(2);
+
+        priceEl.textContent = formatted;
+        priceEl.style.color = move > 0 ? 'var(--success)' : 'var(--error)';
+        setTimeout(function() { priceEl.style.color = ''; }, 600);
+
+        var up = baseChanges[a] >= 0;
+        changeEl.textContent = (up ? '▲ +' : '▼ ') + Math.abs(baseChanges[a]).toFixed(1) + '%';
+        changeEl.style.color = up ? 'var(--success)' : 'var(--error)';
+      });
+    }
+    setInterval(updatePrices, 8000);
+
+    /* ---- Equity chart ---- */
+    (function() {
+      var svg = document.getElementById('equity-svg');
+      if (!svg) return;
+      var W = 600, H = 120, pad = 10;
+      var pts = [8, 22, 15, 35, 28, 42, 38, 30, 55, 48, 60, 52, 70, 65, 58, 75, 80, 72, 85, 90, 82, 95, 88, 100, 92, 105, 98, 110, 103, 108];
+      var min = Math.min.apply(null, pts);
+      var max = Math.max.apply(null, pts);
+      var range = max - min || 1;
+
+      function toX(i) { return pad + (i / (pts.length - 1)) * (W - pad * 2); }
+      function toY(v) { return H - pad - ((v - min) / range) * (H - pad * 2); }
+
+      var d = pts.map(function(v, i) { return (i === 0 ? 'M' : 'L') + toX(i).toFixed(1) + ',' + toY(v).toFixed(1); }).join(' ');
+      var lastX = toX(pts.length - 1).toFixed(1);
+      var lastY = toY(pts[pts.length - 1]).toFixed(1);
+      var area = d + ' L' + lastX + ',' + (H - pad) + ' L' + pad + ',' + (H - pad) + ' Z';
+
+      document.getElementById('equity-line').setAttribute('d', d);
+      document.getElementById('equity-area').setAttribute('d', area);
+      document.getElementById('equity-dot').setAttribute('cx', lastX);
+      document.getElementById('equity-dot').setAttribute('cy', lastY);
+    })();
 
   })();
   </script>
