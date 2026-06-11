@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Guía Crypto para Principiantes — BotTrader</title>
+<style>
+  :root {
+    --bg:#0a0e17; --surface:#111827; --surface2:#1f2937;
+    --fg:#e5e7eb; --muted:#9ca3af; --border:#374151;
+    --accent:#10b981; --cyan:#06b6d4; --yellow:#fbbf24;
+    --font:'Inter',-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--fg);font-family:var(--font);padding:24px 20px;line-height:1.7;max-width:680px;margin:0 auto;}
+  
+  .header{text-align:center;padding:32px 0 24px;}
+  .header-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:999px;padding:6px 16px;font-size:0.78rem;color:var(--accent);margin-bottom:16px;}
+  .header-badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+  h1{font-size:clamp(1.6rem,5vw,2.2rem);font-weight:700;line-height:1.2;margin-bottom:12px;}
+  h1 em{font-style:normal;background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .header-sub{color:var(--muted);font-size:0.95rem;max-width:480px;margin:0 auto;}
+
+  /* PROGRESS */
+  .progress{display:flex;align-items:center;justify-content:center;gap:0;margin:28px 0;flex-wrap:wrap;}
+  .progress-step{display:flex;align-items:center;gap:0;}
+  .progress-dot{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);display:grid;place-items:center;font-size:0.75rem;font-weight:700;color:var(--muted);flex-shrink:0;transition:all 0.3s;}
+  .progress-dot.done{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .progress-dot.active{background:rgba(16,185,129,0.15);border-color:var(--accent);color:var(--accent);}
+  .progress-line{width:40px;height:2px;background:var(--border);}
+  .progress-line.done{background:var(--accent);}
+
+  /* SECTIONS */
+  .section{margin-bottom:24px;}
+  .section-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+  .section-header{display:flex;align-items:center;gap:14px;padding:20px 24px;cursor:pointer;user-select:none;transition:background 0.15s;}
+  .section-header:hover{background:var(--surface2);}
+  .section-num{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:0.9rem;flex-shrink:0;}
+  .section-num.s1{background:rgba(16,185,129,0.15);color:var(--accent);}
+  .section-num.s2{background:rgba(6,182,212,0.15);color:var(--cyan);}
+  .section-num.s3{background:rgba(251,191,36,0.15);color:var(--yellow);}
+  .section-num.s4{background:rgba(139,92,246,0.15);color:#8b5cf6;}
+  .section-num.s5{background:rgba(16,185,129,0.15);color:var(--accent);}
+  .section-title-wrap{flex:1;}
+  .section-title{font-weight:600;font-size:1rem;}
+  .section-subtitle{font-size:0.78rem;color:var(--muted);margin-top:2px;}
+  .section-toggle{color:var(--muted);font-size:0.8rem;transition:transform 0.2s;}
+  .section-card.open .section-toggle{transform:rotate(180deg);}
+  .section-body{display:none;padding:0 24px 24px;}
+  .section-card.open .section-body{display:block;}
+
+  /* CONTENT */
+  .tip{background:rgba(16,185,129,0.06);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:0.88rem;color:var(--fg);}
+  .tip strong{color:var(--accent);}
+  .warning{background:rgba(251,191,36,0.06);border-left:3px solid var(--yellow);border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0;font-size:0.88rem;color:var(--fg);}
+  .warning strong{color:var(--yellow);}
+  
+  .concept{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(55,65,81,0.3);}
+  .concept:last-child{border-bottom:none;}
+  .concept-emoji{font-size:1.4rem;flex-shrink:0;width:36px;text-align:center;}
+  .concept-title{font-weight:600;font-size:0.9rem;margin-bottom:3px;}
+  .concept-desc{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+
+  .step-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(55,65,81,0.3);align-items:flex-start;}
+  .step-item:last-child{border-bottom:none;}
+  .step-badge{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:0.75rem;font-weight:700;flex-shrink:0;margin-top:2px;}
+  .step-content-title{font-weight:600;font-size:0.9rem;margin-bottom:3px;}
+  .step-content-desc{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+
+  .command-demo{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin:12px 0;}
+  .command-demo-label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+  .command-demo-input{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .command-demo-cmd{font-family:monospace;font-size:0.88rem;color:var(--accent);background:rgba(16,185,129,0.1);padding:4px 10px;border-radius:6px;}
+  .command-demo-response{font-size:0.82rem;color:var(--fg);line-height:1.6;padding-top:8px;border-top:1px solid var(--border);}
+
+  .faq-item{padding:10px 0;border-bottom:1px solid rgba(55,65,81,0.3);}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-q{font-weight:600;font-size:0.88rem;margin-bottom:4px;color:var(--fg);}
+  .faq-a{font-size:0.82rem;color:var(--muted);line-height:1.6;}
+
+  p{font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:10px;}
+  p:last-child{margin-bottom:0;}
+
+  /* CTA */
+  .cta-box{background:var(--surface);border:1px solid rgba(16,185,129,0.2);border-radius:16px;padding:28px 24px;text-align:center;margin-top:28px;}
+  .cta-box h2{font-size:1.2rem;font-weight:700;margin-bottom:8px;}
+  .cta-box p{font-size:0.88rem;color:var(--muted);margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto;}
+  .cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:14px 28px;border-radius:10px;font-weight:600;font-size:0.95rem;text-decoration:none;transition:background 0.15s;}
+  .cta-btn:hover{background:#059669;}
+  .cta-note{font-size:0.75rem;color:var(--muted);margin-top:12px;}
+
+  /* SOCIAL COPY */
+  .social-section{margin-top:28px;}
+  .social-title{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:12px;}
+  .social-cards{display:flex;flex-direction:column;gap:10px;}
+  .social-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;}
+  .social-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .social-card-net{font-size:0.78rem;font-weight:600;color:var(--accent);}
+  .copy-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 12px;font-size:0.72rem;cursor:pointer;font-family:var(--font);transition:all 0.15s;}
+  .copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .copy-btn.copied{border-color:var(--accent);color:var(--accent);background:rgba(16,185,129,0.08);}
+  .social-card-text{font-size:0.82rem;color:var(--fg-muted,#9ca3af);line-height:1.7;white-space:pre-wrap;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">
+    <span class="header-badge-dot"></span>
+    Guía oficial BotTrader
+  </div>
+  <h1>Crypto para principiantes:<br/><em>entiende el mercado en 5 pasos</em></h1>
+  <p class="header-sub">Sin tecnicismos. Sin experiencia previa. Con un bot de IA que trabaja por ti.</p>
+</div>
+
+<div class="progress">
+  <div class="progress-step">
+    <div class="progress-dot done">1</div>
+    <div class="progress-line done"></div>
+  </div>
+  <div class="progress-step">
+    <div class="progress-dot done">2</div>
+    <div class="progress-line done"></div>
+  </div>
+  <div class="progress-step">
+    <div class="progress-dot active">3</div>
+    <div class="progress-line"></div>
+  </div>
+  <div class="progress-step">
+    <div class="progress-dot">4</div>
+    <div class="progress-line"></div>
+  </div>
+  <div class="progress-step">
+    <div class="progress-dot">5</div>
+  </div>
+</div>
+
+<!-- PASO 1 -->
+<div class="section">
+  <div class="section-card open">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num s1">1</div>
+      <div class="section-title-wrap">
+        <div class="section-title">¿Qué es la crypto y por qué importa?</div>
+        <div class="section-subtitle">El punto de partida · 2 minutos de lectura</div>
+      </div>
+      <span class="section-toggle">▼</span>
+    </div>
+    <div class="section-body">
+      <p>La criptomoneda es dinero digital que no controla ningún banco ni gobierno. Funciona en una red descentralizada llamada blockchain — un registro público donde todas las transacciones quedan grabadas para siempre.</p>
+
+      <div class="concept">
+        <div class="concept-emoji">₿</div>
+        <div>
+          <div class="concept-title">Bitcoin (BTC)</div>
+          <div class="concept-desc">La primera y más conocida. Creada en 2009. Funciona como el "oro digital" — reserva de valor y referencia del mercado. Cuando BTC sube, el mercado suele subir. Cuando cae, arrastra al resto.</div>
+        </div>
+      </div>
+      <div class="concept">
+        <div class="concept-emoji">Ξ</div>
+        <div>
+          <div class="concept-title">Ethereum (ETH)</div>
+          <div class="concept-desc">La segunda más importante. Más que dinero, es una plataforma para construir aplicaciones. La mayoría de los proyectos DeFi y NFT funcionan sobre Ethereum.</div>
+        </div>
+      </div>
+      <div class="concept">
+        <div class="concept-emoji">◎</div>
+        <div>
+          <div class="concept-title">Solana (SOL)</div>
+          <div class="concept-desc">Una blockchain muy rápida y barata. Las transacciones cuestan céntimos y tardan segundos. Por eso BotTrader opera sobre Solana — velocidad y coste mínimo.</div>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:16px;">
+        <strong>Clave:</strong> No necesitas entenderlo todo para empezar. Lo importante es saber que BTC marca la tendencia del mercado y que SOL es donde opera BotTrader.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PASO 2 -->
+<div class="section">
+  <div class="section-card">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num s2">2</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Cómo leer un precio de crypto</div>
+        <div class="section-subtitle">Entender qué significa cada número · 3 minutos</div>
+      </div>
+      <span class="section-toggle">▼</span>
+    </div>
+    <div class="section-body">
+      <p>Cuando BotTrader te da un precio, ves algo así:</p>
+
+      <div class="command-demo">
+        <div class="command-demo-label">Ejemplo de respuesta del bot</div>
+        <div class="command-demo-response">
+          📈 Precios reales (Coinbase):<br/>
+          BTC: $63,385.39 USD<br/>
+          ETH: $2,014.52 USD<br/>
+          SOL: $82.28 USD<br/><br/>
+          🤖 Análisis IA: El mercado muestra señales alcistas con BTC consolidándose por encima de $63,000...
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-emoji">📈</div>
+        <div>
+          <div class="concept-title">Precio actual</div>
+          <div class="concept-desc">Lo que vale 1 unidad de esa crypto en este momento en dólares. Los precios cambian cada segundo.</div>
+        </div>
+      </div>
+      <div class="concept">
+        <div class="concept-emoji">🤖</div>
+        <div>
+          <div class="concept-title">Análisis IA</div>
+          <div class="concept-desc">BotTrader interpreta automáticamente qué significan esos precios. Te dice si el mercado está alcista (subiendo) o bajista (cayendo) y qué podría pasar.</div>
+        </div>
+      </div>
+      <div class="concept">
+        <div class="concept-emoji">📊</div>
+        <div>
+          <div class="concept-title">Alcista vs Bajista</div>
+          <div class="concept-desc"><strong style="color:var(--accent);">Alcista</strong> = el precio tiende a subir. <strong style="color:#f87171;">Bajista</strong> = el precio tiende a bajar. Son los dos estados del mercado.</div>
+        </div>
+      </div>
+
+      <div class="warning">
+        <strong>Importante:</strong> Los análisis de IA son orientativos, no garantías. Úsalos como una segunda opinión, no como la única base para decisiones de inversión.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PASO 3 -->
+<div class="section">
+  <div class="section-card">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num s3">3</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Activa BotTrader en Telegram</div>
+        <div class="section-subtitle">Menos de 2 minutos · Sin registro</div>
+      </div>
+      <span class="section-toggle">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="step-item">
+        <div class="step-badge">1</div>
+        <div>
+          <div class="step-content-title">Abre Telegram</div>
+          <div class="step-content-desc">Si no tienes Telegram, descárgalo gratis desde App Store o Google Play. Es la app de mensajería donde vive BotTrader.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-badge">2</div>
+        <div>
+          <div class="step-content-title">Busca @CryptoTerminalAlpha_Bot</div>
+          <div class="step-content-desc">En el buscador de Telegram escribe ese nombre exacto o pulsa el botón de abajo. Verás el bot con el icono de BotTrader.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-badge">3</div>
+        <div>
+          <div class="step-content-title">Pulsa "Iniciar" o escribe /start</div>
+          <div class="step-content-desc">El bot te responde con el menú de comandos. Ya está activo y listo para usar.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-badge">4</div>
+        <div>
+          <div class="step-content-title">Escribe tu primer comando</div>
+          <div class="step-content-desc">Prueba con <span style="font-family:monospace;color:var(--accent);">/precio BTC</span> — recibirás el precio real de Bitcoin con análisis de IA en segundos.</div>
+        </div>
+      </div>
+
+      <div class="command-demo" style="margin-top:16px;">
+        <div class="command-demo-label">Prueba esto ahora</div>
+        <div class="command-demo-input">
+          <span class="command-demo-cmd">/precio BTC</span>
+          <span style="font-size:0.78rem;color:var(--muted);">→ precio real + análisis IA</span>
+        </div>
+        <div class="command-demo-input">
+          <span class="command-demo-cmd">/prediccion Bitcoin esta semana</span>
+          <span style="font-size:0.78rem;color:var(--muted);">→ predicción con IA</span>
+        </div>
+        <div class="command-demo-input" style="margin-bottom:0;">
+          <span class="command-demo-cmd">/autopost</span>
+          <span style="font-size:0.78rem;color:var(--muted);">→ señales cada hora automático</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PASO 4 -->
+<div class="section">
+  <div class="section-card">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num s4">4</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Usa BotTrader en tu grupo</div>
+        <div class="section-subtitle">Automatiza las señales para toda tu comunidad</div>
+      </div>
+      <span class="section-toggle">▼</span>
+    </div>
+    <div class="section-body">
+      <p>Si tienes un grupo de Telegram con amigos o comunidad interesada en crypto, puedes añadir BotTrader y que publique análisis automáticamente cada hora para todos.</p>
+
+      <div class="step-item">
+        <div class="step-badge">1</div>
+        <div>
+          <div class="step-content-title">Añade el bot a tu grupo</div>
+          <div class="step-content-desc">En tu grupo de Telegram → Añadir miembros → busca @CryptoTerminalAlpha_Bot → Añadir. Dale permisos de administrador para que pueda publicar.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-badge">2</div>
+        <div>
+          <div class="step-content-title">Activa el autopost</div>
+          <div class="step-content-desc">Escribe <span style="font-family:monospace;color:var(--accent);">/autopost</span> en el grupo. El bot confirmará que está activo y empezará a publicar análisis cada hora solo.</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-badge">3</div>
+        <div>
+          <div class="step-content-title">Disfruta del piloto automático</div>
+          <div class="step-content-desc">Tu grupo recibirá precios reales + análisis IA cada hora sin que tengas que hacer nada. Puedes pararlo cuando quieras con <span style="font-family:monospace;color:var(--accent);">/stopautopost</span>.</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>Perfecto para:</strong> admins de grupos crypto, comunidades de inversores, canales educativos, grupos de amigos que siguen el mercado.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PASO 5 -->
+<div class="section">
+  <div class="section-card">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num s5">5</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Preguntas frecuentes de principiantes</div>
+        <div class="section-subtitle">Las dudas más comunes resueltas</div>
+      </div>
+      <span class="section-toggle">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="faq-item">
+        <div class="faq-q">¿Necesito dinero para empezar?</div>
+        <div class="faq-a">No. BotTrader es gratis. No necesitas invertir nada para recibir análisis y predicciones. Solo necesitas Telegram.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Puedo perder dinero usando el bot?</div>
+        <div class="faq-a">El bot no gestiona tu dinero — solo te da información. Las decisiones de inversión las tomas tú. Nunca inviertas más de lo que puedas permitirte perder.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Los precios son reales?</div>
+        <div class="faq-a">Sí. Los precios vienen directamente de Coinbase, uno de los exchanges más fiables del mundo. Son datos en tiempo real.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Qué significa que Bitcoin sube o baja?</div>
+        <div class="faq-a">Si compraste Bitcoin a $60,000 y ahora vale $65,000 has ganado. Si vale $55,000 has perdido. El precio fluctúa constantemente — es normal en crypto.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Dónde puedo comprar crypto?</div>
+        <div class="faq-a">En exchanges como Coinbase, Binance o Kraken. Son plataformas donde puedes comprar crypto con euros. BotTrader no vende crypto — solo analiza el mercado.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Puedo fiarme de las predicciones?</div>
+        <div class="faq-a">Las predicciones son generadas por IA y son orientativas. No son infalibles. Úsalas como una perspectiva adicional, nunca como única fuente de decisión.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-box">
+  <h2>¿Listo para empezar?</h2>
+  <p>Activa BotTrader en Telegram gratis. Sin registro, sin tarjeta, sin instalaciones.</p>
+  <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" class="cta-btn">
+    📲 Activar BotTrader gratis
+  </a>
+  <div class="cta-note">🆓 Gratis · 📊 Datos reales de Coinbase · 🤖 IA incluida</div>
+</div>
+
+<!-- POSTS PARA REDES -->
+<div class="social-section">
+  <div class="social-title">Posts listos para publicar</div>
+  <div class="social-cards">
+
+    <div class="social-card">
+      <div class="social-card-header">
+        <div class="social-card-net">𝕏 Twitter / X</div>
+        <button class="copy-btn" onclick="copyPost(this, 'Guía para principiantes en crypto:\n\n₿ Bitcoin = el oro digital\nΞ Ethereum = plataforma de apps\n◎ Solana = rápida y barata\n\nNo necesitas entender todo para empezar.\n\nSolo necesitas un bot que analice el mercado por ti 👇\n\nbottrader-app.netlify.app\n\n#Bitcoin #Crypto #Telegram')">Copiar</button>
+      </div>
+      <div class="social-card-text">Guía para principiantes en crypto:
+
+₿ Bitcoin = el oro digital
+Ξ Ethereum = plataforma de apps
+◎ Solana = rápida y barata
+
+No necesitas entender todo para empezar.
+
+Solo necesitas un bot que analice el mercado por ti 👇
+
+bottrader-app.netlify.app
+
+#Bitcoin #Crypto #Telegram</div>
+    </div>
+
+    <div class="social-card">
+      <div class="social-card-header">
+        <div class="social-card-net">📸 Instagram / Facebook</div>
+        <button class="copy-btn" onclick="copyPost(this, '¿Nuevo en crypto? No te compliques 🧠\n\nEsto es todo lo que necesitas saber para empezar:\n\n₿ Bitcoin marca la tendencia del mercado\nΞ Ethereum es la plataforma de apps descentralizadas\n◎ Solana es ultrarrápida y barata\n\nY lo más importante: no necesitas entenderlo todo.\n\nBotTrader analiza el mercado por ti con IA y te lo manda directo a Telegram cada hora. Gratis.\n\nLink en bio 👆\n\n#crypto #bitcoin #ethereum #solana #principiantes #criptomonedas #trading #ia #bot #telegram #aprenderfinanzas #inversiones #finanzas #btc #inteligenciaartificial')">Copiar</button>
+      </div>
+      <div class="social-card-text">¿Nuevo en crypto? No te compliques 🧠
+
+Esto es todo lo que necesitas saber para empezar:
+
+₿ Bitcoin marca la tendencia del mercado
+Ξ Ethereum es la plataforma de apps descentralizadas
+◎ Solana es ultrarrápida y barata
+
+Y lo más importante: no necesitas entenderlo todo.
+
+BotTrader analiza el mercado por ti con IA y te lo manda directo a Telegram cada hora. Gratis.
+
+Link en bio 👆
+
+#crypto #bitcoin #ethereum #solana #principiantes #criptomonedas #trading #ia #bot #telegram #aprenderfinanzas #inversiones #finanzas #btc #inteligenciaartificial</div>
+    </div>
+
+    <div class="social-card">
+      <div class="social-card-header">
+        <div class="social-card-net">🧵 Threads</div>
+        <button class="copy-btn" onclick="copyPost(this, 'Si estás empezando en crypto y no entiendes nada, normal.\n\nTe lo resumo en 3 líneas:\n\n→ Bitcoin es el referente. Cuando sube, todo sube.\n→ Ethereum es donde viven las apps descentralizadas.\n→ Solana es la más rápida y barata del mercado.\n\nY si no quieres estar pendiente de los precios todo el día, hay un bot que lo hace por ti en Telegram.\n\nGratis. bottrader-app.netlify.app\n\n#crypto #bitcoin #principiantes #ia #bot #telegram')">Copiar</button>
+      </div>
+      <div class="social-card-text">Si estás empezando en crypto y no entiendes nada, normal.
+
+Te lo resumo en 3 líneas:
+
+→ Bitcoin es el referente. Cuando sube, todo sube.
+→ Ethereum es donde viven las apps descentralizadas.
+→ Solana es la más rápida y barata del mercado.
+
+Y si no quieres estar pendiente de los precios todo el día, hay un bot que lo hace por ti en Telegram.
+
+Gratis. bottrader-app.netlify.app
+
+#crypto #bitcoin #principiantes #ia #bot #telegram</div>
+    </div>
+
+    <div class="social-card">
+      <div class="social-card-header">
+        <div class="social-card-net">🟣 Primal (Nostr)</div>
+        <button class="copy-btn" onclick="copyPost(this, 'Para los que empiezan en crypto:\n\nBTC = dinero sin banco\nETH = internet sin intermediarios\nSOL = transacciones en segundos\n\nNo necesitas más teoría. Necesitas datos reales.\n\nBotTrader te los manda a Telegram con análisis IA. Gratis.\n\nbottrader-app.netlify.app\n\n#bitcoin #nostr #crypto #principiantes')">Copiar</button>
+      </div>
+      <div class="social-card-text">Para los que empiezan en crypto:
+
+BTC = dinero sin banco
+ETH = internet sin intermediarios
+SOL = transacciones en segundos
+
+No necesitas más teoría. Necesitas datos reales.
+
+BotTrader te los manda a Telegram con análisis IA. Gratis.
+
+bottrader-app.netlify.app
+
+#bitcoin #nostr #crypto #principiantes</div>
+    </div>
+
+    <div class="social-card">
+      <div class="social-card-header">
+        <div class="social-card-net">🎵 TikTok — Guión vídeo</div>
+        <button class="copy-btn" onclick="copyPost(this, 'GUIÓN TIKTOK — Guía crypto principiantes\n\nTexto en pantalla (1 slide por segundo):\n\n1. ¿No entiendes nada de crypto?\n2. Normal. Te lo explico en 10 segundos.\n3. Bitcoin = el oro digital 📈\n4. Ethereum = apps sin intermediarios\n5. Solana = rapidísima y barata\n6. El mercado cambia cada segundo\n7. Por eso creé un bot con IA que lo analiza solo\n8. Te manda señales a Telegram cada hora\n9. Gratis. Sin registro.\n10. Link en bio 👆\n\nHASHTAGS:\n#crypto #bitcoin #principiantes #ia #bot #telegram #criptomonedas #aprendertrading #finanzas #inversiones #btc #solana #ethereum #dinero #trading')">Copiar guión</button>
+      </div>
+      <div class="social-card-text">GUIÓN TIKTOK — Guía crypto principiantes
+
+Texto en pantalla (1 slide por segundo):
+
+1. ¿No entiendes nada de crypto? 
+2. Normal. Te lo explico en 10 segundos.
+3. Bitcoin = el oro digital 📈
+4. Ethereum = apps sin intermediarios
+5. Solana = rapidísima y barata
+6. El mercado cambia cada segundo
+7. Por eso creé un bot con IA que lo analiza solo
+8. Te manda señales a Telegram cada hora
+9. Gratis. Sin registro.
+10. Link en bio 👆</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleSection(header) {
+  var card = header.parentElement;
+  card.classList.toggle('open');
+  var body = card.querySelector('.section-body');
+  body.style.display = card.classList.contains('open') ? 'block' : 'none';
+}
+
+function copyPost(btn, text) {
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = 'Copiar';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Init
+document.querySelectorAll('.section-card').forEach(function(card) {
+  var body = card.querySelector('.section-body');
+  if (!card.classList.contains('open')) body.style.display = 'none';
+});
+</script>
+</body>
+</html>
