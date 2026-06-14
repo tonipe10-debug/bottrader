@@ -3,2316 +3,942 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="BotTrader Dashboard Demo — análisis, seguimiento de mercado y automatización para Telegram." />
   <meta name="theme-color" content="#0a0e17" />
   <title>BotTrader — Dashboard</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+
   <style>
-    /* ============ VARIABLES ============ */
     :root {
       --bg: #0a0e17;
       --surface: #111827;
-      --surface-hover: #1f2937;
+      --surface-2: #0f172a;
+      --surface-3: #151d2e;
       --fg: #e5e7eb;
       --fg-muted: #9ca3af;
+      --fg-soft: #cbd5e1;
       --border: #374151;
       --border-hover: #4b5563;
       --accent: #10b981;
       --accent-hover: #059669;
       --accent-secondary: #06b6d4;
-      --success: #34d399;
       --warning: #fbbf24;
-      --error: #f87171;
+      --danger: #f87171;
+      --success: #34d399;
+      --info: #60a5fa;
 
-      --font-display: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-code:    'Fira Code', 'Courier New', monospace;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow-lg: 0 18px 60px rgba(0,0,0,0.35);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.22);
 
-      --fw-display-bold:    700;
-      --fw-heading-bold:    700;
-      --fw-heading-semibold:600;
-      --fw-heading-medium:  500;
-      --fw-body-regular:    400;
-      --fw-body-medium:     500;
-      --fw-code-medium:     500;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
 
-      --spacing-1: 4px;  --spacing-2: 8px;   --spacing-3: 12px;
-      --spacing-4: 16px; --spacing-5: 20px;  --spacing-6: 24px;
-      --spacing-8: 32px; --spacing-10: 40px; --spacing-12: 48px;
-
-      --radius-s:      6px;
-      --radius-medium: 8px;
-      --radius-large:  12px;
-      --radius-xl:     16px;
-
-      --transition-fast:   150ms ease-out;
-      --transition-medium: 200ms ease-out;
+      --transition: 180ms ease-out;
     }
 
-    /* ============ RESET ============ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     html { scroll-behavior: smooth; }
+
     body {
-      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(6,182,212,0.08), transparent 25%),
+        radial-gradient(circle at bottom left, rgba(16,185,129,0.08), transparent 25%),
+        var(--bg);
       color: var(--fg);
-      font-family: var(--font-body);
-      font-weight: var(--fw-body-regular);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
       min-height: 100vh;
-      overflow-x: hidden;
+      line-height: 1.5;
     }
 
-    /* ============ BUTTONS ============ */
+    a { color: inherit; text-decoration: none; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      background: rgba(10,14,23,0.88);
+      backdrop-filter: blur(16px);
+      padding: var(--space-6);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .brand-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .brand-text span { color: var(--accent); }
+
+    .sidebar-label {
+      color: var(--fg-muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+
+    .nav {
+      display: grid;
+      gap: var(--space-2);
+      margin-bottom: var(--space-8);
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: var(--fg-soft);
+      border: 1px solid transparent;
+      transition: background var(--transition), border-color var(--transition), color var(--transition);
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: rgba(16,185,129,0.08);
+      border-color: rgba(16,185,129,0.18);
+      color: white;
+    }
+
+    .sidebar-card {
+      background: linear-gradient(180deg, rgba(17,24,39,0.95), rgba(15,23,42,0.95));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sidebar-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .sidebar-card p {
+      color: var(--fg-muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-bottom: var(--space-4);
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: var(--spacing-2);
-      padding: 10px 20px;
-      border-radius: var(--radius-medium);
-      font-family: var(--font-heading);
-      font-weight: var(--fw-heading-semibold);
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-      text-decoration: none;
+      gap: var(--space-2);
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 12px;
       border: 1px solid transparent;
-      letter-spacing: 0.01em;
-      white-space: nowrap;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
     }
-    .btn:active { transform: scale(0.97); }
-    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .btn:active { transform: scale(0.98); }
+
     .btn-primary {
       background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
-    }
-    .btn-sm { padding: 6px 14px; font-size: 0.78rem; }
-
-    /* ============ MOBILE TOP BAR (hidden on desktop) ============ */
-    .mobile-topbar {
-      display: none;
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      background: rgba(10,14,23,0.95);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 var(--spacing-4);
-      height: 56px;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--spacing-3);
-    }
-    .mobile-topbar-logo {
-      font-family: var(--font-display);
-      font-weight: var(--fw-display-bold);
-      font-size: 1rem;
-      color: var(--fg);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-    }
-    .mobile-topbar-logo span { color: var(--accent); }
-    .mobile-topbar-logo-icon {
-      width: 22px; height: 22px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 11px;
-    }
-    .mobile-nav-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--fg);
-      border-radius: var(--radius-medium);
-      width: 40px; height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: border-color var(--transition-fast);
-      flex-shrink: 0;
-    }
-    .mobile-nav-btn:hover { border-color: var(--border-hover); }
-
-    /* Mobile drawer overlay */
-    .mobile-drawer-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 299;
-    }
-    .mobile-drawer-overlay.open { display: block; }
-
-    /* Mobile drawer (sidebar slide-in) */
-    .mobile-drawer {
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      width: 260px;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      z-index: 300;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(-100%);
-      transition: transform 0.25s ease;
-    }
-    .mobile-drawer.open { transform: translateX(0); }
-    .mobile-drawer-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--spacing-4) var(--spacing-5);
-      border-bottom: 1px solid var(--border);
-    }
-    .mobile-drawer-logo {
-      font-family: var(--font-display);
-      font-weight: var(--fw-display-bold);
-      font-size: 1rem;
-      color: var(--fg);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-    }
-    .mobile-drawer-logo span { color: var(--accent); }
-    .mobile-drawer-close {
-      background: var(--surface-hover);
-      border: 1px solid var(--border);
-      color: var(--fg-muted);
-      border-radius: 50%;
-      width: 32px; height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: background var(--transition-fast);
-    }
-    .mobile-drawer-close:hover { background: var(--border); color: var(--fg); }
-    .mobile-drawer-nav {
-      flex: 1;
-      overflow-y: auto;
-      padding: var(--spacing-3);
-    }
-    .mobile-drawer-bottom {
-      padding: var(--spacing-3);
-      border-top: 1px solid var(--border);
+      color: white;
     }
 
-    /* ============ SIDEBAR (desktop) ============ */
-    .sidebar {
-      width: 240px;
-      flex-shrink: 0;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-    }
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-      padding: var(--spacing-6) var(--spacing-5);
-      border-bottom: 1px solid var(--border);
-      font-family: var(--font-display);
-      font-weight: var(--fw-display-bold);
-      font-size: 1.1rem;
-      color: var(--fg);
-      text-decoration: none;
-      transition: opacity var(--transition-fast);
-    }
-    .sidebar-logo:hover { opacity: 0.85; }
-    .sidebar-logo span { color: var(--accent); }
-    .sidebar-logo-icon {
-      width: 26px; height: 26px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 12px;
-      flex-shrink: 0;
-    }
-    .sidebar-nav {
-      flex: 1;
-      padding: var(--spacing-4) var(--spacing-3);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      overflow-y: auto;
-    }
-    .sidebar-section-label {
-      font-size: 0.62rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--fg-muted);
-      padding: var(--spacing-4) var(--spacing-2) var(--spacing-2);
-      opacity: 0.55;
-    }
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-3);
-      padding: 10px 12px;
-      border-radius: var(--radius-medium);
-      color: var(--fg-muted);
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: var(--fw-body-medium);
-      transition: background var(--transition-fast), color var(--transition-fast);
-      position: relative;
-    }
-    .sidebar-link:hover { background: var(--surface-hover); color: var(--fg); }
-    .sidebar-link.active { background: rgba(16,185,129,0.1); color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-hover); }
 
-    /* Active left-border indicator */
-    .sidebar-link::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 15%; bottom: 15%;
-      width: 3px;
-      background: var(--accent);
-      border-radius: 0 3px 3px 0;
-      transform: scaleY(0);
-      transform-origin: center;
-      transition: transform 0.2s ease;
-    }
-    .sidebar-link.active::before { transform: scaleY(1); }
-
-    .sidebar-link-icon {
-      width: 20px;
-      text-align: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-      transition: color var(--transition-fast);
-    }
-    .sidebar-link:hover .sidebar-link-icon,
-    .sidebar-link.active .sidebar-link-icon { color: var(--accent); }
-
-    .sidebar-link .badge {
-      margin-left: auto;
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.62rem;
-      padding: 1px 7px;
-      border-radius: 999px;
-      font-weight: var(--fw-heading-bold);
-    }
-    .sidebar-bottom {
-      padding: var(--spacing-4) var(--spacing-3);
-      border-top: 1px solid var(--border);
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border-color: rgba(16,185,129,0.28);
     }
 
-    /* Telegram CTA in sidebar */
-    .sidebar-tg-cta {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-      padding: 10px 12px;
-      border-radius: var(--radius-medium);
+    .btn-secondary:hover {
       background: rgba(16,185,129,0.08);
-      border: 1px solid rgba(16,185,129,0.18);
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: var(--fw-heading-semibold);
-      transition: background var(--transition-fast), border-color var(--transition-fast);
-      margin-bottom: var(--spacing-3);
     }
-    .sidebar-tg-cta:hover { background: rgba(16,185,129,0.14); border-color: rgba(16,185,129,0.3); }
 
-    .wallet-status {
+    .main {
+      padding: var(--space-6);
+    }
+
+    .topbar {
       display: flex;
       align-items: center;
-      gap: var(--spacing-3);
-      padding: 10px 12px;
-      border-radius: var(--radius-medium);
-      background: rgba(16,185,129,0.06);
-      border: 1px solid rgba(16,185,129,0.12);
-      transition: background var(--transition-fast), border-color var(--transition-fast);
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
     }
-    .wallet-status:hover { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.22); }
-    .wallet-dot {
-      width: 8px; height: 8px;
+
+    .title-wrap h1 {
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      line-height: 1.1;
+      margin-bottom: 6px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .title-wrap p {
+      color: var(--fg-muted);
+      max-width: 720px;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(16,185,129,0.18);
+      background: rgba(16,185,129,0.08);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--accent);
-      flex-shrink: 0;
-      animation: pulse-live 2s ease-in-out infinite;
+      box-shadow: 0 0 0 6px rgba(16,185,129,0.12);
+      animation: pulse 2s infinite;
     }
-    .wallet-info { flex: 1; min-width: 0; }
-    .wallet-label { font-size: 0.68rem; color: var(--fg-muted); line-height: 1.2; }
-    .wallet-address {
-      font-family: var(--font-code);
-      font-size: 0.7rem;
-      color: var(--accent);
-      font-weight: var(--fw-code-medium);
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--space-6);
+    }
+
+    .metrics {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: var(--space-6);
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(17,24,39,0.96), rgba(15,23,42,0.96));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-md);
+    }
+
+    .metric-label {
+      color: var(--fg-muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .metric-value {
+      font-size: 1.9rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .metric-note {
+      color: var(--fg-muted);
+      font-size: 0.88rem;
+    }
+
+    .metric-positive { color: var(--success); }
+    .metric-info { color: var(--accent-secondary); }
+    .metric-warning { color: var(--warning); }
+
+    .main-grid {
+      grid-template-columns: 1.6fr 1fr;
+      align-items: start;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+
+    .panel-title h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .panel-title span {
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+    }
+
+    .equity-box {
+      height: 280px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+        linear-gradient(90deg, rgba(55,65,81,0.18) 1px, transparent 1px),
+        linear-gradient(rgba(55,65,81,0.18) 1px, transparent 1px);
+      background-size: auto, 40px 40px, 40px 40px;
+      position: relative;
       overflow: hidden;
-      text-overflow: ellipsis;
+    }
+
+    .equity-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .equity-summary {
+      display: flex;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+      margin-top: var(--space-5);
+    }
+
+    .equity-summary div strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .equity-summary div span {
+      color: var(--fg-muted);
+      font-size: 0.86rem;
+    }
+
+    .live-prices {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .price-row:last-child { border-bottom: none; }
+
+    .coin {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .coin-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(16,185,129,0.08);
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .coin-meta small {
+      display: block;
+      color: var(--fg-muted);
+      margin-top: 2px;
+    }
+
+    .price-meta {
+      text-align: right;
+    }
+
+    .price-meta strong {
+      display: block;
+      font-size: 1.02rem;
+    }
+
+    .price-meta span {
+      font-size: 0.85rem;
+      color: var(--success);
+    }
+
+    .mini-grid {
+      grid-template-columns: 1fr 1fr;
+      margin-top: var(--space-6);
+    }
+
+    .list {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .list-item:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .list-item h4 {
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .list-item p {
+      color: var(--fg-muted);
+      font-size: 0.86rem;
+      line-height: 1.6;
+      max-width: 52ch;
+    }
+
+    .time {
+      color: var(--fg-muted);
+      font-size: 0.8rem;
       white-space: nowrap;
     }
 
-    /* ============ MAIN ============ */
-    .main {
-      flex: 1;
-      min-width: 0;
-      padding: var(--spacing-8);
-      overflow-y: auto;
+    .table-wrap {
+      overflow-x: auto;
     }
 
-    /* ============ TOP BAR ============ */
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: var(--spacing-8);
-      flex-wrap: wrap;
-      gap: var(--spacing-4);
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
     }
-    .top-bar-left { display: flex; align-items: center; gap: var(--spacing-4); }
-    .page-title { font-family: var(--font-heading); font-weight: var(--fw-heading-bold); font-size: 1.4rem; }
-    .live-indicator {
+
+    th, td {
+      text-align: left;
+      padding: 14px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.9rem;
+    }
+
+    th {
+      color: var(--fg-muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    td strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.72rem;
-      color: var(--success);
-      font-weight: var(--fw-body-medium);
-    }
-    .live-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--success);
-      animation: pulse-live 1.5s ease-in-out infinite;
-    }
-    @keyframes pulse-live {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
-    }
-    .top-bar-right { display: flex; align-items: center; gap: var(--spacing-3); }
-    .top-time {
-      font-family: var(--font-code);
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-      font-weight: var(--fw-code-medium);
-    }
-    .notif-btn {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--fg-muted);
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-      position: relative;
-    }
-    .notif-btn:hover { border-color: var(--border-hover); color: var(--fg); }
-    .notif-btn:active { transform: scale(0.92); }
-    .notif-dot {
-      position: absolute;
-      top: 6px; right: 6px;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--bg);
-    }
-
-    /* ============ METRICS ============ */
-    .metrics-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--spacing-4);
-      margin-bottom: var(--spacing-6);
-    }
-    .metric-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-medium);
-      padding: var(--spacing-5);
-      animation: metricUp 0.45s ease-out forwards;
-      opacity: 0;
-      transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
-    }
-    .metric-card:hover { border-color: rgba(16,185,129,0.15); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-    .metric-card:nth-child(1) { animation-delay: 0.05s; }
-    .metric-card:nth-child(2) { animation-delay: 0.10s; }
-    .metric-card:nth-child(3) { animation-delay: 0.15s; }
-    .metric-card:nth-child(4) { animation-delay: 0.20s; }
-    @keyframes metricUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .metric-label {
-      font-size: 0.72rem;
-      color: var(--fg-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: var(--spacing-2);
-    }
-    .metric-value {
-      font-family: var(--font-display);
-      font-weight: var(--fw-display-bold);
-      font-size: 1.5rem;
-      line-height: 1.2;
-    }
-    .metric-value.green { color: var(--accent); }
-    .metric-value.white { color: var(--fg); }
-    .metric-change {
-      font-size: 0.72rem;
-      margin-top: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .metric-change.up   { color: var(--success); }
-    .metric-change.down { color: var(--error); }
-
-    /* ============ CARDS ============ */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-6);
-      margin-bottom: var(--spacing-6);
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-medium);
-      transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
-    }
-    .card:hover { border-color: rgba(16,185,129,0.1); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--spacing-5) var(--spacing-6) 0;
-    }
-    .card-title  { font-family: var(--font-heading); font-weight: var(--fw-heading-semibold); font-size: 0.95rem; }
-    .card-subtitle { font-size: 0.72rem; color: var(--fg-muted); margin-top: 2px; }
-    .card-body   { padding: var(--spacing-5) var(--spacing-6) var(--spacing-6); }
-    .card-header .btn:hover { background: rgba(55,65,81,0.25) !important; }
-
-    /* Strategy progress bars */
-    .strategy-progress { display: flex; flex-direction: column; gap: var(--spacing-4); margin-top: var(--spacing-3); }
-    .strategy-row { display: flex; align-items: center; gap: var(--spacing-4); }
-    .strategy-row-info { flex: 1; min-width: 0; }
-    .strategy-row-name { font-size: 0.85rem; font-weight: var(--fw-heading-medium); margin-bottom: 2px; }
-    .strategy-row-meta { font-size: 0.72rem; color: var(--fg-muted); }
-    .strategy-bar {
-      height: 6px;
-      background: rgba(55,65,81,0.5);
-      border-radius: 999px;
-      overflow: hidden;
-      flex: 1;
-      max-width: 200px;
-    }
-    .strategy-bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.8s ease;
-    }
-    .strategy-bar-fill.green { background: var(--accent); }
-    .strategy-bar-fill.cyan  { background: var(--accent-secondary); }
-    .strategy-bar-fill.gold  { background: var(--warning); }
-    .strategy-row-pnl {
-      font-family: var(--font-code);
-      font-size: 0.82rem;
-      font-weight: var(--fw-code-medium);
-      min-width: 60px;
-      text-align: right;
-    }
-    .strategy-row-pnl.pos { color: var(--accent); }
-    .strategy-row-pnl.neg { color: var(--error); }
-
-    /* ============ TABLE ============ */
-    .table-section { margin-bottom: var(--spacing-6); }
-    .table-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    table { width: 100%; border-collapse: collapse; min-width: 480px; }
-    thead th {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--fg-muted);
-      font-weight: var(--fw-heading-semibold);
-      padding: var(--spacing-3) var(--spacing-4);
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    tbody td {
-      padding: var(--spacing-3) var(--spacing-4);
-      font-size: 0.85rem;
-      border-bottom: 1px solid rgba(55,65,81,0.3);
-      white-space: nowrap;
-    }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: rgba(55,65,81,0.12); }
-    .pair-label  { font-family: var(--font-code); font-weight: var(--fw-code-medium); font-size: 0.82rem; }
-    .tag {
-      display: inline-block;
-      font-size: 0.68rem;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-weight: var(--fw-heading-medium);
-      transition: opacity var(--transition-fast);
-    }
-    .tag:hover { opacity: 0.8; }
-    .tag.long  { background: rgba(16,185,129,0.1);  color: var(--accent); }
-    .tag.short { background: rgba(248,113,113,0.1); color: var(--error); }
-    .pnl-pos { color: var(--accent); font-family: var(--font-code); font-weight: var(--fw-code-medium); }
-    .pnl-neg { color: var(--error);  font-family: var(--font-code); font-weight: var(--fw-code-medium); }
-    .status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; }
-    .status-pill-dot { width: 6px; height: 6px; border-radius: 50%; }
-    .status-pill-dot.active  { background: var(--accent); }
-    .status-pill-dot.pending { background: var(--warning); }
-    .status-pill-dot.closed  { background: var(--fg-muted); }
-
-    /* ============ ACTIVITY + ALERTS ============ */
-    .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-6); }
-    .activity-item {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--spacing-3);
-      padding: var(--spacing-3) 0;
-      border-bottom: 1px solid rgba(55,65,81,0.2);
-      animation: itemFadeIn 0.3s ease-out forwards;
-      opacity: 0;
-    }
-    .activity-item:last-child { border-bottom: none; }
-    .activity-item:nth-child(1) { animation-delay: 0.05s; }
-    .activity-item:nth-child(2) { animation-delay: 0.10s; }
-    .activity-item:nth-child(3) { animation-delay: 0.15s; }
-    .activity-item:nth-child(4) { animation-delay: 0.20s; }
-    .activity-item:nth-child(5) { animation-delay: 0.25s; }
-    @keyframes itemFadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .activity-icon {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 0.8rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .activity-icon.buy  { background: rgba(16,185,129,0.1);  color: var(--accent); }
-    .activity-icon.sell { background: rgba(248,113,113,0.1); color: var(--error); }
-    .activity-icon.info { background: rgba(6,182,212,0.1);   color: var(--accent-secondary); }
-    .activity-content { flex: 1; min-width: 0; }
-    .activity-title { font-size: 0.85rem; font-weight: var(--fw-heading-medium); }
-    .activity-meta  { font-size: 0.72rem; color: var(--fg-muted); margin-top: 1px; }
-    .activity-time  { font-size: 0.7rem; color: var(--fg-muted); white-space: nowrap; font-family: var(--font-code); }
-
-    .alert-item {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--spacing-3);
-      padding: var(--spacing-3) 0;
-      border-bottom: 1px solid rgba(55,65,81,0.2);
-      animation: itemFadeIn 0.3s ease-out forwards;
-      opacity: 0;
-    }
-    .alert-item:last-child { border-bottom: none; }
-    .alert-item:nth-child(1) { animation-delay: 0.05s; }
-    .alert-item:nth-child(2) { animation-delay: 0.10s; }
-    .alert-item:nth-child(3) { animation-delay: 0.15s; }
-    .alert-item:nth-child(4) { animation-delay: 0.20s; }
-    .alert-item:nth-child(5) { animation-delay: 0.25s; }
-    .alert-icon {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .alert-icon.warn { background: rgba(251,191,36,0.1);  color: var(--warning); }
-    .alert-icon.ok   { background: rgba(16,185,129,0.1);  color: var(--accent); }
-    .alert-icon.info { background: rgba(6,182,212,0.1);   color: var(--accent-secondary); }
-    .alert-content { flex: 1; min-width: 0; }
-    .alert-title { font-size: 0.85rem; font-weight: var(--fw-heading-medium); }
-    .alert-meta  { font-size: 0.72rem; color: var(--fg-muted); margin-top: 1px; }
-    .alert-time  { font-size: 0.7rem; color: var(--fg-muted); white-space: nowrap; font-family: var(--font-code); }
-
-    /* ============ VIEW SECTIONS ============ */
-    .view-section { display: none; }
-    .view-section.active { display: block; animation: viewFadeIn 0.25s ease-out; }
-    @keyframes viewFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .view-section.active tbody tr {
-      animation: rowFadeIn 0.3s ease-out forwards;
-      opacity: 0;
-    }
-    .view-section.active tbody tr:nth-child(1) { animation-delay: 0.04s; }
-    .view-section.active tbody tr:nth-child(2) { animation-delay: 0.08s; }
-    .view-section.active tbody tr:nth-child(3) { animation-delay: 0.12s; }
-    .view-section.active tbody tr:nth-child(4) { animation-delay: 0.16s; }
-    .view-section.active tbody tr:nth-child(5) { animation-delay: 0.20s; }
-    .view-section.active tbody tr:nth-child(6) { animation-delay: 0.24s; }
-    @keyframes rowFadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ============ FILTERS ============ */
-    .filter-row {
-      display: flex;
-      gap: var(--spacing-3);
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: var(--spacing-4);
-    }
-    .filter-row select, .filter-row input[type="text"] {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-medium);
-      padding: 8px 12px;
-      color: var(--fg);
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-    }
-    .filter-row select:focus, .filter-row input[type="text"]:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.15);
-    }
-    .filter-row select:hover, .filter-row input[type="text"]:hover {
-      border-color: var(--border-hover);
-    }
-
-    /* ============ ESTRATEGIAS ============ */
-    .estrategia-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-medium);
-      padding: var(--spacing-5);
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-5);
-      transition: border-color var(--transition-medium), box-shadow var(--transition-medium);
-    }
-    .estrategia-card + .estrategia-card { margin-top: var(--spacing-3); }
-    .estrategia-card:hover { border-color: rgba(16,185,129,0.15); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-    .estrategia-card.en-pausa { opacity: 0.6; }
-    .estrategia-info { flex: 1; min-width: 0; }
-    .estrategia-name { font-family: var(--font-heading); font-weight: var(--fw-heading-semibold); font-size: 0.92rem; }
-    .estrategia-meta { font-size: 0.78rem; color: var(--fg-muted); margin-top: 2px; }
-    .estrategia-status { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; }
-    .estrategia-status .dot { width: 6px; height: 6px; border-radius: 50%; }
-    .estrategia-status .dot.on  { background: var(--accent); }
-    .estrategia-status .dot.off { background: var(--fg-muted); }
-    .estrategia-pnl {
-      font-family: var(--font-code);
-      font-size: 0.82rem;
-      font-weight: var(--fw-code-medium);
-      min-width: 60px;
-      text-align: right;
-    }
-    .estrategia-pnl.pos { color: var(--accent); }
-    .estrategia-pnl.neutral { color: var(--fg-muted); }
-    .estrategia-actions { display: flex; align-items: center; gap: var(--spacing-2); }
-    .estrategia-link {
-      font-size: 0.72rem;
-      color: var(--accent);
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: color var(--transition-fast);
-      padding: 4px 0;
-    }
-    .estrategia-link:hover { color: var(--accent-hover); text-decoration: underline; }
-    .estrategia-card.en-pausa .estrategia-link { color: var(--fg-muted); }
-
-    /* ============ SETTINGS ============ */
-    .settings-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-6);
-      margin-bottom: var(--spacing-6);
-    }
-    .setting-group {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-medium);
-      padding: var(--spacing-6);
-    }
-    .setting-group-title {
-      font-family: var(--font-heading);
-      font-weight: var(--fw-heading-semibold);
-      font-size: 0.95rem;
-      margin-bottom: var(--spacing-5);
-      padding-bottom: var(--spacing-3);
-      border-bottom: 1px solid var(--border);
-    }
-    .setting-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--spacing-3) 0;
-      border-bottom: 1px solid rgba(55,65,81,0.2);
-      gap: var(--spacing-4);
-      transition: background var(--transition-fast);
-    }
-    .setting-row:hover { background: rgba(55,65,81,0.05); }
-    .setting-row:last-child { border-bottom: none; }
-    .setting-label { font-size: 0.88rem; }
-    .setting-desc  { font-size: 0.72rem; color: var(--fg-muted); margin-top: 2px; }
-    .setting-control { flex-shrink: 0; }
-
-    /* Toggle switch */
-    .toggle-switch {
-      width: 40px; height: 22px;
-      border-radius: 999px;
-      background: var(--border);
-      cursor: pointer;
-      position: relative;
-      transition: background var(--transition-fast);
-      flex-shrink: 0;
-      border: none;
-    }
-    .toggle-switch.on { background: var(--accent); }
-    .toggle-switch::after {
-      content: '';
-      position: absolute;
-      top: 2px; left: 2px;
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: #fff;
-      transition: transform var(--transition-fast);
-    }
-    .toggle-switch.on::after { transform: translateX(18px); }
-    .toggle-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .toggle-switch:hover { opacity: 0.85; }
-
-    /* Setting selects */
-    .setting-select {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-medium);
       padding: 6px 10px;
-      color: var(--fg);
-      font-family: var(--font-body);
-      font-size: 0.82rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid transparent;
     }
-    .setting-select:focus { outline: none; border-color: var(--accent); }
 
-    /* ============ MODAL ============ */
-    .modal-overlay {
+    .tag.green {
+      color: var(--success);
+      background: rgba(52,211,153,0.08);
+      border-color: rgba(52,211,153,0.16);
+    }
+
+    .tag.cyan {
+      color: var(--accent-secondary);
+      background: rgba(6,182,212,0.08);
+      border-color: rgba(6,182,212,0.16);
+    }
+
+    .tag.yellow {
+      color: var(--warning);
+      background: rgba(251,191,36,0.08);
+      border-color: rgba(251,191,36,0.16);
+    }
+
+    .tag.red {
+      color: var(--danger);
+      background: rgba(248,113,113,0.08);
+      border-color: rgba(248,113,113,0.16);
+    }
+
+    .footer-note {
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+      margin-top: var(--space-6);
+      text-align: center;
+    }
+
+    .mobile-top {
       display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10,14,23,0.8);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: var(--spacing-4);
+      margin-bottom: var(--space-5);
     }
-    .modal-overlay.active { display: flex; }
-    .modal-box {
-      background: var(--surface);
+
+    .menu-btn {
+      background: transparent;
       border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: var(--spacing-8);
-      max-width: 480px;
-      width: 100%;
-      animation: modalIn 0.2s ease-out;
-      position: relative;
-    }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.96) translateY(6px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    .modal-close {
-      position: absolute;
-      top: var(--spacing-4); right: var(--spacing-4);
-      background: var(--surface-hover);
-      border: 1px solid var(--border);
-      color: var(--fg-muted);
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      font-size: 14px;
+      color: var(--fg);
+      border-radius: 12px;
+      padding: 10px 14px;
       cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: background var(--transition-fast), color var(--transition-fast);
-    }
-    .modal-close:hover { background: var(--border); color: var(--fg); }
-    .modal-title { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; color: var(--fg); margin-bottom: var(--spacing-6); padding-right: var(--spacing-8); }
-    .modal-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--spacing-2) 0;
-      border-bottom: 1px solid rgba(55,65,81,0.3);
-      font-size: 0.88rem;
-      gap: var(--spacing-4);
-    }
-    .modal-row:last-of-type { border-bottom: none; }
-    .modal-label { color: var(--fg-muted); }
-    .modal-value { color: var(--fg); font-family: var(--font-code); font-size: 0.82rem; text-align: right; }
-    .modal-note {
-      margin-top: var(--spacing-4);
-      padding: var(--spacing-3);
-      background: rgba(16,185,129,0.06);
-      border-left: 3px solid var(--accent);
-      border-radius: var(--radius-s);
-      font-size: 0.82rem;
-      color: var(--fg-muted);
-      line-height: 1.6;
-    }
-    .modal-pnl     { color: var(--accent); font-weight: 600; }
-    .modal-pnl.neg { color: var(--error); }
-
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 1100px) {
-      .metrics-row { grid-template-columns: repeat(2, 1fr); }
-      .dashboard-grid { grid-template-columns: 1fr; }
-      .bottom-grid    { grid-template-columns: 1fr; }
-      .settings-grid  { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 768px) {
-      /* Hide desktop sidebar, show mobile topbar */
-      .sidebar { display: none; }
-      .mobile-topbar { display: flex; }
-      /* Remove top margin from main since topbar handles it */
-      body { flex-direction: column; }
-      .main { padding: var(--spacing-4); }
-      .top-bar { margin-bottom: var(--spacing-5); }
-      .top-bar-right { width: 100%; justify-content: space-between; }
-      .estrategia-card { flex-wrap: wrap; }
-      .estrategia-info { flex-basis: 100%; }
-      .estrategia-actions { margin-left: auto; }
-      .filter-row select, .filter-row input[type="text"] { flex: 1 1 140px; min-width: 0; }
+    @media (max-width: 1180px) {
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .main-grid,
+      .mini-grid { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 480px) {
-      .metrics-row { grid-template-columns: 1fr; }
-      .main { padding: var(--spacing-3); }
-      .card-body { padding: var(--spacing-4); }
-      .card-header { padding: var(--spacing-4) var(--spacing-4) 0; }
-      .metric-value { font-size: 1.25rem; }
-      .page-title   { font-size: 1.1rem; }
-      .btn     { min-height: 44px; }
-      .btn-sm  { min-height: 36px; }
-      .estrategia-card { padding: var(--spacing-4); }
-      .filter-row { flex-direction: column; }
-      .filter-row select, .filter-row input[type="text"] { width: 100%; }
-      .modal-box { padding: var(--spacing-6); }
-      .setting-row { flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: min(320px, 86vw);
+        transform: translateX(-100%);
+        transition: transform 220ms ease-out;
+        z-index: 50;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .main { padding: 20px; }
     }
 
-    /* ============ WALLET MODAL ============ */
-    .wallet-modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(10,14,23,0.85); backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px); z-index: 3000;
-      align-items: center; justify-content: center; padding: var(--spacing-4);
+    @media (max-width: 640px) {
+      .metrics { grid-template-columns: 1fr; }
+      .title-wrap h1 { font-size: 1.7rem; }
+      .card { padding: 18px; }
     }
-    .wallet-modal-overlay.active { display: flex; }
-    .wallet-modal-box {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-xl); padding: var(--spacing-8);
-      max-width: 400px; width: 100%;
-      animation: modalIn 0.2s ease-out; position: relative;
-    }
-    .wallet-modal-title {
-      font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600;
-      margin-bottom: var(--spacing-2); color: var(--fg);
-    }
-    .wallet-modal-sub { font-size: 0.82rem; color: var(--fg-muted); margin-bottom: var(--spacing-6); line-height: 1.6; }
-    .wallet-options { display: flex; flex-direction: column; gap: var(--spacing-3); margin-bottom: var(--spacing-5); }
-    .wallet-option {
-      display: flex; align-items: center; gap: var(--spacing-4);
-      padding: var(--spacing-4); background: var(--bg);
-      border: 1px solid var(--border); border-radius: var(--radius-medium);
-      cursor: pointer; transition: border-color var(--transition-fast), background var(--transition-fast);
-    }
-    .wallet-option:hover { border-color: var(--accent); background: rgba(16,185,129,0.04); }
-    .wallet-option-icon { font-size: 1.5rem; flex-shrink: 0; }
-    .wallet-option-name { font-weight: 600; font-size: 0.9rem; }
-    .wallet-option-desc { font-size: 0.75rem; color: var(--fg-muted); }
-    .wallet-modal-note { font-size: 0.75rem; color: var(--fg-muted); text-align: center; line-height: 1.5; }
-    .wallet-modal-close {
-      position: absolute; top: var(--spacing-4); right: var(--spacing-4);
-      background: var(--surface-hover); border: 1px solid var(--border);
-      color: var(--fg-muted); width: 30px; height: 30px; border-radius: 50%;
-      font-size: 13px; cursor: pointer; display: grid; place-items: center;
-      transition: background var(--transition-fast);
-    }
-    .wallet-modal-close:hover { background: var(--border); color: var(--fg); }
 
-    /* ============ TOAST ============ */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px; z-index: 4000;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-medium); padding: 12px 18px;
-      font-size: 0.85rem; color: var(--fg);
-      display: flex; align-items: center; gap: 10px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      transform: translateY(80px); opacity: 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      max-width: 320px;
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast-icon { font-size: 1rem; flex-shrink: 0; }
-
-    /* ============ EQUITY CHART ============ */
-    .equity-chart-wrap { position: relative; width: 100%; height: 120px; margin-top: var(--spacing-4); }
-    .equity-chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
-    .equity-label { font-size: 0.72rem; color: var(--fg-muted); margin-bottom: var(--spacing-2); }
-    .equity-value { font-family: var(--font-code); font-size: 1.2rem; font-weight: 600; color: var(--accent); }
-    .equity-change { font-size: 0.72rem; color: var(--success); }
-
-    /* ============ REDUCED MOTION ============ */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
-      .metric-card, .activity-item, .alert-item { opacity: 1; }
-      .view-section.active tbody tr { opacity: 1; }
     }
   </style>
 </head>
 <body>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <a href="https://bottrader-app.netlify.app/" class="brand">
+        <div class="brand-icon">⟠</div>
+        <div class="brand-text">Bot<span>Trader</span></div>
+      </a>
 
-  <!-- ============ MOBILE TOP BAR ============ -->
-  <div class="mobile-topbar" id="mobileTopbar">
-    <a href="index.html" class="mobile-topbar-logo" aria-label="BotTrader — Inicio">
-      <span class="mobile-topbar-logo-icon" aria-hidden="true">⟠</span>
-      Bot<span>Trader</span>
-    </a>
-    <button class="mobile-nav-btn" id="mobileNavBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
-  </div>
+      <p class="sidebar-label">Vista demo</p>
+      <nav class="nav">
+        <a href="#overview" class="active">📊 Resumen</a>
+        <a href="#market">📈 Mercado</a>
+        <a href="#watchlist">👀 Seguimiento</a>
+        <a href="#activity">🔔 Actividad</a>
+        <a href="#alerts">📣 Alertas</a>
+      </nav>
 
-  <!-- Mobile drawer overlay -->
-  <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
-
-  <!-- Mobile drawer -->
-  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-    <div class="mobile-drawer-header">
-      <a href="index.html" class="mobile-drawer-logo" aria-label="BotTrader — Inicio">
-        <span aria-hidden="true">⟠ Bot</span><span>Trader</span>
-      </a>
-      <button class="mobile-drawer-close" id="drawerClose" aria-label="Cerrar menú">✕</button>
-    </div>
-    <nav class="mobile-drawer-nav" aria-label="Navegación del dashboard">
-      <div class="sidebar-section-label">Navegación</div>
-      <a href="#" class="sidebar-link active" data-view="section-dashboard">
-        <span class="sidebar-link-icon" aria-hidden="true">◉</span>Dashboard
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-estrategias">
-        <span class="sidebar-link-icon" aria-hidden="true">▣</span>Estrategias
-        <span class="badge">7</span>
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-trading">
-        <span class="sidebar-link-icon" aria-hidden="true">⇅</span>Trading
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-historial">
-        <span class="sidebar-link-icon" aria-hidden="true">☰</span>Historial
-      </a>
-      <div class="sidebar-section-label" style="margin-top:var(--spacing-4);">Monitor</div>
-      <a href="#" class="sidebar-link" data-view="section-alertas">
-        <span class="sidebar-link-icon" aria-hidden="true">⚠</span>Alertas
-        <span class="badge" style="background:var(--warning);color:#000;">3</span>
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-ajustes">
-        <span class="sidebar-link-icon" aria-hidden="true">⚙</span>Ajustes
-      </a>
-    </nav>
-    <div class="mobile-drawer-bottom">
-      <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="sidebar-tg-cta">
-        <span>📲</span> Abrir en Telegram
-      </a>
-      <div class="wallet-status">
-        <div class="wallet-dot" aria-hidden="true"></div>
-        <div class="wallet-info">
-          <div class="wallet-label">Wallet conectada</div>
-          <div class="wallet-address">8xR3...kP9m</div>
-        </div>
+      <div class="sidebar-card">
+        <h3>Producto orientado a Telegram</h3>
+        <p>
+          Este dashboard es una demo visual para enseñar cómo se presenta la información de BotTrader. El flujo principal del producto ocurre dentro de Telegram.
+        </p>
+        <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Abrir bot</a>
       </div>
-    </div>
-  </div>
+    </aside>
 
-  <!-- ============ SIDEBAR (desktop) ============ -->
-  <aside class="sidebar" aria-label="Navegación lateral">
-    <a href="index.html" class="sidebar-logo" aria-label="BotTrader — Volver al inicio">
-      <span class="sidebar-logo-icon" aria-hidden="true">⟠</span>
-      Bot<span>Trader</span>
-    </a>
-    <nav class="sidebar-nav" aria-label="Secciones del dashboard">
-      <div class="sidebar-section-label">Navegación</div>
-      <a href="#" class="sidebar-link active" data-view="section-dashboard">
-        <span class="sidebar-link-icon" aria-hidden="true">◉</span>
-        Dashboard
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-estrategias">
-        <span class="sidebar-link-icon" aria-hidden="true">▣</span>
-        Estrategias
-        <span class="badge">7</span>
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-trading">
-        <span class="sidebar-link-icon" aria-hidden="true">⇅</span>
-        Trading
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-historial">
-        <span class="sidebar-link-icon" aria-hidden="true">☰</span>
-        Historial
-      </a>
-      <div class="sidebar-section-label" style="margin-top:var(--spacing-4);">Monitor</div>
-      <a href="#" class="sidebar-link" data-view="section-alertas">
-        <span class="sidebar-link-icon" aria-hidden="true">⚠</span>
-        Alertas
-        <span class="badge" style="background:var(--warning);color:#000;">3</span>
-      </a>
-      <a href="#" class="sidebar-link" data-view="section-ajustes">
-        <span class="sidebar-link-icon" aria-hidden="true">⚙</span>
-        Ajustes
-      </a>
-    </nav>
-    <div class="sidebar-bottom">
-      <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="sidebar-tg-cta">
-        <span>📲</span> Abrir en Telegram
-      </a>
-      <div class="wallet-status" id="wallet-btn" style="cursor:pointer;" title="Gestionar wallet">
-        <div class="wallet-dot" aria-hidden="true"></div>
-        <div class="wallet-info">
-          <div class="wallet-label">Demo — conectar wallet</div>
-          <div class="wallet-address">Haz clic aquí</div>
-        </div>
-        <span style="font-size:0.7rem;color:var(--accent);margin-left:auto;">→</span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ============ MAIN ============ -->
-  <div class="main" id="mainContent">
-
-    <!-- Top bar -->
-    <div class="top-bar">
-      <div class="top-bar-left">
-        <h1 class="page-title" id="pageTitle">Dashboard</h1>
-        <span class="live-indicator" aria-live="polite">
-          <span class="live-dot" aria-hidden="true"></span>
-          En vivo
-        </span>
-      </div>
-      <div class="top-bar-right">
-        <time class="top-time" id="liveTime" aria-label="Hora UTC">--:--:-- UTC</time>
-        <button class="notif-btn" aria-label="Notificaciones (3 sin leer)">
-          🔔
-          <span class="notif-dot" aria-hidden="true"></span>
-        </button>
-      </div>
-    </div>
-
-    <!-- ================================================
-         SECTION: DASHBOARD
-         ================================================ -->
-    <div class="view-section active" id="section-dashboard" role="region" aria-labelledby="pageTitle">
-
-      <div class="metrics-row">
-        <div class="metric-card">
-          <div class="metric-label">P&amp;L Total</div>
-          <div class="metric-value green">+2,847.32</div>
-          <div class="metric-change up">▲ +12.4% esta semana</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Win Rate</div>
-          <div class="metric-value white">68.4%</div>
-          <div class="metric-change up">▲ +2.1% vs. mes pasado</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Estrategias activas</div>
-          <div class="metric-value white">7</div>
-          <div class="metric-change" style="color:var(--fg-muted);">3 en pausa · 4 operando</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Trades 24h</div>
-          <div class="metric-value white">143</div>
-          <div class="metric-change" style="color:var(--fg-muted);">Volumen: 1,240 SOL</div>
-        </div>
+    <main class="main">
+      <div class="mobile-top">
+        <a href="https://bottrader-app.netlify.app/" class="brand">
+          <div class="brand-icon">⟠</div>
+          <div class="brand-text">Bot<span>Trader</span></div>
+        </a>
+        <button class="menu-btn" id="menuBtn">☰</button>
       </div>
 
-      <!-- Equity chart + live prices -->
-      <div class="dashboard-grid" style="margin-bottom:var(--spacing-6);">
-        <div class="card">
-          <div class="card-header">
+      <section id="overview">
+        <div class="topbar">
+          <div class="title-wrap">
+            <h1>Dashboard demo</h1>
+            <p>
+              Una vista visual de cómo BotTrader puede ayudarte a seguir mercado, recibir contexto y organizar mejor oportunidades, alertas y actividad desde Telegram.
+            </p>
+          </div>
+          <div class="status-chip">
+            <span class="status-dot"></span>
+            Demo en vivo · 21:06 UTC
+          </div>
+        </div>
+
+        <div class="grid metrics">
+          <div class="card">
+            <div class="metric-label">Activos monitorizados</div>
+            <div class="metric-value metric-info">27</div>
+            <div class="metric-note">Cobertura activa de pares y activos relevantes</div>
+          </div>
+
+          <div class="card">
+            <div class="metric-label">Señales detectadas</div>
+            <div class="metric-value metric-positive">143</div>
+            <div class="metric-note">Eventos destacados durante las últimas 24h</div>
+          </div>
+
+          <div class="card">
+            <div class="metric-label">Resúmenes generados</div>
+            <div class="metric-value">58</div>
+            <div class="metric-note">Mensajes y contexto listos para revisar o compartir</div>
+          </div>
+
+          <div class="card">
+            <div class="metric-label">Módulos activos</div>
+            <div class="metric-value metric-warning">7</div>
+            <div class="metric-note">Seguimiento, análisis, alertas y automatización</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid main-grid">
+        <section class="card" id="market">
+          <div class="panel-title">
+            <h2>Actividad y contexto del mercado</h2>
+            <span>Últimos 30 días · vista demo</span>
+          </div>
+
+          <div class="equity-box">
+            <svg class="equity-svg" viewBox="0 0 1000 280" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="lineGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#10b981" />
+                  <stop offset="100%" stop-color="#06b6d4" />
+                </linearGradient>
+                <linearGradient id="areaFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(16,185,129,0.30)" />
+                  <stop offset="100%" stop-color="rgba(16,185,129,0.00)" />
+                </linearGradient>
+              </defs>
+              <path d="M0 220 C60 210, 120 190, 180 194 S300 130, 360 138 S480 90, 540 110 S660 78, 720 92 S840 58, 900 76 S960 70, 1000 42 L1000 280 L0 280 Z"
+                    fill="rgba(16,185,129,0.12)"></path>
+              <path d="M0 220 C60 210, 120 190, 180 194 S300 130, 360 138 S480 90, 540 110 S660 78, 720 92 S840 58, 900 76 S960 70, 1000 42"
+                    stroke="url(#lineGlow)"
+                    stroke-width="4"
+                    fill="none"
+                    stroke-linecap="round"></path>
+            </svg>
+          </div>
+
+          <div class="equity-summary">
             <div>
-              <div class="card-title">Curva de equity</div>
-              <div class="card-subtitle">Rendimiento acumulado — últimos 30 días</div>
+              <strong>+31%</strong>
+              <span>Incremento de actividad detectada</span>
             </div>
-            <div style="text-align:right;">
-              <div style="font-family:var(--font-code);font-size:1.1rem;font-weight:600;color:var(--accent);">+2,847.32</div>
-              <div style="font-size:0.72rem;color:var(--success);">▲ +12.4% este mes</div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="equity-chart-wrap">
-              <svg id="equity-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="equityGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
-                    <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <line x1="0" y1="30" x2="600" y2="30" stroke="#374151" stroke-width="0.5" stroke-dasharray="4,4"/>
-                <line x1="0" y1="60" x2="600" y2="60" stroke="#374151" stroke-width="0.5" stroke-dasharray="4,4"/>
-                <line x1="0" y1="90" x2="600" y2="90" stroke="#374151" stroke-width="0.5" stroke-dasharray="4,4"/>
-                <path id="equity-area" fill="url(#equityGrad)"/>
-                <path id="equity-line" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle id="equity-dot" r="4" fill="#10b981" stroke="#0a0e17" stroke-width="2"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
             <div>
-              <div class="card-title">Precios en vivo</div>
-              <div class="card-subtitle">Simulación · actualiza cada 8s</div>
+              <strong>12</strong>
+              <span>Eventos relevantes destacados esta semana</span>
             </div>
-            <div class="live-indicator"><span class="live-dot"></span>En vivo</div>
-          </div>
-          <div class="card-body">
-            <div style="display:flex;flex-direction:column;gap:var(--spacing-4);">
-              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--spacing-3) 0;border-bottom:1px solid rgba(55,65,81,0.3);">
-                <div style="display:flex;align-items:center;gap:var(--spacing-3);">
-                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(247,147,26,0.15);display:grid;place-items:center;">₿</div>
-                  <div><div style="font-weight:600;font-size:0.88rem;">Bitcoin</div><div style="font-size:0.72rem;color:var(--fg-muted);">BTC</div></div>
-                </div>
-                <div style="text-align:right;">
-                  <div id="btc-price" style="font-family:var(--font-code);font-weight:600;transition:color 0.3s;">$73,697</div>
-                  <div id="btc-change" style="font-size:0.72rem;color:var(--success);">▲ +2.4%</div>
-                </div>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--spacing-3) 0;border-bottom:1px solid rgba(55,65,81,0.3);">
-                <div style="display:flex;align-items:center;gap:var(--spacing-3);">
-                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(98,126,234,0.15);display:grid;place-items:center;">Ξ</div>
-                  <div><div style="font-weight:600;font-size:0.88rem;">Ethereum</div><div style="font-size:0.72rem;color:var(--fg-muted);">ETH</div></div>
-                </div>
-                <div style="text-align:right;">
-                  <div id="eth-price" style="font-family:var(--font-code);font-weight:600;transition:color 0.3s;">$2,014</div>
-                  <div id="eth-change" style="font-size:0.72rem;color:var(--success);">▲ +1.8%</div>
-                </div>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--spacing-3) 0;">
-                <div style="display:flex;align-items:center;gap:var(--spacing-3);">
-                  <div style="width:32px;height:32px;border-radius:50%;background:rgba(20,241,149,0.1);display:grid;place-items:center;">◎</div>
-                  <div><div style="font-weight:600;font-size:0.88rem;">Solana</div><div style="font-size:0.72rem;color:var(--fg-muted);">SOL</div></div>
-                </div>
-                <div style="text-align:right;">
-                  <div id="sol-price" style="font-family:var(--font-code);font-weight:600;transition:color 0.3s;">$82.28</div>
-                  <div id="sol-change" style="font-size:0.72rem;color:var(--success);">▲ +3.1%</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="dashboard-grid">
-        <div class="card">
-          <div class="card-header">
             <div>
-              <div class="card-title">Rendimiento por estrategia</div>
-              <div class="card-subtitle">Últimos 30 días</div>
+              <strong>4.8/5</strong>
+              <span>Claridad media de los resúmenes generados</span>
             </div>
           </div>
-          <div class="card-body">
-            <div class="strategy-progress">
-              <div class="strategy-row">
-                <div class="strategy-row-info">
-                  <div class="strategy-row-name">Momentum SOL</div>
-                  <div class="strategy-row-meta">Long · SOL/USDC</div>
-                </div>
-                <div class="strategy-bar"><div class="strategy-bar-fill green" style="width:78%;"></div></div>
-                <div class="strategy-row-pnl pos">+843.20</div>
-              </div>
-              <div class="strategy-row">
-                <div class="strategy-row-info">
-                  <div class="strategy-row-name">Grid Trading</div>
-                  <div class="strategy-row-meta">Neutral · SOL/USDT</div>
-                </div>
-                <div class="strategy-bar"><div class="strategy-bar-fill cyan" style="width:62%;"></div></div>
-                <div class="strategy-row-pnl pos">+512.75</div>
-              </div>
-              <div class="strategy-row">
-                <div class="strategy-row-info">
-                  <div class="strategy-row-name">Arbitraje DEX</div>
-                  <div class="strategy-row-meta">Arbitraje · Varios pares</div>
-                </div>
-                <div class="strategy-bar"><div class="strategy-bar-fill gold" style="width:45%;"></div></div>
-                <div class="strategy-row-pnl pos">+298.10</div>
-              </div>
-              <div class="strategy-row">
-                <div class="strategy-row-info">
-                  <div class="strategy-row-name">Mean Reversion</div>
-                  <div class="strategy-row-meta">Short · BONK/USDC</div>
-                </div>
-                <div class="strategy-bar"><div class="strategy-bar-fill green" style="width:31%;"></div></div>
-                <div class="strategy-row-pnl pos">+127.45</div>
-              </div>
-            </div>
+        </section>
+
+        <section class="card">
+          <div class="panel-title">
+            <h2>Precios en vivo</h2>
+            <span>Demo · actualización simulada</span>
           </div>
-        </div>
 
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Distribución de pares</div>
-              <div class="card-subtitle">Volumen por mercado</div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div style="display:flex;flex-direction:column;gap:var(--spacing-4);">
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>SOL/USDC</span><span style="color:var(--accent);font-family:var(--font-code);">42%</span>
-                </div>
-                <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill green" style="width:42%;"></div></div>
-              </div>
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>SOL/USDT</span><span style="color:var(--accent-secondary);font-family:var(--font-code);">28%</span>
-                </div>
-                <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill cyan" style="width:28%;"></div></div>
-              </div>
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>BONK/USDC</span><span style="color:var(--warning);font-family:var(--font-code);">18%</span>
-                </div>
-                <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill gold" style="width:18%;"></div></div>
-              </div>
-              <div>
-                <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:4px;">
-                  <span>JUP/USDC</span><span style="color:var(--fg-muted);font-family:var(--font-code);">12%</span>
-                </div>
-                <div class="strategy-bar" style="max-width:100%;"><div class="strategy-bar-fill" style="width:12%;background:var(--fg-muted);"></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card table-section">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Posiciones abiertas</div>
-            <div class="card-subtitle">6 posiciones activas · riesgo total: 12.4%</div>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr>
-              <th>Par</th><th>Tipo</th><th>Entrada</th><th>Actual</th>
-              <th>P&amp;L</th><th>Stop Loss</th><th>Take Profit</th><th>Estado</th>
-            </tr></thead>
-            <tbody>
-              <tr>
-                <td><span class="pair-label">SOL/USDC</span></td>
-                <td><span class="tag long">Long</span></td>
-                <td>$168.42</td><td>$174.80</td>
-                <td class="pnl-pos">+$38.40</td>
-                <td>$162.00</td><td>$180.00</td>
-                <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
-              </tr>
-              <tr>
-                <td><span class="pair-label">SOL/USDT</span></td>
-                <td><span class="tag long">Long</span></td>
-                <td>$170.10</td><td>$174.80</td>
-                <td class="pnl-pos">+$28.20</td>
-                <td>$165.50</td><td>$182.00</td>
-                <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
-              </tr>
-              <tr>
-                <td><span class="pair-label">BONK/USDC</span></td>
-                <td><span class="tag short">Short</span></td>
-                <td>$0.000042</td><td>$0.000039</td>
-                <td class="pnl-pos">+$15.60</td>
-                <td>$0.000044</td><td>$0.000035</td>
-                <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
-              </tr>
-              <tr>
-                <td><span class="pair-label">JUP/USDC</span></td>
-                <td><span class="tag long">Long</span></td>
-                <td>$0.82</td><td>$0.79</td>
-                <td class="pnl-neg">−$6.00</td>
-                <td>$0.76</td><td>$0.92</td>
-                <td><span class="status-pill"><span class="status-pill-dot pending"></span>En riesgo</span></td>
-              </tr>
-              <tr>
-                <td><span class="pair-label">PYTH/USDC</span></td>
-                <td><span class="tag long">Long</span></td>
-                <td>$0.34</td><td>$0.36</td>
-                <td class="pnl-pos">+$8.80</td>
-                <td>$0.31</td><td>$0.40</td>
-                <td><span class="status-pill"><span class="status-pill-dot active"></span>Activa</span></td>
-              </tr>
-              <tr>
-                <td><span class="pair-label">RAY/USDC</span></td>
-                <td><span class="tag short">Short</span></td>
-                <td>$1.85</td><td>$1.92</td>
-                <td class="pnl-neg">−$4.20</td>
-                <td>$2.00</td><td>$1.70</td>
-                <td><span class="status-pill"><span class="status-pill-dot pending"></span>En riesgo</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="bottom-grid">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Actividad reciente</div>
-              <div class="card-subtitle">Últimas operaciones ejecutadas</div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="activity-item">
-              <div class="activity-icon buy" aria-hidden="true">→</div>
-              <div class="activity-content">
-                <div class="activity-title">Compra SOL/USDC</div>
-                <div class="activity-meta">12.5 SOL a $174.80 · Estrategia: Momentum</div>
-              </div>
-              <div class="activity-time">2 min</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon sell" aria-hidden="true">←</div>
-              <div class="activity-content">
-                <div class="activity-title">Venta BONK/USDC</div>
-                <div class="activity-meta">50,000 BONK a $0.000039 · Take profit alcanzado</div>
-              </div>
-              <div class="activity-time">14 min</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon buy" aria-hidden="true">→</div>
-              <div class="activity-content">
-                <div class="activity-title">Compra JUP/USDC</div>
-                <div class="activity-meta">200 JUP a $0.79 · Estrategia: Grid</div>
-              </div>
-              <div class="activity-time">37 min</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon info" aria-hidden="true">⚡</div>
-              <div class="activity-content">
-                <div class="activity-title">Ajuste automático: stop loss</div>
-                <div class="activity-meta">Trailing stop actualizado para SOL/USDC</div>
-              </div>
-              <div class="activity-time">1h</div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon sell" aria-hidden="true">←</div>
-              <div class="activity-content">
-                <div class="activity-title">Venta parcial SOL/USDT</div>
-                <div class="activity-meta">5 SOL a $174.80 · Reducción de riesgo</div>
-              </div>
-              <div class="activity-time">2h</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Alertas</div>
-              <div class="card-subtitle">3 alertas sin revisar</div>
-            </div>
-            <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);" data-demo-action="marcar-leidas">Marcar leídas</button>
-          </div>
-          <div class="card-body">
-            <div class="alert-item">
-              <div class="alert-icon warn" aria-hidden="true">⚠</div>
-              <div class="alert-content">
-                <div class="alert-title">JUP/USDC cerca de stop loss</div>
-                <div class="alert-meta">Precio actual $0.79 · Stop en $0.76</div>
-              </div>
-              <div class="alert-time">5 min</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon ok" aria-hidden="true">✓</div>
-              <div class="alert-content">
-                <div class="alert-title">Take profit: BONK/USDC</div>
-                <div class="alert-meta">Posición cerrada en $0.000039</div>
-              </div>
-              <div class="alert-time">14 min</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon warn" aria-hidden="true">⚠</div>
-              <div class="alert-content">
-                <div class="alert-title">RAY/USDC superó stop loss</div>
-                <div class="alert-meta">Precio $1.92 · Stop en $2.00</div>
-              </div>
-              <div class="alert-time">42 min</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon info" aria-hidden="true">⚡</div>
-              <div class="alert-content">
-                <div class="alert-title">Nueva versión disponible</div>
-                <div class="alert-meta">BotTrader v2.4.1 lista para instalar</div>
-              </div>
-              <div class="alert-time">3h</div>
-            </div>
-            <div class="alert-item">
-              <div class="alert-icon ok" aria-hidden="true">✓</div>
-              <div class="alert-content">
-                <div class="alert-title">Auditoría completada</div>
-                <div class="alert-meta">Contrato verificado sin incidentes</div>
-              </div>
-              <div class="alert-time">1d</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /section-dashboard -->
-
-    <!-- ================================================
-         SECTION: ESTRATEGIAS
-         ================================================ -->
-    <div class="view-section" id="section-estrategias" role="region" aria-label="Estrategias">
-
-      <div class="filter-row">
-        <select aria-label="Filtrar por estado">
-          <option>Estado: Todas</option>
-          <option>Activas</option>
-          <option>En pausa</option>
-          <option>Detenidas</option>
-        </select>
-        <select aria-label="Filtrar por par">
-          <option>Par: Todos</option>
-          <option>SOL/USDC</option>
-          <option>SOL/USDT</option>
-          <option>BONK/USDC</option>
-          <option>JUP/USDC</option>
-        </select>
-        <input type="text" placeholder="Buscar estrategia..." aria-label="Buscar estrategia" style="flex:1;min-width:160px;">
-      </div>
-
-      <div class="estrategia-card" data-strategy="Momentum SOL" data-par="SOL/USDC" data-tipo="Long" data-riesgo="2.5%" data-pnl="+843.20" data-estado="Activa" data-nota="Estrategia de seguimiento de tendencia en SOL con rebalanceo cada 4 horas.">
-        <div class="estrategia-info">
-          <div class="estrategia-name">Momentum SOL</div>
-          <div class="estrategia-meta">Long · SOL/USDC · Riesgo: 2.5%</div>
-        </div>
-        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
-        <div class="estrategia-pnl pos">+843.20</div>
-        <div class="estrategia-actions">
-          <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
-        </div>
-      </div>
-
-      <div class="estrategia-card" data-strategy="Grid Trading" data-par="SOL/USDT" data-tipo="Neutral" data-riesgo="2.0%" data-pnl="+512.75" data-estado="Activa" data-nota="Grid automatizado en rango $140–$180 con 20 niveles.">
-        <div class="estrategia-info">
-          <div class="estrategia-name">Grid Trading</div>
-          <div class="estrategia-meta">Neutral · SOL/USDT · Riesgo: 2.0%</div>
-        </div>
-        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
-        <div class="estrategia-pnl pos">+512.75</div>
-        <div class="estrategia-actions">
-          <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
-        </div>
-      </div>
-
-      <div class="estrategia-card" data-strategy="Arbitraje DEX" data-par="Varios pares" data-tipo="Arbitraje" data-riesgo="1.5%" data-pnl="+298.10" data-estado="Activa" data-nota="Detección de diferencias de precio entre Orca, Raydium y Jupiter con ejecución automática.">
-        <div class="estrategia-info">
-          <div class="estrategia-name">Arbitraje DEX</div>
-          <div class="estrategia-meta">Arbitraje · Varios pares · Riesgo: 1.5%</div>
-        </div>
-        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
-        <div class="estrategia-pnl pos">+298.10</div>
-        <div class="estrategia-actions">
-          <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
-        </div>
-      </div>
-
-      <div class="estrategia-card" data-strategy="Mean Reversion" data-par="BONK/USDC" data-tipo="Short" data-riesgo="1.8%" data-pnl="+127.45" data-estado="Activa" data-nota="Reversión a la media en BONK con entrada en sobrecompra y salida gradual.">
-        <div class="estrategia-info">
-          <div class="estrategia-name">Mean Reversion</div>
-          <div class="estrategia-meta">Short · BONK/USDC · Riesgo: 1.8%</div>
-        </div>
-        <div class="estrategia-status"><span class="dot on" aria-hidden="true"></span>Activa</div>
-        <div class="estrategia-pnl pos">+127.45</div>
-        <div class="estrategia-actions">
-          <button class="btn btn-sm btn-toggle" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Pausar</button>
-          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
-        </div>
-      </div>
-
-      <div class="estrategia-card en-pausa" data-strategy="Scalping JUP" data-par="JUP/USDC" data-tipo="Long" data-riesgo="1.2%" data-pnl="—" data-estado="En pausa" data-nota="Scalping en JUP con entradas rápidas y stops ajustados. Pausada por límite de drawdown diario.">
-        <div class="estrategia-info">
-          <div class="estrategia-name">Scalping JUP</div>
-          <div class="estrategia-meta">Long · JUP/USDC · Riesgo: 1.2%</div>
-        </div>
-        <div class="estrategia-status"><span class="dot off" aria-hidden="true"></span>En pausa</div>
-        <div class="estrategia-pnl neutral">—</div>
-        <div class="estrategia-actions">
-          <button class="btn btn-sm btn-toggle btn-primary">Reanudar</button>
-          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
-        </div>
-      </div>
-
-      <div class="estrategia-card en-pausa" data-strategy="TWAP Venta" data-par="SOL/USDC" data-tipo="Venta programada" data-riesgo="0.5%" data-pnl="+42.30" data-estado="Completada" data-nota="Venta gradual de 500 SOL mediante órdenes TWAP en 48 horas. Ejecutada al 100%.">
-        <div class="estrategia-info">
-          <div class="estrategia-name">TWAP Venta</div>
-          <div class="estrategia-meta">Venta programada · SOL/USDC · Riesgo: 0.5%</div>
-        </div>
-        <div class="estrategia-status"><span class="dot off" aria-hidden="true"></span>Completada</div>
-        <div class="estrategia-pnl pos">+42.30</div>
-        <div class="estrategia-actions">
-          <a class="estrategia-link" data-action="ver-detalle" role="button" tabindex="0">Ver detalle</a>
-        </div>
-      </div>
-
-    </div><!-- /section-estrategias -->
-
-    <!-- ================================================
-         SECTION: TRADING
-         ================================================ -->
-    <div class="view-section" id="section-trading" role="region" aria-label="Trading manual">
-
-      <div class="dashboard-grid">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Nueva operación</div>
-              <div class="card-subtitle">Ejecución manual con parámetros configurables</div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div style="display:flex;flex-direction:column;gap:var(--spacing-4);">
-              <div>
-                <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Par</label>
-                <select style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-body);font-size:0.88rem;">
-                  <option>SOL/USDC</option><option>SOL/USDT</option>
-                  <option>BONK/USDC</option><option>JUP/USDC</option>
-                </select>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-3);">
-                <div>
-                  <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Tipo</label>
-                  <select style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-body);font-size:0.88rem;">
-                    <option>Long</option><option>Short</option>
-                  </select>
-                </div>
-                <div>
-                  <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Cantidad (SOL)</label>
-                  <input type="number" value="10" min="0" step="0.1" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
+          <div class="live-prices">
+            <div class="price-row">
+              <div class="coin">
+                <div class="coin-icon">₿</div>
+                <div class="coin-meta">
+                  <strong>Bitcoin</strong>
+                  <small>BTC</small>
                 </div>
               </div>
-              <div>
-                <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Stop Loss</label>
-                <input type="text" placeholder="$162.00" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
+              <div class="price-meta">
+                <strong>$73,697</strong>
+                <span>▲ +2.4%</span>
               </div>
-              <div>
-                <label style="font-size:0.75rem;color:var(--fg-muted);display:block;margin-bottom:4px;">Take Profit</label>
-                <input type="text" placeholder="$180.00" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-medium);padding:10px 12px;color:var(--fg);font-family:var(--font-code);font-size:0.88rem;">
-              </div>
-              <button class="btn btn-primary" style="justify-content:center;min-height:48px;" data-demo-action="ejecutar-op">Ejecutar operación</button>
             </div>
-          </div>
-        </div>
 
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Posiciones abiertas</div>
-              <div class="card-subtitle">6 activas · riesgo agregado: 12.4%</div>
+            <div class="price-row">
+              <div class="coin">
+                <div class="coin-icon">Ξ</div>
+                <div class="coin-meta">
+                  <strong>Ethereum</strong>
+                  <small>ETH</small>
+                </div>
+              </div>
+              <div class="price-meta">
+                <strong>$2,014</strong>
+                <span>▲ +1.8%</span>
+              </div>
+            </div>
+
+            <div class="price-row">
+              <div class="coin">
+                <div class="coin-icon">◎</div>
+                <div class="coin-meta">
+                  <strong>Solana</strong>
+                  <small>SOL</small>
+                </div>
+              </div>
+              <div class="price-meta">
+                <strong>$82.28</strong>
+                <span>▲ +3.1%</span>
+              </div>
             </div>
           </div>
-          <div class="card-body" style="padding:0;">
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Par</th><th>Tipo</th><th>Entrada</th><th>Actual</th><th>P&amp;L</th></tr></thead>
-                <tbody>
-                  <tr><td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td><td>$168.42</td><td>$174.80</td><td class="pnl-pos">+$38.40</td></tr>
-                  <tr><td><span class="pair-label">SOL/USDT</span></td><td><span class="tag long">Long</span></td><td>$170.10</td><td>$174.80</td><td class="pnl-pos">+$28.20</td></tr>
-                  <tr><td><span class="pair-label">BONK/USDC</span></td><td><span class="tag short">Short</span></td><td>$0.000042</td><td>$0.000039</td><td class="pnl-pos">+$15.60</td></tr>
-                  <tr><td><span class="pair-label">JUP/USDC</span></td><td><span class="tag long">Long</span></td><td>$0.82</td><td>$0.79</td><td class="pnl-neg">−$6.00</td></tr>
-                  <tr><td><span class="pair-label">PYTH/USDC</span></td><td><span class="tag long">Long</span></td><td>$0.34</td><td>$0.36</td><td class="pnl-pos">+$8.80</td></tr>
-                  <tr><td><span class="pair-label">RAY/USDC</span></td><td><span class="tag short">Short</span></td><td>$1.85</td><td>$1.92</td><td class="pnl-neg">−$4.20</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Ejecuciones recientes</div>
-            <div class="card-subtitle">Últimas operaciones ejecutadas por el bot</div>
+      <div class="grid mini-grid">
+        <section class="card" id="watchlist">
+          <div class="panel-title">
+            <h2>Watchlist destacada</h2>
+            <span>Activos en vigilancia</span>
           </div>
-        </div>
-        <div class="card-body" style="padding:0;">
+
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Hora</th><th>Par</th><th>Tipo</th><th>Precio</th><th>Cantidad</th><th>Total</th><th>Estrategia</th></tr></thead>
-              <tbody>
-                <tr><td>14:32</td><td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td><td>$174.80</td><td>12.5</td><td>$2,185.00</td><td>Momentum</td></tr>
-                <tr><td>14:18</td><td><span class="pair-label">BONK/USDC</span></td><td><span class="tag short">Short</span></td><td>$0.000039</td><td>50,000</td><td>$1.95</td><td>Mean Rev.</td></tr>
-                <tr><td>13:55</td><td><span class="pair-label">JUP/USDC</span></td><td><span class="tag long">Long</span></td><td>$0.79</td><td>200</td><td>$158.00</td><td>Grid</td></tr>
-                <tr><td>13:22</td><td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td><td>$173.20</td><td>8.0</td><td>$1,385.60</td><td>Momentum</td></tr>
-                <tr><td>12:48</td><td><span class="pair-label">RAY/USDC</span></td><td><span class="tag short">Short</span></td><td>$1.92</td><td>50</td><td>$96.00</td><td>Grid</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /section-trading -->
-
-    <!-- ================================================
-         SECTION: HISTORIAL
-         ================================================ -->
-    <div class="view-section" id="section-historial" role="region" aria-label="Historial">
-
-      <div class="filter-row">
-        <select aria-label="Período">
-          <option>Últimos 7 días</option><option>Últimos 30 días</option>
-          <option>Últimos 90 días</option><option>Personalizado</option>
-        </select>
-        <select aria-label="Estrategia">
-          <option>Todas las estrategias</option><option>Momentum SOL</option>
-          <option>Grid Trading</option><option>Arbitraje DEX</option><option>Mean Reversion</option>
-        </select>
-        <select aria-label="Tipo">
-          <option>Todos los tipos</option><option>Compra</option><option>Venta</option>
-        </select>
-        <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Filtrar</button>
-        <span style="font-size:0.78rem;color:var(--fg-muted);margin-left:auto;">847 operaciones</span>
-      </div>
-
-      <div class="card">
-        <div class="card-body" style="padding:0;">
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Fecha</th><th>Par</th><th>Tipo</th><th>Entrada</th><th>Salida</th><th>Volumen</th><th>P&amp;L</th><th>Estrategia</th><th>Duración</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>Activo</th>
+                  <th>Estado</th>
+                  <th>Contexto</th>
+                  <th>Prioridad</th>
+                </tr>
+              </thead>
               <tbody>
                 <tr>
-                  <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-23</td>
-                  <td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td>
-                  <td>$168.42</td><td>$174.80</td><td>12.5 SOL</td>
-                  <td class="pnl-pos">+$79.75</td><td>Momentum</td>
-                  <td style="font-size:0.78rem;color:var(--fg-muted);">4h 12m</td>
+                  <td><strong>SOL/USDC</strong>Momentum fuerte y volumen creciente</td>
+                  <td><span class="tag green">Seguimiento activo</span></td>
+                  <td>Ruptura reciente con continuidad de interés</td>
+                  <td><span class="tag cyan">Alta</span></td>
                 </tr>
                 <tr>
-                  <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-23</td>
-                  <td><span class="pair-label">BONK/USDC</span></td><td><span class="tag short">Short</span></td>
-                  <td>$0.000042</td><td>$0.000039</td><td>50,000 BONK</td>
-                  <td class="pnl-pos">+$15.60</td><td>Mean Rev.</td>
-                  <td style="font-size:0.78rem;color:var(--fg-muted);">2h 08m</td>
+                  <td><strong>BTC</strong>Zona de referencia de mercado</td>
+                  <td><span class="tag cyan">Observación</span></td>
+                  <td>Marca el tono general del flujo de riesgo</td>
+                  <td><span class="tag cyan">Alta</span></td>
                 </tr>
                 <tr>
-                  <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-22</td>
-                  <td><span class="pair-label">SOL/USDT</span></td><td><span class="tag long">Long</span></td>
-                  <td>$170.10</td><td>$174.80</td><td>5.0 SOL</td>
-                  <td class="pnl-pos">+$23.50</td><td>Grid</td>
-                  <td style="font-size:0.78rem;color:var(--fg-muted);">6h 30m</td>
+                  <td><strong>JUP/USDC</strong>Actividad irregular</td>
+                  <td><span class="tag yellow">Pendiente</span></td>
+                  <td>Señal débil, esperar confirmación</td>
+                  <td><span class="tag yellow">Media</span></td>
                 </tr>
                 <tr>
-                  <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-22</td>
-                  <td><span class="pair-label">JUP/USDC</span></td><td><span class="tag long">Long</span></td>
-                  <td>$0.82</td><td>$0.79</td><td>200 JUP</td>
-                  <td class="pnl-neg">−$6.00</td><td>Grid</td>
-                  <td style="font-size:0.78rem;color:var(--fg-muted);">1h 45m</td>
-                </tr>
-                <tr>
-                  <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-21</td>
-                  <td><span class="pair-label">PYTH/USDC</span></td><td><span class="tag long">Long</span></td>
-                  <td>$0.34</td><td>$0.36</td><td>500 PYTH</td>
-                  <td class="pnl-pos">+$10.00</td><td>Arbitraje</td>
-                  <td style="font-size:0.78rem;color:var(--fg-muted);">3h 20m</td>
-                </tr>
-                <tr>
-                  <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-21</td>
-                  <td><span class="pair-label">RAY/USDC</span></td><td><span class="tag short">Short</span></td>
-                  <td>$1.85</td><td>$1.92</td><td>50 RAY</td>
-                  <td class="pnl-neg">−$4.20</td><td>Grid</td>
-                  <td style="font-size:0.78rem;color:var(--fg-muted);">5h 10m</td>
-                </tr>
-                <tr>
-                  <td style="font-family:var(--font-code);font-size:0.78rem;">2026-05-20</td>
-                  <td><span class="pair-label">SOL/USDC</span></td><td><span class="tag long">Long</span></td>
-                  <td>$165.80</td><td>$172.40</td><td>20 SOL</td>
-                  <td class="pnl-pos">+$132.00</td><td>Momentum</td>
-                  <td style="font-size:0.78rem;color:var(--fg-muted);">8h 05m</td>
+                  <td><strong>RAY/USDC</strong>Movimiento mixto</td>
+                  <td><span class="tag red">Ruido elevado</span></td>
+                  <td>Mucho rango, menor claridad operativa</td>
+                  <td><span class="tag red">Baja</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
+        </section>
 
-    </div><!-- /section-historial -->
+        <section class="card">
+          <div class="panel-title">
+            <h2>Módulos activos</h2>
+            <span>Vista funcional</span>
+          </div>
 
-    <!-- ================================================
-         SECTION: ALERTAS
-         ================================================ -->
-    <div class="view-section" id="section-alertas" role="region" aria-label="Alertas">
-
-      <div class="filter-row">
-        <select aria-label="Tipo de alerta">
-          <option>Todas las alertas</option><option>Sin leer</option>
-          <option>Riesgo</option><option>Ejecución</option><option>Sistema</option>
-        </select>
-        <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Marcar todas leídas</button>
-        <span style="font-size:0.78rem;color:var(--fg-muted);margin-left:auto;">3 sin leer · 24 totales</span>
-      </div>
-
-      <div class="card">
-        <div class="card-body">
-
-          <div class="alert-item" style="background:rgba(251,191,36,0.05);border-radius:var(--radius-medium);padding:var(--spacing-4);">
-            <div class="alert-icon warn" aria-hidden="true">⚠</div>
-            <div class="alert-content">
-              <div class="alert-title">JUP/USDC cerca de stop loss</div>
-              <div class="alert-meta">Precio actual $0.79 · Stop en $0.76 · Distancia: 3.8%</div>
-              <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);flex-wrap:wrap;">
-                <button class="btn btn-sm btn-primary" data-demo-action="ajustar-stop">Ajustar stop</button>
-                <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);" data-demo-action="marcar-leidas">Ignorar</button>
+          <div class="list">
+            <div class="list-item">
+              <div>
+                <h4>Seguimiento de mercado</h4>
+                <p>Monitoriza activos clave y resume cambios de contexto de forma legible.</p>
               </div>
+              <span class="tag green">Activo</span>
             </div>
-            <div class="alert-time">hace 5 min</div>
-          </div>
 
-          <div class="alert-item">
-            <div class="alert-icon ok" aria-hidden="true">✓</div>
-            <div class="alert-content">
-              <div class="alert-title">Take profit alcanzado: BONK/USDC</div>
-              <div class="alert-meta">Posición cerrada en $0.000039 · Ganancia: +$15.60</div>
-            </div>
-            <div class="alert-time">hace 14 min</div>
-          </div>
-
-          <div class="alert-item" style="background:rgba(248,113,113,0.05);border-radius:var(--radius-medium);padding:var(--spacing-4);">
-            <div class="alert-icon warn" aria-hidden="true">⚠</div>
-            <div class="alert-content">
-              <div class="alert-title">RAY/USDC superó stop loss</div>
-              <div class="alert-meta">Precio $1.92 · Stop en $2.00 · Diferencia: −4.0%</div>
-              <div style="margin-top:var(--spacing-2);display:flex;gap:var(--spacing-2);flex-wrap:wrap;">
-                <button class="btn btn-sm" style="background:var(--error);color:#fff;border-color:var(--error);" data-demo-action="cerrar-pos">Cerrar posición</button>
-                <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);" data-demo-action="marcar-leidas">Revisar</button>
+            <div class="list-item">
+              <div>
+                <h4>Resúmenes automáticos</h4>
+                <p>Convierte señales y movimientos en mensajes más fáciles de interpretar.</p>
               </div>
+              <span class="tag green">Activo</span>
             </div>
-            <div class="alert-time">hace 42 min</div>
-          </div>
 
-          <div class="alert-item">
-            <div class="alert-icon info" aria-hidden="true">⚡</div>
-            <div class="alert-content">
-              <div class="alert-title">Nueva versión disponible</div>
-              <div class="alert-meta">BotTrader v2.4.1 incluye mejoras en trailing stop y nuevas estrategias.</div>
+            <div class="list-item">
+              <div>
+                <h4>Alertas destacadas</h4>
+                <p>Prioriza lo importante para evitar ruido y sobrecarga de notificaciones.</p>
+              </div>
+              <span class="tag green">Activo</span>
             </div>
-            <div class="alert-time">hace 3h</div>
-          </div>
 
-          <div class="alert-item">
-            <div class="alert-icon ok" aria-hidden="true">✓</div>
-            <div class="alert-content">
-              <div class="alert-title">Auditoría de seguridad completada</div>
-              <div class="alert-meta">Contrato verificado por firma independiente sin incidentes.</div>
+            <div class="list-item">
+              <div>
+                <h4>Publicación en Telegram</h4>
+                <p>Prepara contenido orientado a grupos, canales o seguimiento personal.</p>
+              </div>
+              <span class="tag cyan">Pro</span>
             </div>
-            <div class="alert-time">hace 1d</div>
           </div>
-
-        </div>
+        </section>
       </div>
 
-    </div><!-- /section-alertas -->
+      <div class="grid main-grid" style="margin-top: 24px;">
+        <section class="card" id="activity">
+          <div class="panel-title">
+            <h2>Actividad reciente</h2>
+            <span>Últimos eventos detectados</span>
+          </div>
 
-    <!-- ================================================
-         SECTION: AJUSTES
-         ================================================ -->
-    <div class="view-section" id="section-ajustes" role="region" aria-label="Ajustes">
+          <div class="list">
+            <div class="list-item">
+              <div>
+                <h4>Señal destacada en SOL/USDC</h4>
+                <p>El sistema detectó continuidad de fuerza compradora y generó un resumen con contexto para revisión rápida.</p>
+              </div>
+              <div class="time">2 min</div>
+            </div>
 
-      <div class="settings-grid">
+            <div class="list-item">
+              <div>
+                <h4>Resumen diario enviado</h4>
+                <p>Se generó un mensaje con los movimientos clave del mercado y activos prioritarios de la sesión.</p>
+              </div>
+              <div class="time">14 min</div>
+            </div>
 
-        <div class="setting-group">
-          <div class="setting-group-title">Gestión de riesgo</div>
-          <div class="setting-row">
-            <div><div class="setting-label">Stop loss automático</div><div class="setting-desc">Aplica stop loss por defecto a nuevas posiciones</div></div>
-            <button class="toggle-switch on" aria-label="Stop loss automático activado"></button>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Trailing stop</div><div class="setting-desc">Ajusta el stop loss cuando el precio sube</div></div>
-            <button class="toggle-switch on" aria-label="Trailing stop activado"></button>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Límite de pérdida diario</div><div class="setting-desc">Detiene todas las estrategias si se supera el límite</div></div>
-            <button class="toggle-switch" aria-label="Límite de pérdida diario desactivado"></button>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Notificar stop loss</div><div class="setting-desc">Recibe alerta cuando una posición alcance el stop</div></div>
-            <button class="toggle-switch on" aria-label="Notificar stop loss activado"></button>
-          </div>
-        </div>
+            <div class="list-item">
+              <div>
+                <h4>Nueva oportunidad en vigilancia</h4>
+                <p>JUP/USDC entró en watchlist por cambio reciente de volumen y estructura.</p>
+              </div>
+              <div class="time">37 min</div>
+            </div>
 
-        <div class="setting-group">
-          <div class="setting-group-title">Notificaciones</div>
-          <div class="setting-row">
-            <div><div class="setting-label">Alertas en tiempo real</div><div class="setting-desc">Notificaciones push para eventos de trading</div></div>
-            <button class="toggle-switch on" aria-label="Alertas en tiempo real activadas"></button>
+            <div class="list-item">
+              <div>
+                <h4>Actualización automática de contexto</h4>
+                <p>BTC cambió el sesgo general del mercado y el sistema reordenó las prioridades visibles.</p>
+              </div>
+              <div class="time">1 h</div>
+            </div>
           </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Resumen diario</div><div class="setting-desc">Correo con resumen de operaciones del día</div></div>
-            <button class="toggle-switch" aria-label="Resumen diario desactivado"></button>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Alertas de riesgo</div><div class="setting-desc">Notificaciones cuando una posición entre en zona de riesgo</div></div>
-            <button class="toggle-switch on" aria-label="Alertas de riesgo activadas"></button>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Actualizaciones del producto</div><div class="setting-desc">Nuevas versiones, estrategias y mejoras</div></div>
-            <button class="toggle-switch on" aria-label="Actualizaciones activadas"></button>
-          </div>
-        </div>
+        </section>
 
-        <div class="setting-group">
-          <div class="setting-group-title">Wallet</div>
-          <div class="setting-row">
-            <div><div class="setting-label">Wallet conectada</div><div class="setting-desc">8xR3...kP9m · Phantom</div></div>
-            <button class="btn btn-sm" style="background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);">Desconectar</button>
+        <section class="card" id="alerts">
+          <div class="panel-title">
+            <h2>Alertas</h2>
+            <span>3 sin revisar</span>
           </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Comisión por operación</div><div class="setting-desc">0.3% · Descuento por volumen aplicado</div></div>
-            <span style="font-family:var(--font-code);font-size:0.82rem;color:var(--accent);">0.25%</span>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Modo seguro</div><div class="setting-desc">Requiere confirmación manual para cada operación</div></div>
-            <button class="toggle-switch" aria-label="Modo seguro desactivado"></button>
-          </div>
-        </div>
 
-        <div class="setting-group">
-          <div class="setting-group-title">Preferencias generales</div>
-          <div class="setting-row">
-            <div><div class="setting-label">Moneda base</div><div class="setting-desc">Unidad principal para mostrar saldos y P&amp;L</div></div>
-            <select class="setting-select" aria-label="Moneda base">
-              <option>SOL</option><option>USDC</option><option>USD</option>
-            </select>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Formato de precio</div><div class="setting-desc">Decimales mostrados en precios y cantidades</div></div>
-            <select class="setting-select" aria-label="Formato de precio">
-              <option>2 decimales</option><option>4 decimales</option><option>8 decimales</option>
-            </select>
-          </div>
-          <div class="setting-row">
-            <div><div class="setting-label">Tema</div><div class="setting-desc">Apariencia visual de la interfaz</div></div>
-            <select class="setting-select" aria-label="Tema">
-              <option>Oscuro</option><option>Claro</option>
-            </select>
-          </div>
-        </div>
+          <div class="list">
+            <div class="list-item">
+              <div>
+                <h4>SOL/USDC gana prioridad</h4>
+                <p>Fuerza relativa superior y mayor atención del flujo reciente.</p>
+              </div>
+              <div class="time">5 min</div>
+            </div>
 
+            <div class="list-item">
+              <div>
+                <h4>ETH mejora contexto</h4>
+                <p>La estructura intradía mejora y entra en el bloque de activos destacados.</p>
+              </div>
+              <div class="time">18 min</div>
+            </div>
+
+            <div class="list-item">
+              <div>
+                <h4>Ruido elevado en RAY/USDC</h4>
+                <p>El sistema recomienda menor prioridad por menor claridad de lectura.</p>
+              </div>
+              <div class="time">42 min</div>
+            </div>
+
+            <div class="list-item">
+              <div>
+                <h4>Nueva versión del bot disponible</h4>
+                <p>Se han ampliado módulos de seguimiento y preparación de mensajes para Telegram.</p>
+              </div>
+              <div class="time">3 h</div>
+            </div>
+          </div>
+        </section>
       </div>
 
-    </div><!-- /section-ajustes -->
-
-  </div><!-- /main -->
-
-  <!-- Wallet Modal -->
-  <div class="wallet-modal-overlay" id="wallet-modal" role="dialog" aria-modal="true" aria-labelledby="wallet-modal-title">
-    <div class="wallet-modal-box">
-      <button class="wallet-modal-close" id="wallet-modal-close" aria-label="Cerrar">✕</button>
-      <div class="wallet-modal-title" id="wallet-modal-title">🔗 Conectar wallet</div>
-      <div class="wallet-modal-sub">Elige tu wallet de Solana para conectarte al dashboard. Tus fondos nunca abandonan tu wallet.</div>
-      <div class="wallet-options">
-        <div class="wallet-option" onclick="simulateWalletConnect('Phantom')">
-          <div class="wallet-option-icon">👻</div>
-          <div>
-            <div class="wallet-option-name">Phantom</div>
-            <div class="wallet-option-desc">La wallet más popular de Solana</div>
-          </div>
-        </div>
-        <div class="wallet-option" onclick="simulateWalletConnect('Backpack')">
-          <div class="wallet-option-icon">🎒</div>
-          <div>
-            <div class="wallet-option-name">Backpack</div>
-            <div class="wallet-option-desc">Multi-chain, ligera y rápida</div>
-          </div>
-        </div>
-        <div class="wallet-option" onclick="simulateWalletConnect('Solflare')">
-          <div class="wallet-option-icon">☀️</div>
-          <div>
-            <div class="wallet-option-name">Solflare</div>
-            <div class="wallet-option-desc">Compatible con Ledger hardware</div>
-          </div>
-        </div>
-      </div>
-      <div class="wallet-modal-note">🔒 Solo lectura y firma de transacciones autorizadas. Sin custodia de fondos.</div>
-    </div>
-  </div>
-
-  <!-- Toast -->
-  <div class="toast" id="toast">
-    <span class="toast-icon" id="toast-icon">ℹ️</span>
-    <span id="toast-msg">Mensaje</span>
-  </div>
-
-  <!-- Modal overlay -->
-  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-box">
-      <button class="modal-close" id="modal-close" aria-label="Cerrar modal">✕</button>
-      <div class="modal-title" id="modal-title">Detalle de estrategia</div>
-      <div id="modal-body"></div>
-    </div>
+      <p class="footer-note">
+        Demo visual orientada a mostrar la experiencia del producto. BotTrader no garantiza resultados de mercado y no sustituye criterio propio.
+      </p>
+    </main>
   </div>
 
   <script>
-  (function() {
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.getElementById('menuBtn');
 
-    /* ---- Reloj UTC ---- */
-    var timeEl = document.getElementById('liveTime');
-    if (timeEl) {
-      function updateClock() {
-        var d = new Date();
-        timeEl.textContent =
-          String(d.getUTCHours()).padStart(2,'0') + ':' +
-          String(d.getUTCMinutes()).padStart(2,'0') + ':' +
-          String(d.getUTCSeconds()).padStart(2,'0') + ' UTC';
-      }
-      updateClock();
-      setInterval(updateClock, 1000);
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+      });
     }
 
-    /* ---- Navegación por secciones (sidebar + drawer) ---- */
-    var allNavLinks   = document.querySelectorAll('.sidebar-link[data-view]');
-    var viewSections  = document.querySelectorAll('.view-section');
-    var pageTitle     = document.getElementById('pageTitle');
-
-    function activateView(targetId, clickedLink) {
-      allNavLinks.forEach(function(l) { l.classList.remove('active'); });
-      document.querySelectorAll('.sidebar-link[data-view="' + targetId + '"]')
-        .forEach(function(l) { l.classList.add('active'); });
-
-      viewSections.forEach(function(s) { s.classList.remove('active'); });
-      var target = document.getElementById(targetId);
-      if (target) {
-        target.classList.add('active');
-        if (pageTitle) {
-          var txt = (clickedLink || document.querySelector('.sidebar-link[data-view="' + targetId + '"]'))
-            .textContent.replace(/[◉▣⇅☰⚠⚙]/g,'').replace(/\d+/g,'').trim();
-          pageTitle.textContent = txt;
-        }
-      }
-      // Close mobile drawer if open
-      closeMobileDrawer();
-    }
-
-    allNavLinks.forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        var id = this.getAttribute('data-view');
-        if (id) activateView(id, this);
+    document.querySelectorAll('.nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        if (window.innerWidth <= 900) sidebar.classList.remove('open');
       });
     });
-
-    /* ---- Toggle switches ---- */
-    document.querySelectorAll('.toggle-switch').forEach(function(sw) {
-      sw.addEventListener('click', function() {
-        var isOn = this.classList.toggle('on');
-        this.setAttribute('aria-label',
-          this.getAttribute('aria-label').replace(/activad[oa]|desactivad[oa]/,
-            isOn ? (this.getAttribute('aria-label').match(/[ao]$/) ? 'activado' : 'activada')
-                 : (this.getAttribute('aria-label').match(/[ao]$/) ? 'desactivado' : 'desactivada')
-          )
-        );
-      });
-    });
-
-    /* ---- Estrategias: Pausar / Reanudar ---- */
-    document.querySelectorAll('.estrategia-card .btn-toggle').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var card     = this.closest('.estrategia-card');
-        var statusEl = card.querySelector('.estrategia-status');
-        var pnlEl    = card.querySelector('.estrategia-pnl');
-        var isActive = statusEl && statusEl.textContent.trim().startsWith('Activa');
-
-        if (isActive) {
-          card.classList.add('en-pausa');
-          statusEl.innerHTML = '<span class="dot off" aria-hidden="true"></span>En pausa';
-          this.className = 'btn btn-sm btn-toggle btn-primary';
-          this.textContent = 'Reanudar';
-          if (pnlEl) { pnlEl.classList.remove('pos'); pnlEl.classList.add('neutral'); }
-          card.setAttribute('data-estado', 'En pausa');
-        } else {
-          card.classList.remove('en-pausa');
-          statusEl.innerHTML = '<span class="dot on" aria-hidden="true"></span>Activa';
-          this.className = 'btn btn-sm btn-toggle';
-          this.style.cssText = 'background:var(--surface-hover);color:var(--fg-muted);border-color:var(--border);';
-          this.textContent = 'Pausar';
-          if (pnlEl) { pnlEl.classList.remove('neutral'); pnlEl.classList.add('pos'); }
-          card.setAttribute('data-estado', 'Activa');
-        }
-      });
-    });
-
-    /* ---- Modal: Ver detalle ---- */
-    var overlay    = document.getElementById('modal-overlay');
-    var modalTitle = document.getElementById('modal-title');
-    var modalBody  = document.getElementById('modal-body');
-
-    function openModal(name, par, tipo, riesgo, pnl, estado, nota) {
-      var isNeg = pnl && pnl.charAt(0) === '-';
-      modalTitle.textContent = name;
-      modalBody.innerHTML =
-        '<div class="modal-row"><span class="modal-label">Par</span><span class="modal-value">'    + par    + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">Tipo</span><span class="modal-value">'   + tipo   + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">Riesgo</span><span class="modal-value">' + riesgo + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">Estado</span><span class="modal-value">' + estado + '</span></div>' +
-        '<div class="modal-row"><span class="modal-label">P&L</span><span class="modal-value ' + (isNeg ? 'modal-pnl neg' : 'modal-pnl') + '">' + pnl + ' SOL</span></div>' +
-        '<div class="modal-note">' + nota + '</div>';
-      overlay.classList.add('active');
-      overlay.removeAttribute('aria-hidden');
-      document.getElementById('modal-close').focus();
-    }
-
-    function closeModal() {
-      overlay.classList.remove('active');
-      overlay.setAttribute('aria-hidden', 'true');
-    }
-
-    document.querySelectorAll('[data-action="ver-detalle"]').forEach(function(link) {
-      link.addEventListener('click', function() {
-        var card = this.closest('.estrategia-card');
-        if (!card) return;
-        openModal(
-          card.getAttribute('data-strategy'),
-          card.getAttribute('data-par'),
-          card.getAttribute('data-tipo'),
-          card.getAttribute('data-riesgo'),
-          card.getAttribute('data-pnl'),
-          card.getAttribute('data-estado'),
-          card.getAttribute('data-nota')
-        );
-      });
-      link.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
-      });
-    });
-
-    document.getElementById('modal-close').addEventListener('click', closeModal);
-    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
-
-    /* ---- Mobile drawer ---- */
-    var mobileBtn      = document.getElementById('mobileNavBtn');
-    var drawer         = document.getElementById('mobileDrawer');
-    var drawerOverlay  = document.getElementById('drawerOverlay');
-    var drawerClose    = document.getElementById('drawerClose');
-
-    function openMobileDrawer() {
-      drawer.classList.add('open');
-      drawerOverlay.classList.add('open');
-      drawer.removeAttribute('aria-hidden');
-      mobileBtn.setAttribute('aria-expanded', 'true');
-    }
-    function closeMobileDrawer() {
-      drawer.classList.remove('open');
-      drawerOverlay.classList.remove('open');
-      drawer.setAttribute('aria-hidden', 'true');
-      mobileBtn.setAttribute('aria-expanded', 'false');
-    }
-
-    if (mobileBtn) mobileBtn.addEventListener('click', openMobileDrawer);
-    if (drawerClose) drawerClose.addEventListener('click', closeMobileDrawer);
-    if (drawerOverlay) drawerOverlay.addEventListener('click', closeMobileDrawer);
-
-    /* ---- Toast ---- */
-    function showToast(msg, icon, duration) {
-      var t = document.getElementById('toast');
-      document.getElementById('toast-msg').textContent = msg;
-      document.getElementById('toast-icon').textContent = icon || 'ℹ️';
-      t.classList.add('show');
-      setTimeout(function() { t.classList.remove('show'); }, duration || 3000);
-    }
-
-    /* ---- Wallet modal ---- */
-    var walletModal = document.getElementById('wallet-modal');
-    var walletBtn   = document.getElementById('wallet-btn');
-    var walletClose = document.getElementById('wallet-modal-close');
-
-    function openWalletModal() { walletModal.classList.add('active'); }
-    function closeWalletModal() { walletModal.classList.remove('active'); }
-
-    if (walletBtn) walletBtn.addEventListener('click', openWalletModal);
-    if (walletClose) walletClose.addEventListener('click', closeWalletModal);
-    walletModal.addEventListener('click', function(e) { if (e.target === walletModal) closeWalletModal(); });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') { closeWalletModal(); closeModal(); }
-    });
-
-    window.simulateWalletConnect = function(name) {
-      closeWalletModal();
-      var dots = ['8xR3', '7mKp', '4nQs', '2fLw'];
-      var ends = ['kP9m', 'jT4n', 'bR7x', 'yM2k'];
-      var i = Math.floor(Math.random() * dots.length);
-      var addr = dots[i] + '...' + ends[i];
-      var walletInfo = document.querySelectorAll('.wallet-info');
-      walletInfo.forEach(function(el) {
-        el.querySelector('.wallet-label').textContent = name + ' conectada';
-        el.querySelector('.wallet-address').textContent = addr;
-      });
-      var walletBtnEl = document.getElementById('wallet-btn');
-      if (walletBtnEl) {
-        walletBtnEl.querySelector('.wallet-label').textContent = name + ' conectada';
-        walletBtnEl.querySelector('.wallet-address').textContent = addr;
-        walletBtnEl.querySelector('span:last-child').textContent = '✓';
-      }
-
-      // Show post-connect banner
-      var existing = document.getElementById('wallet-connected-banner');
-      if (existing) existing.remove();
-      var banner = document.createElement('div');
-      banner.id = 'wallet-connected-banner';
-      banner.style.cssText = [
-        'background:rgba(16,185,129,0.08)',
-        'border:1px solid rgba(16,185,129,0.25)',
-        'border-radius:8px',
-        'padding:14px 18px',
-        'margin-bottom:20px',
-        'display:flex',
-        'align-items:flex-start',
-        'gap:12px',
-        'animation:metricUp 0.4s ease-out forwards'
-      ].join(';');
-      banner.innerHTML = [
-        '<span style="font-size:1.2rem;flex-shrink:0;">✅</span>',
-        '<div>',
-          '<div style="font-weight:600;font-size:0.9rem;color:var(--accent);margin-bottom:3px;">' + name + ' conectada · ' + addr + '</div>',
-          '<div style="font-size:0.82rem;color:var(--fg-muted);line-height:1.6;">',
-            'Estás en modo demo. En la versión real aquí verías tu saldo, ',
-            'podrías activar estrategias reales y gestionar tus posiciones ',
-            'directamente desde este panel sin salir de Telegram.',
-          '</div>',
-          '<a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" ',
-            'style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;',
-            'background:var(--accent);color:#fff;padding:8px 16px;border-radius:6px;',
-            'font-size:0.82rem;font-weight:600;text-decoration:none;transition:background 0.15s;">',
-            '📲 Activar BotTrader real en Telegram',
-          '</a>',
-        '</div>'
-      ].join('');
-
-      var mainContent = document.getElementById('mainContent');
-      if (mainContent) mainContent.insertBefore(banner, mainContent.firstChild);
-
-      showToast(name + ' conectada · ' + addr, '✅', 3500);
-    };
-
-    /* ---- Botones de acción en alertas ---- */
-    document.querySelectorAll('[data-demo-action]').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var action = this.getAttribute('data-demo-action');
-        var msgs = {
-          'ajustar-stop':    ['🔧 En modo demo — conecta tu wallet para ajustar el stop loss', '⚠️'],
-          'cerrar-pos':      ['🔒 En modo demo — conecta tu wallet para cerrar la posición', '⚠️'],
-          'marcar-leidas':   ['✅ Alertas marcadas como leídas', '✅'],
-          'ejecutar-op':     ['🔒 Conecta tu wallet para ejecutar operaciones reales', '🔒'],
-        };
-        var m = msgs[action] || ['En modo demo', 'ℹ️'];
-        showToast(m[0], m[1]);
-      });
-    });
-
-    /* ---- Precios en vivo (simulación) ---- */
-    var prices = { btc: 73697, eth: 2014, sol: 82.28 };
-    var baseChanges = { btc: 2.4, eth: 1.8, sol: 3.1 };
-
-    function updatePrices() {
-      var assets = ['btc', 'eth', 'sol'];
-      assets.forEach(function(a) {
-        var move = (Math.random() - 0.48) * (a === 'btc' ? 120 : a === 'eth' ? 8 : 0.4);
-        prices[a] = Math.max(prices[a] + move, 1);
-        baseChanges[a] = parseFloat((baseChanges[a] + (Math.random() - 0.48) * 0.15).toFixed(2));
-
-        var priceEl  = document.getElementById(a + '-price');
-        var changeEl = document.getElementById(a + '-change');
-        if (!priceEl) return;
-
-        var formatted = a === 'btc'
-          ? '$' + Math.round(prices[a]).toLocaleString()
-          : a === 'eth'
-            ? '$' + Math.round(prices[a]).toLocaleString()
-            : '$' + prices[a].toFixed(2);
-
-        priceEl.textContent = formatted;
-        priceEl.style.color = move > 0 ? 'var(--success)' : 'var(--error)';
-        setTimeout(function() { priceEl.style.color = ''; }, 600);
-
-        var up = baseChanges[a] >= 0;
-        changeEl.textContent = (up ? '▲ +' : '▼ ') + Math.abs(baseChanges[a]).toFixed(1) + '%';
-        changeEl.style.color = up ? 'var(--success)' : 'var(--error)';
-      });
-    }
-    setInterval(updatePrices, 8000);
-
-    /* ---- Equity chart ---- */
-    (function() {
-      var svg = document.getElementById('equity-svg');
-      if (!svg) return;
-      var W = 600, H = 120, pad = 10;
-      var pts = [8, 22, 15, 35, 28, 42, 38, 30, 55, 48, 60, 52, 70, 65, 58, 75, 80, 72, 85, 90, 82, 95, 88, 100, 92, 105, 98, 110, 103, 108];
-      var min = Math.min.apply(null, pts);
-      var max = Math.max.apply(null, pts);
-      var range = max - min || 1;
-
-      function toX(i) { return pad + (i / (pts.length - 1)) * (W - pad * 2); }
-      function toY(v) { return H - pad - ((v - min) / range) * (H - pad * 2); }
-
-      var d = pts.map(function(v, i) { return (i === 0 ? 'M' : 'L') + toX(i).toFixed(1) + ',' + toY(v).toFixed(1); }).join(' ');
-      var lastX = toX(pts.length - 1).toFixed(1);
-      var lastY = toY(pts[pts.length - 1]).toFixed(1);
-      var area = d + ' L' + lastX + ',' + (H - pad) + ' L' + pad + ',' + (H - pad) + ' Z';
-
-      document.getElementById('equity-line').setAttribute('d', d);
-      document.getElementById('equity-area').setAttribute('d', area);
-      document.getElementById('equity-dot').setAttribute('cx', lastX);
-      document.getElementById('equity-dot').setAttribute('cy', lastY);
-    })();
-
-  })();
   </script>
-
 </body>
 </html>
