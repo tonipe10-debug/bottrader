@@ -3,26 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="BotTrader — Tu analista crypto con IA en Telegram. Precios reales de BTC, ETH y SOL, análisis automático y señales cada hora. Gratis." />
+  <meta name="description" content="BotTrader — Herramienta de análisis y automatización crypto para Telegram. Consulta mercado, recibe análisis y sigue oportunidades desde un solo lugar." />
   <meta name="theme-color" content="#0a0e17" />
-  <meta property="og:title" content="BotTrader — Tu analista crypto con IA en Telegram" />
-  <meta property="og:description" content="Precios reales, análisis con IA y señales automáticas en Telegram. Sin apps, sin registros. Gratis." />
+  <meta property="og:title" content="BotTrader — Análisis y automatización crypto para Telegram" />
+  <meta property="og:description" content="Consulta mercado, recibe análisis automáticos y sigue oportunidades desde Telegram con una experiencia simple y profesional." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://bottrader-app.netlify.app/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="BotTrader — Analista crypto con IA en Telegram" />
-  <meta name="twitter:description" content="Precios BTC, ETH, SOL en tiempo real con análisis automático. Señales cada hora en tu grupo de Telegram." />
-  <title>BotTrader — Tu analista crypto con IA en Telegram</title>
+  <meta name="twitter:title" content="BotTrader — Análisis y automatización crypto para Telegram" />
+  <meta name="twitter:description" content="Consulta mercado, revisa análisis y sigue oportunidades desde Telegram con una herramienta clara y directa." />
+  <title>BotTrader — Análisis y automatización crypto para Telegram</title>
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C13RGLLQNP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-C13RGLLQNP');
-  </script>
-
+  <link rel="stylesheet" href="colors_and_type.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -34,466 +26,1148 @@
       --surface-hover: #1f2937;
       --fg: #e5e7eb;
       --fg-muted: #9ca3af;
-      --muted: #9ca3af;
       --border: #374151;
       --border-hover: #4b5563;
       --accent: #10b981;
       --accent-hover: #059669;
       --accent-secondary: #06b6d4;
+      --success: #34d399;
       --warning: #fbbf24;
       --error: #f87171;
-      --success: #34d399;
 
-      --font-display: 'Orbitron', 'Segoe UI', sans-serif;
-      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-caption: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-code: 'Inter', monospace;
 
-      --spacing-1:4px; --spacing-2:8px; --spacing-3:12px; --spacing-4:16px;
-      --spacing-5:20px; --spacing-6:24px; --spacing-8:32px; --spacing-10:40px;
-      --spacing-12:48px; --spacing-16:64px; --spacing-20:80px; --spacing-24:96px;
-      --spacing-28:112px; --spacing-32:128px;
+      --fw-display-regular: 400;
+      --fw-display-medium: 600;
+      --fw-display-bold: 700;
+      --fw-heading-medium: 500;
+      --fw-heading-semibold: 600;
+      --fw-heading-bold: 700;
+      --fw-body-regular: 400;
+      --fw-body-medium: 500;
 
-      --radius-medium:8px; --radius-large:12px; --radius-xl:16px;
-      --transition-fast:150ms ease-out; --transition-medium:200ms ease-out;
-      --z-sticky:100;
+      --spacing-2: 8px;
+      --spacing-3: 12px;
+      --spacing-4: 16px;
+      --spacing-5: 20px;
+      --spacing-6: 24px;
+      --spacing-8: 32px;
+      --spacing-10: 40px;
+      --spacing-12: 48px;
+      --spacing-16: 64px;
+      --spacing-20: 80px;
+      --spacing-24: 96px;
+      --spacing-28: 112px;
+      --spacing-32: 128px;
+
+      --radius-medium: 8px;
+      --radius-large: 12px;
+      --radius-xl: 16px;
+
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+
+      --transition-fast: 150ms ease-out;
+      --transition-medium: 200ms ease-out;
+      --transition-slow: 300ms ease-out;
+
+      --z-index-sticky: 100;
     }
 
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    html { scroll-behavior:smooth; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background:var(--bg); color:var(--fg);
-      font-family:var(--font-body); line-height:1.6;
-      -webkit-font-smoothing:antialiased; overflow-x:hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-weight: var(--fw-body-regular);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    .container { width:min(1200px, 90%); margin:0 auto; }
-    .section { padding:var(--spacing-28) 0; }
+    .container {
+      width: min(1200px, 90%);
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: var(--spacing-28) 0;
+    }
 
     .section-label {
-      font-family:var(--font-display); font-size:0.72rem;
-      letter-spacing:0.15em; text-transform:uppercase;
-      color:var(--accent); margin-bottom:var(--spacing-3); font-weight:600;
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-medium);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--spacing-3);
     }
+
     .section-title {
-      font-family:var(--font-display); font-weight:700;
-      font-size:clamp(1.75rem, 4vw, 2.5rem); line-height:1.2;
-      color:var(--fg); margin-bottom:var(--spacing-4); text-wrap:balance;
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      color: var(--fg);
+      margin-bottom: var(--spacing-4);
+      text-wrap: pretty;
     }
+
     .section-desc {
-      color:var(--fg-muted); font-size:1.05rem;
-      max-width:640px; line-height:1.7;
+      color: var(--fg-muted);
+      font-size: 1.05rem;
+      max-width: 640px;
+      line-height: 1.7;
     }
 
-    /* BUTTONS */
     .btn {
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:var(--spacing-2); padding:14px 28px; border-radius:var(--radius-medium);
-      font-family:var(--font-body); font-weight:600; font-size:0.95rem;
-      cursor:pointer; transition:background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
-      text-decoration:none; border:1px solid transparent; min-height:48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-2);
+      padding: 14px 28px;
+      border-radius: var(--radius-medium);
+      font-family: var(--font-heading);
+      font-weight: var(--fw-heading-semibold);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast), opacity var(--transition-fast);
+      text-decoration: none;
+      border: 1px solid transparent;
+      letter-spacing: 0.01em;
+      will-change: transform;
     }
-    .btn:active { transform:scale(0.97); }
-    .btn:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-    .btn-primary { background:var(--accent); color:#fff; border-color:var(--accent); }
-    .btn-primary:hover { background:var(--accent-hover); border-color:var(--accent-hover); box-shadow:0 4px 14px rgba(16,185,129,0.35); }
-    .btn-secondary { background:transparent; color:var(--accent); border-color:rgba(16,185,129,0.35); }
-    .btn-secondary:hover { background:rgba(16,185,129,0.08); border-color:var(--accent); }
-    .btn-outline { background:transparent; color:var(--fg-muted); border-color:var(--border); }
-    .btn-outline:hover { color:var(--fg); border-color:var(--border-hover); }
 
-    /* HEADER */
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:focus-visible,
+    .btn-secondary:focus-visible,
+    .btn-outline:focus-visible,
+    .faq-question:focus-visible,
+    .mobile-menu-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: var(--accent);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--fg);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      color: var(--fg);
+      border-color: var(--border-hover);
+      background: rgba(255,255,255,0.02);
+    }
+
     .header {
-      position:sticky; top:0; z-index:var(--z-sticky);
-      background:rgba(10,14,23,0.92); backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border);
-    }
-    .header-inner {
-      display:flex; align-items:center; justify-content:space-between;
-      padding:var(--spacing-4) 0; position:relative;
-    }
-    .logo {
-      font-family:var(--font-display); font-weight:700; font-size:1.2rem;
-      color:var(--fg); text-decoration:none; display:flex; align-items:center;
-      gap:var(--spacing-2); flex-shrink:0;
-    }
-    .logo span { color:var(--accent); }
-    .logo-icon {
-      width:28px; height:28px; background:var(--accent); border-radius:50%;
-      display:grid; place-items:center; font-size:13px; flex-shrink:0;
-    }
-    .header-nav { display:flex; align-items:center; gap:var(--spacing-6); }
-    .header-nav a { color:var(--fg-muted); text-decoration:none; font-size:0.9rem; transition:color var(--transition-fast); }
-    .header-nav a:hover { color:var(--fg); }
-    .header-cta { padding:10px 20px; font-size:0.85rem; min-height:40px; background:var(--accent); border-color:var(--accent); color:#fff; }
-    .header-cta:hover { background:var(--accent-hover) !important; border-color:var(--accent-hover) !important; }
-    .mobile-menu-btn {
-      display:none; background:none; border:1px solid var(--border);
-      color:var(--fg); font-size:1.2rem; cursor:pointer;
-      border-radius:var(--radius-medium); width:44px; height:44px;
-      align-items:center; justify-content:center; flex-shrink:0;
+      position: sticky;
+      top: 0;
+      z-index: var(--z-index-sticky);
+      background: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: border-bottom-color var(--transition-medium), background var(--transition-medium);
     }
 
-    /* HERO */
-    .hero { padding:var(--spacing-28) 0 var(--spacing-24); position:relative; overflow:hidden; }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-4) 0;
+      position: relative;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: 1.25rem;
+      color: var(--fg);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+    }
+
+    .logo span { color: var(--accent); }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-6);
+    }
+
+    .header-nav a {
+      color: var(--fg-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color var(--transition-fast);
+    }
+
+    .header-nav a:hover { color: var(--accent); }
+
+    .header-cta {
+      padding: 10px 22px;
+      font-size: 0.85rem;
+      background: #047857;
+      border-color: #047857;
+      color: #fff !important;
+    }
+
+    .header-cta:hover {
+      background: #065f46 !important;
+      border-color: #065f46 !important;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: var(--spacing-28) 0 var(--spacing-24);
+      position: relative;
+      overflow: hidden;
+    }
+
     .hero::before {
-      content:''; position:absolute; top:-40%; right:-15%;
-      width:700px; height:700px;
-      background:radial-gradient(circle, rgba(6,182,212,0.07) 0%, transparent 70%);
-      pointer-events:none;
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
+      pointer-events: none;
     }
+
     .hero::after {
-      content:''; position:absolute; bottom:-30%; left:-10%;
-      width:600px; height:600px;
-      background:radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 70%);
-      pointer-events:none;
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+      pointer-events: none;
     }
+
     .hero-content {
-      position:relative; z-index:1;
-      display:grid; grid-template-columns:1fr 1fr;
-      gap:var(--spacing-16); align-items:center;
-      animation:heroFadeIn 0.7s ease-out forwards;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-16);
+      align-items: center;
+      animation: heroFadeIn 0.7s ease-out forwards;
     }
-    @keyframes heroFadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .hero-tag {
-      display:inline-flex; align-items:center; gap:var(--spacing-2);
-      padding:6px 14px; background:rgba(16,185,129,0.08);
-      border:1px solid rgba(16,185,129,0.2); border-radius:999px;
-      font-size:0.78rem; color:var(--accent); font-weight:500;
-      margin-bottom:var(--spacing-5); letter-spacing:0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.18);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: var(--fw-body-medium);
+      margin-bottom: var(--spacing-5);
+      letter-spacing: 0.02em;
     }
+
     .hero-tag-dot {
-      width:6px; height:6px; background:var(--accent); border-radius:50%;
-      animation:pulse-dot 2s ease-in-out infinite;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
     }
-    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
 
     .hero h1 {
-      font-family:var(--font-display); font-weight:700;
-      font-size:clamp(2rem, 5vw, 3.4rem); line-height:1.15;
-      margin-bottom:var(--spacing-5); text-wrap:balance;
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      margin-bottom: var(--spacing-5);
+      text-wrap: balance;
     }
+
     .hero h1 em {
-      font-style:normal;
-      background:linear-gradient(135deg, var(--accent), var(--accent-secondary));
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .hero-subtitle {
-      color:var(--fg-muted); font-size:1.1rem; line-height:1.7;
-      max-width:500px; margin-bottom:var(--spacing-8);
+
+    .hero p {
+      color: var(--fg-muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: var(--spacing-8);
     }
-    .hero-actions { display:flex; gap:var(--spacing-3); flex-wrap:wrap; align-items:center; }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--spacing-4);
+      flex-wrap: wrap;
+    }
 
     .hero-stats {
-      display:flex; gap:var(--spacing-10); margin-top:var(--spacing-10);
-      padding-top:var(--spacing-6); border-top:1px solid var(--border);
+      display: flex;
+      gap: var(--spacing-12);
+      margin-top: var(--spacing-10);
+      padding-top: var(--spacing-6);
+      border-top: 1px solid var(--border);
     }
+
     .hero-stat-item {
-      display:flex; flex-direction:column; gap:3px;
-      opacity:0; animation:statUp 0.5s ease-out forwards;
-    }
-    .hero-stat-item:nth-child(1){animation-delay:0.6s}
-    .hero-stat-item:nth-child(2){animation-delay:0.75s}
-    .hero-stat-item:nth-child(3){animation-delay:0.9s}
-    @keyframes statUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-    .hero-stat-value { font-family:var(--font-display); font-weight:700; font-size:1.35rem; color:var(--fg); line-height:1.2; }
-    .hero-stat-label { font-size:0.78rem; color:var(--fg-muted); }
-
-    /* HERO VISUAL — live bot mockup */
-    .hero-visual { display:flex; justify-content:center; align-items:center; }
-    .bot-mockup {
-      width:100%; max-width:400px;
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius-large); overflow:hidden;
-      box-shadow:0 8px 32px rgba(0,0,0,0.25);
-    }
-    .bot-mockup-header {
-      display:flex; align-items:center; gap:var(--spacing-3);
-      padding:var(--spacing-4) var(--spacing-5);
-      background:rgba(16,185,129,0.06); border-bottom:1px solid var(--border);
-    }
-    .bot-avatar {
-      width:36px; height:36px; border-radius:50%;
-      background:linear-gradient(135deg, var(--accent), var(--accent-secondary));
-      display:grid; place-items:center; font-size:1rem; flex-shrink:0;
-    }
-    .bot-name { font-weight:600; font-size:0.9rem; }
-    .bot-status { font-size:0.72rem; color:var(--accent); display:flex; align-items:center; gap:4px; }
-    .bot-status-dot { width:6px; height:6px; background:var(--accent); border-radius:50%; animation:pulse-dot 2s infinite; }
-    .bot-messages { padding:var(--spacing-4) var(--spacing-5); display:flex; flex-direction:column; gap:var(--spacing-3); }
-    .bot-msg {
-      background:rgba(55,65,81,0.3); border-radius:var(--radius-medium);
-      padding:var(--spacing-3) var(--spacing-4); font-size:0.8rem;
-      color:var(--fg); line-height:1.5; opacity:0;
-      animation:msgIn 0.4s ease-out forwards;
-    }
-    .bot-msg:nth-child(1){animation-delay:0.3s}
-    .bot-msg:nth-child(2){animation-delay:0.8s}
-    .bot-msg:nth-child(3){animation-delay:1.3s}
-    @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-    .bot-msg .msg-label { font-size:0.68rem; color:var(--accent); font-weight:600; margin-bottom:3px; letter-spacing:0.05em; }
-    .bot-msg .msg-price { font-family:monospace; font-size:1rem; font-weight:700; color:var(--fg); }
-    .bot-msg .msg-change { font-size:0.72rem; color:var(--success); }
-    .bot-msg .msg-analysis { font-size:0.78rem; color:var(--fg-muted); margin-top:4px; line-height:1.5; }
-    .bot-msg-time { font-size:0.65rem; color:var(--fg-muted); text-align:right; margin-top:3px; }
-    .bot-input {
-      display:flex; align-items:center; gap:var(--spacing-2);
-      padding:var(--spacing-3) var(--spacing-5); border-top:1px solid var(--border);
-      background:rgba(55,65,81,0.15);
-    }
-    .bot-input-field {
-      flex:1; background:rgba(55,65,81,0.3); border:1px solid var(--border);
-      border-radius:999px; padding:6px 14px; font-size:0.78rem; color:var(--fg-muted);
-    }
-    .bot-send {
-      width:30px; height:30px; border-radius:50%;
-      background:var(--accent); display:grid; place-items:center; font-size:0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      opacity: 0;
+      animation: statSlideUp 0.5s ease-out forwards;
     }
 
-    /* TRUST BAR */
-    .trust-bar {
-      background:var(--surface); border-top:1px solid var(--border);
-      border-bottom:1px solid var(--border); padding:var(--spacing-6) 0;
-    }
-    .trust-bar-inner {
-      display:flex; align-items:center; justify-content:center;
-      gap:var(--spacing-10); flex-wrap:wrap;
-    }
-    .trust-item { display:flex; align-items:center; gap:var(--spacing-2); font-size:0.82rem; color:var(--fg-muted); }
-    .trust-item span:first-child { color:var(--accent); font-size:1rem; }
+    .hero-stat-item:nth-child(1) { animation-delay: 0.7s; }
+    .hero-stat-item:nth-child(2) { animation-delay: 0.8s; }
+    .hero-stat-item:nth-child(3) { animation-delay: 0.9s; }
 
-    /* BENEFITS */
+    @keyframes statSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-stat-value {
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: 1.4rem;
+      color: var(--fg);
+      line-height: 1.2;
+    }
+
+    .hero-stat-label {
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      line-height: 1.4;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-graph {
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 4/3;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-large);
+      padding: var(--spacing-6);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-graph::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 60%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 70% 40%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(55, 65, 81, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(55, 65, 81, 0.15) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .chart-label {
+      position: absolute;
+      top: var(--spacing-5);
+      right: var(--spacing-5);
+      font-family: var(--font-code);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .chart-bars {
+      position: absolute;
+      bottom: 25%;
+      left: 15%;
+      right: 15%;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 50px;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: linear-gradient(to top, var(--accent), var(--accent-secondary));
+      border-radius: 2px 2px 0 0;
+      opacity: 0.2;
+      animation: bar-rise 1.5s ease-out forwards;
+      transition: opacity var(--transition-medium);
+    }
+
+    .chart-bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
+    .chart-bar:nth-child(2) { height: 55%; animation-delay: 0.2s; }
+    .chart-bar:nth-child(3) { height: 40%; animation-delay: 0.3s; }
+    .chart-bar:nth-child(4) { height: 70%; animation-delay: 0.4s; }
+    .chart-bar:nth-child(5) { height: 50%; animation-delay: 0.5s; }
+    .chart-bar:nth-child(6) { height: 85%; animation-delay: 0.6s; }
+    .chart-bar:nth-child(7) { height: 65%; animation-delay: 0.7s; }
+    .chart-bar:nth-child(8) { height: 90%; animation-delay: 0.8s; }
+    .chart-bar:nth-child(9) { height: 45%; animation-delay: 0.9s; }
+    .chart-bar:nth-child(10) { height: 75%; animation-delay: 1s; }
+
+    @keyframes bar-rise {
+      from { height: 0%; opacity: 0; }
+      to { opacity: 0.3; }
+    }
+
+    .chart-line {
+      position: absolute;
+      bottom: 40%;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent-secondary) 80%, transparent);
+      opacity: 0.3;
+    }
+
+    .chart-line-2 {
+      position: absolute;
+      bottom: 55%;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent) 30%, transparent);
+      opacity: 0.15;
+    }
+
+    .chart-value {
+      position: absolute;
+      bottom: var(--spacing-6);
+      right: var(--spacing-6);
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: 1.6rem;
+      color: var(--fg);
+      opacity: 0.6;
+    }
+
+    .chart-value span {
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      font-family: var(--font-body);
+      font-weight: var(--fw-body-regular);
+    }
+
     .benefits-grid {
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
-      gap:var(--spacing-6); margin-top:var(--spacing-10);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--spacing-6);
+      margin-top: var(--spacing-10);
     }
+
     .benefit-card {
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius-large); padding:var(--spacing-8);
-      transition:border-color var(--transition-fast), box-shadow var(--transition-fast);
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-large);
+      padding: var(--spacing-10);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     }
-    .benefit-card:hover { border-color:rgba(16,185,129,0.25); box-shadow:0 8px 30px rgba(0,0,0,0.15); }
+
+    .benefit-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.03));
+      opacity: 0;
+      transition: opacity var(--transition-medium);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .benefit-card > * { position: relative; z-index: 1; }
+
+    .benefit-card:hover {
+      border-color: rgba(16, 185, 129, 0.2);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .benefit-card:hover::after { opacity: 1; }
+
     .benefit-icon {
-      width:44px; height:44px; border-radius:var(--radius-medium);
-      display:grid; place-items:center; font-size:1.2rem; margin-bottom:var(--spacing-5);
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-medium);
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      margin-bottom: var(--spacing-5);
     }
-    .benefit-icon.acc  { background:rgba(16,185,129,0.1);  color:var(--accent); }
-    .benefit-icon.cyan { background:rgba(6,182,212,0.1);   color:var(--accent-secondary); }
-    .benefit-icon.gold { background:rgba(251,191,36,0.1);  color:var(--warning); }
-    .benefit-icon.purple { background:rgba(139,92,246,0.1); color:#8b5cf6; }
-    .benefit-card h3 { font-weight:600; font-size:1rem; margin-bottom:var(--spacing-3); }
-    .benefit-card p { color:var(--fg-muted); font-size:0.88rem; line-height:1.7; }
 
-    /* COMMANDS */
-    .commands-grid {
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-      gap:var(--spacing-5); margin-top:var(--spacing-10);
-    }
-    .command-card {
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius-large); padding:var(--spacing-6);
-      display:flex; align-items:flex-start; gap:var(--spacing-4);
-      transition:border-color var(--transition-fast);
-    }
-    .command-card:hover { border-color:rgba(16,185,129,0.2); }
-    .command-badge {
-      font-family:monospace; font-size:0.82rem; font-weight:600;
-      color:var(--accent); background:rgba(16,185,129,0.1);
-      border:1px solid rgba(16,185,129,0.2); border-radius:var(--radius-medium);
-      padding:4px 10px; white-space:nowrap; flex-shrink:0;
-    }
-    .command-info h4 { font-size:0.92rem; font-weight:600; margin-bottom:4px; }
-    .command-info p { font-size:0.82rem; color:var(--fg-muted); line-height:1.6; }
+    .benefit-icon.acc { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
+    .benefit-icon.cyan { background: rgba(6, 182, 212, 0.1); color: var(--accent-secondary); }
+    .benefit-icon.gold { background: rgba(251, 191, 36, 0.1); color: var(--warning); }
+    .benefit-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
 
-    /* HOW IT WORKS */
+    .benefit-card h3 {
+      font-family: var(--font-heading);
+      font-weight: var(--fw-heading-semibold);
+      font-size: 1.1rem;
+      margin-bottom: var(--spacing-3);
+    }
+
+    .benefit-card p {
+      color: var(--fg-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
     .steps-grid {
-      display:grid; grid-template-columns:repeat(3, 1fr);
-      gap:var(--spacing-8); margin-top:var(--spacing-10); position:relative;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-8);
+      margin-top: var(--spacing-10);
+      position: relative;
     }
+
     .steps-grid::before {
-      content:''; position:absolute; top:48px;
-      left:calc(16.67% + 24px); right:calc(16.67% + 24px); height:2px;
-      background:linear-gradient(90deg, var(--accent), var(--border), var(--accent-secondary));
-      opacity:0.3;
+      content: '';
+      position: absolute;
+      top: 48px;
+      left: calc(16.67% + 24px);
+      right: calc(16.67% + 24px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--border), var(--accent-secondary));
+      opacity: 0.3;
     }
-    .step-card { text-align:center; }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+    }
+
     .step-number {
-      width:64px; height:64px; border-radius:50%;
-      background:var(--surface); border:2px solid var(--accent);
-      display:grid; place-items:center; font-family:var(--font-display);
-      font-weight:700; font-size:1.4rem; color:var(--accent);
-      margin:0 auto var(--spacing-6); position:relative; z-index:1;
-      transition:transform var(--transition-medium), box-shadow var(--transition-medium);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin: 0 auto var(--spacing-6);
+      position: relative;
+      z-index: 1;
+      transition: transform var(--transition-medium), box-shadow var(--transition-medium);
     }
-    .step-card:hover .step-number { transform:scale(1.06); box-shadow:0 0 24px rgba(16,185,129,0.15); }
-    .step-card:last-child .step-number { border-color:var(--accent-secondary); color:var(--accent-secondary); }
-    .step-card h3 { font-weight:600; font-size:1rem; margin-bottom:var(--spacing-3); }
-    .step-card p { color:var(--fg-muted); font-size:0.88rem; line-height:1.7; max-width:300px; margin:0 auto; }
 
-    /* TESTIMONIALS */
+    .step-card:nth-child(3) .step-number {
+      border-color: var(--accent-secondary);
+      color: var(--accent-secondary);
+    }
+
+    .step-card:hover .step-number {
+      transform: scale(1.06);
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.12);
+    }
+
+    .step-card h3 {
+      font-family: var(--font-heading);
+      font-weight: var(--fw-heading-semibold);
+      font-size: 1.1rem;
+      margin-bottom: var(--spacing-3);
+    }
+
+    .step-card p {
+      color: var(--fg-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      max-width: 310px;
+      margin: 0 auto;
+    }
+
     .testimonials-grid {
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
-      gap:var(--spacing-6); margin-top:var(--spacing-10);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--spacing-6);
+      margin-top: var(--spacing-10);
     }
+
     .testimonial-card {
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius-large); padding:var(--spacing-8);
-      transition:border-color var(--transition-medium);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-large);
+      padding: var(--spacing-10);
+      transition: border-color var(--transition-medium), background var(--transition-medium);
     }
-    .testimonial-card:hover { border-color:rgba(16,185,129,0.2); }
-    .testimonial-stars { color:var(--warning); font-size:0.88rem; margin-bottom:var(--spacing-4); letter-spacing:2px; }
-    .testimonial-quote { color:var(--fg); font-size:0.92rem; line-height:1.7; margin-bottom:var(--spacing-6); font-style:italic; }
-    .testimonial-author { display:flex; align-items:center; gap:var(--spacing-3); }
+
+    .testimonial-card:hover {
+      border-color: rgba(16, 185, 129, 0.15);
+      background: rgba(16, 185, 129, 0.015);
+    }
+
+    .testimonial-stars {
+      color: var(--warning);
+      font-size: 0.9rem;
+      margin-bottom: var(--spacing-4);
+      letter-spacing: 2px;
+    }
+
+    .testimonial-quote {
+      color: var(--fg);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: var(--spacing-6);
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3);
+    }
+
     .testimonial-avatar {
-      width:40px; height:40px; border-radius:50%;
-      background:linear-gradient(135deg, var(--accent), var(--accent-secondary));
-      display:grid; place-items:center; color:#fff; font-weight:700; font-size:0.82rem; flex-shrink:0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: var(--fw-heading-bold);
+      font-size: 0.85rem;
     }
-    .testimonial-name { font-weight:600; font-size:0.88rem; }
-    .testimonial-role { font-size:0.78rem; color:var(--fg-muted); }
 
-    /* FAQ */
-    .faq-list { max-width:720px; margin:var(--spacing-10) auto 0; }
-    .faq-item { border-bottom:1px solid var(--border); }
-    .faq-question {
-      width:100%; display:flex; align-items:center; justify-content:space-between;
-      gap:var(--spacing-4); padding:var(--spacing-5) 0;
-      background:none; border:none; color:var(--fg); font-family:var(--font-body);
-      font-weight:500; font-size:0.97rem; text-align:left; cursor:pointer;
-      transition:color var(--transition-fast); min-height:44px;
+    .testimonial-name {
+      font-weight: var(--fw-heading-semibold);
+      font-size: 0.9rem;
     }
-    .faq-question:hover { color:var(--accent); }
-    .faq-question-icon {
-      width:26px; height:26px; border-radius:50%;
-      background:rgba(16,185,129,0.1); display:grid; place-items:center;
-      font-size:1rem; color:var(--accent);
-      transition:background var(--transition-fast), transform var(--transition-fast); flex-shrink:0;
-    }
-    .faq-item.open .faq-question-icon { background:var(--accent); color:#fff; transform:rotate(45deg); }
-    .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.35s ease, padding 0.2s ease; }
-    .faq-item.open .faq-answer { max-height:400px; padding-bottom:var(--spacing-5); }
-    .faq-answer p { color:var(--fg-muted); font-size:0.9rem; line-height:1.75; }
 
-    /* PRICING */
-    .pricing { text-align:center; }
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+    }
+
+    .pricing {
+      text-align: center;
+    }
+
     .pricing-grid {
-      display:grid; grid-template-columns:1fr 1fr;
-      gap:var(--spacing-8); max-width:780px; margin:var(--spacing-12) auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 800px;
+      margin: 48px auto 0;
     }
+
     .pricing-card {
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius-xl); padding:var(--spacing-10) var(--spacing-8);
-      text-align:center; display:flex; flex-direction:column; position:relative;
-      transition:border-color 0.2s, box-shadow 0.2s;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
     }
-    .pricing-card:hover { border-color:var(--border-hover); box-shadow:0 8px 24px rgba(0,0,0,0.25); }
+
+    .pricing-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+
     .pricing-card.featured {
-      border-color:var(--accent);
-      box-shadow:0 0 0 1px var(--accent), 0 8px 32px rgba(16,185,129,0.12);
+      border-color: var(--accent);
+      position: relative;
+      box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(16,185,129,0.12);
     }
+
     .pricing-card.featured::before {
-      content:"MÁS POPULAR"; position:absolute; top:-13px; left:50%;
-      transform:translateX(-50%); background:var(--accent); color:#fff;
-      font-size:0.62rem; font-weight:700; letter-spacing:0.15em;
-      padding:4px 16px; border-radius:999px; white-space:nowrap;
+      content: "MÁS POPULAR";
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #fff;
+      font: 700 0.65rem/1 monospace;
+      letter-spacing: 0.15em;
+      padding: 4px 16px;
+      border-radius: 999px;
     }
-    .pricing-card h3 { font-family:var(--font-display); font-size:1.4rem; font-weight:600; margin-bottom:4px; }
-    .pricing-card .price { font-family:var(--font-display); font-size:2.4rem; font-weight:700; margin:var(--spacing-4) 0 4px; }
-    .pricing-card .price-sub { font-size:0.82rem; color:var(--muted); margin-bottom:var(--spacing-6); }
-    .pricing-card ul { list-style:none; margin:0 0 var(--spacing-8); flex:1; text-align:left; }
+
+    .pricing-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0 0 4px;
+      color: var(--fg);
+    }
+
+    .pricing-card .price {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin: 16px 0 4px;
+    }
+
+    .pricing-card .price-sub {
+      font-size: 0.85rem;
+      color: var(--fg-muted);
+      margin: 0 0 24px;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 32px;
+      flex: 1;
+      text-align: left;
+    }
+
     .pricing-card ul li {
-      padding:7px 0; font-size:0.88rem; display:flex;
-      align-items:flex-start; gap:10px; line-height:1.4;
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--fg);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.4;
     }
-    .pricing-card ul li::before { content:"✓"; color:var(--accent); font-weight:700; flex-shrink:0; }
-    .pricing-card .btn { width:100%; }
-    .pricing-note { font-size:0.72rem; color:var(--muted); margin-top:var(--spacing-6); line-height:1.5; }
 
-    /* CTA */
-    .cta-section { padding:var(--spacing-32) 0; position:relative; overflow:hidden; }
+    .pricing-card ul li::before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+    }
+
+    .pricing-note {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      margin-top: 32px;
+      line-height: 1.5;
+    }
+
+    .faq-list {
+      max-width: 720px;
+      margin: var(--spacing-10) auto 0;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-4);
+      padding: var(--spacing-6) 0;
+      background: none;
+      border: none;
+      color: var(--fg);
+      font-family: var(--font-heading);
+      font-weight: var(--fw-heading-medium);
+      font-size: 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+    }
+
+    .faq-question:hover { color: var(--accent); }
+
+    .faq-question-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.1);
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      color: var(--accent);
+      transition: background var(--transition-fast), transform var(--transition-fast);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .faq-item.open .faq-question-icon {
+      background: var(--accent);
+      color: #fff;
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-medium), padding var(--transition-medium);
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 320px;
+      padding-bottom: var(--spacing-5);
+    }
+
+    .faq-answer p {
+      color: var(--fg-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .cta-section {
+      padding: var(--spacing-32) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
     .cta-section::before {
-      content:''; position:absolute; top:50%; left:50%;
-      transform:translate(-50%,-50%); width:800px; height:800px;
-      background:radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 60%);
-      pointer-events:none;
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, transparent 60%);
+      pointer-events: none;
     }
+
     .cta-box {
-      position:relative; z-index:1; text-align:center;
-      background:var(--surface); border:1px solid rgba(16,185,129,0.18);
-      border-radius:var(--radius-xl); padding:var(--spacing-16) var(--spacing-8);
-      max-width:780px; margin:0 auto; box-shadow:0 4px 24px rgba(0,0,0,0.12);
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-16) var(--spacing-8);
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+      animation: ctaFadeIn 0.7s ease-out forwards;
     }
+
+    @keyframes ctaFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .cta-box h2 {
-      font-family:var(--font-display); font-weight:700;
-      font-size:clamp(1.5rem, 3.5vw, 2.1rem); margin-bottom:var(--spacing-5); text-wrap:balance;
+      font-family: var(--font-display);
+      font-weight: var(--fw-display-bold);
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      margin-bottom: var(--spacing-5);
+      text-wrap: pretty;
     }
-    .cta-box p { color:var(--fg-muted); font-size:1rem; max-width:500px; margin:0 auto var(--spacing-8); line-height:1.7; }
-    .cta-actions { display:flex; justify-content:center; gap:var(--spacing-4); flex-wrap:wrap; }
-    .cta-guarantee { margin-top:var(--spacing-5); font-size:0.78rem; color:var(--fg-muted); }
 
-    /* FOOTER */
-    .footer { border-top:1px solid var(--border); padding:var(--spacing-10) 0; }
+    .cta-box p {
+      color: var(--fg-muted);
+      font-size: 1.05rem;
+      max-width: 560px;
+      margin: 0 auto var(--spacing-8);
+      line-height: 1.7;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: var(--spacing-4);
+      flex-wrap: wrap;
+    }
+
+    .cta-guarantee {
+      margin-top: var(--spacing-5);
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: var(--spacing-10) 0;
+    }
+
     .footer-inner {
-      display:flex; justify-content:space-between; align-items:center;
-      flex-wrap:wrap; gap:var(--spacing-4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--spacing-4);
     }
-    .footer-copy { font-size:0.82rem; color:var(--fg-muted); }
-    .footer-links { display:flex; gap:var(--spacing-6); flex-wrap:wrap; }
-    .footer-links a { color:var(--fg-muted); font-size:0.82rem; text-decoration:none; transition:color var(--transition-fast); }
-    .footer-links a:hover { color:var(--accent); }
 
-    /* REVEAL */
-    .reveal { opacity:0; transform:translateY(22px); transition:opacity 0.6s ease-out, transform 0.6s ease-out; }
-    .reveal.visible { opacity:1; transform:translateY(0); }
-    .reveal-delay-1{transition-delay:0.08s} .reveal-delay-2{transition-delay:0.16s}
-    .reveal-delay-3{transition-delay:0.24s} .reveal-delay-4{transition-delay:0.32s}
-
-    /* RESPONSIVE */
-    @media(max-width:1024px){
-      .hero-content{grid-template-columns:1fr;text-align:center}
-      .hero-subtitle{margin:0 auto var(--spacing-8)}
-      .hero-actions{justify-content:center}
-      .hero-stats{justify-content:center;margin-top:var(--spacing-8)}
-      .hero-stat-item{align-items:center}
-      .hero-visual{display:none}
-      .section-desc{margin-left:auto;margin-right:auto;text-align:center}
-      .section-title{text-align:center} .section-label{text-align:center}
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--fg-muted);
     }
-    @media(max-width:768px){
-      .header-nav{display:none} .mobile-menu-btn{display:inline-flex}
-      .header-nav.open{
-        display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;
-        background:rgba(10,14,23,0.98);padding:var(--spacing-4) var(--spacing-6) var(--spacing-6);
-        border-bottom:1px solid var(--border);gap:0;z-index:99;
+
+    .footer-links {
+      display: flex;
+      gap: var(--spacing-6);
+    }
+
+    .footer-links span {
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+      cursor: default;
+      position: relative;
+    }
+
+    .footer-links span::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform var(--transition-fast);
+    }
+
+    .footer-links span:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
       }
-      .header-nav.open a{font-size:1rem;padding:14px 0;border-bottom:1px solid rgba(55,65,81,0.25);width:100%;min-height:48px;display:flex;align-items:center}
-      .header-nav.open a.btn{margin-top:var(--spacing-4);border-bottom:none;justify-content:center;border-radius:var(--radius-medium)}
-      .section{padding:var(--spacing-20) 0} .cta-section{padding:var(--spacing-20) 0}
-      .steps-grid{grid-template-columns:1fr;gap:var(--spacing-8)}
-      .steps-grid::before{display:none}
-      .testimonials-grid{grid-template-columns:1fr;gap:var(--spacing-5)}
-      .benefits-grid{grid-template-columns:1fr;gap:var(--spacing-5)}
-      .pricing-grid{grid-template-columns:1fr;max-width:420px;gap:var(--spacing-6)}
-      .footer-inner{flex-direction:column;align-items:center;text-align:center}
-      .footer-links{justify-content:center}
+
+      .hero p {
+        margin: 0 auto var(--spacing-8);
+        max-width: 600px;
+      }
+
+      .hero-actions,
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-stat-item { align-items: center; }
+      .hero-visual { display: none; }
+      .steps-grid { gap: var(--spacing-10); }
+      .section-desc {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
+      .section-title,
+      .section-label {
+        text-align: center;
+      }
     }
-    @media(max-width:480px){
-      .container{width:min(1200px,94%)}
-      .hero{padding:var(--spacing-16) 0 var(--spacing-12)}
-      .hero h1{font-size:clamp(1.7rem,8vw,2.3rem)}
-      .hero-stats{flex-direction:column;gap:var(--spacing-4);align-items:flex-start}
-      .hero-actions{flex-direction:column;align-items:stretch}
-      .hero-actions .btn{width:100%}
-      .section-title{font-size:clamp(1.3rem,6vw,1.7rem)}
-      .btn{padding:13px 20px;font-size:0.88rem}
-      .cta-box{padding:var(--spacing-10) var(--spacing-5)}
-      .cta-actions{flex-direction:column;align-items:stretch}
-      .cta-actions .btn{width:100%}
-      .benefit-card,.testimonial-card{padding:var(--spacing-6)}
-      .pricing-card{padding:var(--spacing-8) var(--spacing-5)}
+
+    @media (max-width: 768px) {
+      .header-nav {
+        display: none;
+      }
+
+      .header-nav.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 14, 23, 0.97);
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        gap: 12px;
+      }
+
+      .mobile-menu-btn { display: block; }
+
+      .steps-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-10);
+      }
+
+      .steps-grid::before { display: none; }
+
+      .step-card p { max-width: 400px; }
+
+      .section { padding: var(--spacing-20) 0; }
+      .cta-section { padding: var(--spacing-20) 0; }
+      .cta-box { padding: var(--spacing-12) var(--spacing-6); }
+
+      .testimonials-grid,
+      .benefits-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .testimonials-grid,
+      .benefits-grid { gap: var(--spacing-5); }
+
+      .hero-stats { gap: var(--spacing-8); }
+      .hero-stat-value { font-size: 1.2rem; }
+      .section-title { font-size: clamp(1.5rem, 5vw, 2rem); }
+      .benefit-card,
+      .testimonial-card,
+      .pricing-card { padding: var(--spacing-8); }
     }
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
-      .reveal{opacity:1;transform:none} .hero-stat-item{opacity:1}
+
+    @media (max-width: 480px) {
+      .hero { padding: var(--spacing-20) 0 var(--spacing-16); }
+      .hero h1 { font-size: clamp(1.8rem, 7vw, 2.8rem); }
+      .hero p { font-size: 1rem; }
+
+      .hero-stats {
+        flex-direction: column;
+        gap: var(--spacing-5);
+        align-items: flex-start;
+      }
+
+      .hero-actions,
+      .cta-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-actions .btn,
+      .cta-actions .btn,
+      .pricing-card .btn {
+        width: 100%;
+      }
+
+      .section-title { font-size: 1.5rem; }
+
+      .faq-question {
+        font-size: 0.95rem;
+        padding: var(--spacing-4) 0;
+      }
+
+      .btn {
+        font-size: 0.85rem;
+        padding: 12px 20px;
+        white-space: normal;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+      }
+
+      .pricing-card .price {
+        font-size: 2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal { opacity: 1; transform: none; }
+      .hero-stat-item { opacity: 1; }
     }
   </style>
 </head>
@@ -501,248 +1175,225 @@
 
   <header class="header">
     <div class="container header-inner">
-      <a href="index.html" class="logo" aria-label="BotTrader — Inicio">
-        <span class="logo-icon" aria-hidden="true">⟠</span>
+      <a href="#" class="logo">
+        <span class="logo-icon">⟠</span>
         Bot<span>Trader</span>
       </a>
-      <nav class="header-nav" aria-label="Navegación principal">
+
+      <nav class="header-nav" id="mobileNav">
         <a href="#beneficios">Beneficios</a>
-        <a href="#comandos">Comandos</a>
         <a href="#como-funciona">Cómo funciona</a>
-        <a href="#precios">Precios</a>
-        <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
-           class="btn btn-primary header-cta">Activar gratis</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#precios">Planes</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary header-cta">Abrir en Telegram</a>
       </nav>
-      <button class="mobile-menu-btn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+      <button class="mobile-menu-btn" aria-label="Menú" aria-expanded="false" aria-controls="mobileNav">☰</button>
     </div>
   </header>
 
-  <section class="hero" aria-labelledby="hero-heading">
+  <section class="hero">
     <div class="container">
       <div class="hero-content">
         <div>
           <div class="hero-tag">
-            <span class="hero-tag-dot" aria-hidden="true"></span>
-            Analista crypto con IA · Gratis en Telegram
+            <span class="hero-tag-dot"></span>
+            Análisis y automatización para Telegram
           </div>
-          <h1 id="hero-heading">
-            Deja de mirar precios.<br />
-            <em>Deja que la IA lo haga por ti.</em>
+
+          <h1>
+            Sigue el mercado crypto con
+            <br />
+            <em>más contexto y menos ruido</em>
           </h1>
-          <p class="hero-subtitle">
-            BotTrader te da precios reales de BTC, ETH y SOL con análisis automático 
-            generado por IA, directamente en Telegram. Sin apps, sin registros, sin coste.
+
+          <p>
+            BotTrader te permite consultar mercado, recibir análisis automáticos y seguir oportunidades desde Telegram con una experiencia simple, directa y pensada para ayudarte a trabajar con más claridad.
           </p>
+
           <div class="hero-actions">
-            <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
-               class="btn btn-primary">📲 Activar BotTrader gratis</a>
-            <a href="#como-funciona" class="btn btn-secondary">Ver cómo funciona</a>
+            <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              Abrir Bot en Telegram
+            </a>
+            <a href="#como-funciona" class="btn btn-secondary">
+              Ver cómo funciona
+            </a>
+            <a href="dashboard.html" class="btn btn-outline">
+              Ver demo del dashboard
+            </a>
           </div>
-          <div class="hero-stats" aria-label="Estadísticas">
+
+          <div class="hero-stats">
             <div class="hero-stat-item">
-              <div class="hero-stat-value">3</div>
-              <div class="hero-stat-label">Mercados en tiempo real</div>
+              <div class="hero-stat-value">24/7</div>
+              <div class="hero-stat-label">Seguimiento del mercado</div>
             </div>
             <div class="hero-stat-item">
               <div class="hero-stat-value">IA</div>
-              <div class="hero-stat-label">Análisis automático</div>
+              <div class="hero-stat-label">Análisis y resúmenes automáticos</div>
             </div>
             <div class="hero-stat-item">
-              <div class="hero-stat-value">0 €</div>
-              <div class="hero-stat-label">Para empezar</div>
+              <div class="hero-stat-value">Demo</div>
+              <div class="hero-stat-label">Panel visual para enseñar el producto</div>
             </div>
           </div>
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="bot-mockup">
-            <div class="bot-mockup-header">
-              <div class="bot-avatar">🤖</div>
-              <div>
-                <div class="bot-name">BotTrader</div>
-                <div class="bot-status"><span class="bot-status-dot"></span>En línea</div>
-              </div>
+
+        <div class="hero-visual">
+          <div class="hero-graph">
+            <div class="bg-grid"></div>
+            <div class="chart-label">MARKET FLOW</div>
+
+            <div class="chart-bars">
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
             </div>
-            <div class="bot-messages">
-              <div class="bot-msg">
-                <div class="msg-label">📊 PRECIOS REALES · COINBASE</div>
-                <div class="msg-price">BTC $73,697 <span class="msg-change">▲ +2.4%</span></div>
-                <div class="msg-price">ETH $2,014 <span class="msg-change">▲ +1.8%</span></div>
-                <div class="msg-price">SOL $82.28 <span class="msg-change">▲ +3.1%</span></div>
-                <div class="bot-msg-time">hace 2 min</div>
-              </div>
-              <div class="bot-msg">
-                <div class="msg-label">🤖 ANÁLISIS IA</div>
-                <div class="msg-analysis">Con BTC por encima de $73k el mercado muestra señales alcistas. SOL destaca con el mayor movimiento del día.</div>
-                <div class="bot-msg-time">hace 2 min</div>
-              </div>
-              <div class="bot-msg">
-                <div class="msg-label">⚡ AUTOPOST ACTIVO</div>
-                <div class="msg-analysis">Próxima actualización automática en 58 minutos.</div>
-                <div class="bot-msg-time">ahora</div>
-              </div>
-            </div>
-            <div class="bot-input">
-              <div class="bot-input-field">/precio BTC</div>
-              <div class="bot-send">➤</div>
-            </div>
+
+            <div class="chart-line"></div>
+            <div class="chart-line-2"></div>
+            <div class="chart-value">Live <span>signals & context</span></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="trust-bar">
-    <div class="container trust-bar-inner">
-      <div class="trust-item"><span>📊</span><span>Datos reales de Coinbase</span></div>
-      <div class="trust-item"><span>🤖</span><span>Análisis generado por IA</span></div>
-      <div class="trust-item"><span>⚡</span><span>Respuesta en segundos</span></div>
-      <div class="trust-item"><span>🆓</span><span>Gratis para empezar</span></div>
-    </div>
-  </div>
-
-  <section id="beneficios" class="section" aria-labelledby="beneficios-heading">
+  <section id="beneficios" class="section">
     <div class="container">
       <p class="section-label">Beneficios</p>
-      <h2 class="section-title" id="beneficios-heading">Todo lo que necesitas saber del mercado, sin esfuerzo</h2>
-      <p class="section-desc">Para traders que quieren información clara y rápida, sin depender de pantallas ni perder tiempo.</p>
+      <h2 class="section-title">Qué puedes hacer con BotTrader</h2>
+      <p class="section-desc">
+        Una herramienta pensada para seguir mercado, entender mejor el contexto y mantener tu flujo de trabajo más ordenado desde Telegram.
+      </p>
+
       <div class="benefits-grid">
         <div class="benefit-card reveal reveal-delay-1">
-          <div class="benefit-icon acc">📊</div>
-          <h3>Precios reales al instante</h3>
-          <p>BTC, ETH y SOL directamente desde Coinbase. Datos fiables en tiempo real con un solo comando.</p>
+          <div class="benefit-icon acc">⚡</div>
+          <h3>Consulta mercado en segundos</h3>
+          <p>
+            Revisa activos, contexto y movimientos recientes sin ir saltando entre varias pestañas, apps o fuentes dispersas.
+          </p>
         </div>
+
         <div class="benefit-card reveal reveal-delay-2">
-          <div class="benefit-icon cyan">🤖</div>
-          <h3>Análisis automático con IA</h3>
-          <p>Cada consulta de precio incluye un análisis generado por IA que interpreta el contexto del mercado en ese momento.</p>
+          <div class="benefit-icon cyan">🧠</div>
+          <h3>Análisis automáticos más claros</h3>
+          <p>
+            Recibe resúmenes, contexto y señales explicadas con un lenguaje más útil para tomar decisiones con más criterio.
+          </p>
         </div>
+
         <div class="benefit-card reveal reveal-delay-3">
-          <div class="benefit-icon gold">⚡</div>
-          <h3>Señales automáticas cada hora</h3>
-          <p>Activa el autopost y BotTrader publica análisis de mercado automáticamente en tu grupo de Telegram cada hora.</p>
+          <div class="benefit-icon gold">📣</div>
+          <h3>Publicaciones y seguimiento</h3>
+          <p>
+            Úsalo para generar contenido, alertas o seguimiento de mercado en grupos, canales o rutinas personales dentro de Telegram.
+          </p>
         </div>
+
         <div class="benefit-card reveal reveal-delay-4">
-          <div class="benefit-icon purple">🔮</div>
-          <h3>Predicciones sobre cualquier tema</h3>
-          <p>Pregunta sobre cualquier evento, tendencia o activo crypto y la IA genera una predicción razonada al momento.</p>
+          <div class="benefit-icon purple">📊</div>
+          <h3>Dashboard demo para enseñar valor</h3>
+          <p>
+            Muestra una vista más visual del producto con un panel demo que refuerza la sensación de herramienta real antes de convertir.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="comandos" class="section" style="background:var(--surface);" aria-labelledby="comandos-heading">
-    <div class="container">
-      <p class="section-label">Comandos</p>
-      <h2 class="section-title" id="comandos-heading">Todo lo que puedes hacer con BotTrader</h2>
-      <p class="section-desc">Seis comandos simples que te dan el control total del mercado desde Telegram.</p>
-      <div class="commands-grid">
-        <div class="command-card reveal reveal-delay-1">
-          <div class="command-badge">/precio</div>
-          <div class="command-info">
-            <h4>Precios en tiempo real</h4>
-            <p>Obtén los precios actuales de BTC, ETH y SOL con análisis de mercado incluido. Datos de Coinbase.</p>
-          </div>
-        </div>
-        <div class="command-card reveal reveal-delay-2">
-          <div class="command-badge">/prediccion</div>
-          <div class="command-info">
-            <h4>Predicción con IA</h4>
-            <p>Escribe cualquier tema crypto y la IA genera una predicción razonada. Ej: <em>/prediccion Bitcoin esta semana</em></p>
-          </div>
-        </div>
-        <div class="command-card reveal reveal-delay-3">
-          <div class="command-badge">/mercados</div>
-          <div class="command-info">
-            <h4>Mercados de Polymarket</h4>
-            <p>Consulta los mercados de predicción más activos y sus probabilidades en tiempo real.</p>
-          </div>
-        </div>
-        <div class="command-card reveal reveal-delay-4">
-          <div class="command-badge">/autopost</div>
-          <div class="command-info">
-            <h4>Señales automáticas</h4>
-            <p>Activa el autopost y el bot publica análisis de mercado automáticamente cada hora en tu grupo.</p>
-          </div>
-        </div>
-        <div class="command-card reveal">
-          <div class="command-badge">/stopautopost</div>
-          <div class="command-info">
-            <h4>Parar autopost</h4>
-            <p>Detiene las publicaciones automáticas cuando quieras. Tú tienes el control total.</p>
-          </div>
-        </div>
-        <div class="command-card reveal">
-          <div class="command-badge">/memoria</div>
-          <div class="command-info">
-            <h4>Borrar historial</h4>
-            <p>Limpia el historial de conversación del bot para empezar desde cero.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="como-funciona" class="section" aria-labelledby="steps-heading">
+  <section id="como-funciona" class="section" style="background: var(--surface);">
     <div class="container">
       <p class="section-label">Cómo funciona</p>
-      <h2 class="section-title" id="steps-heading">Activo en menos de 2 minutos</h2>
-      <p class="section-desc">Sin registros, sin apps, sin tarjeta. Solo Telegram.</p>
+      <h2 class="section-title">Empieza en 3 pasos simples</h2>
+      <p class="section-desc">
+        El flujo está pensado para ser directo: ver el producto, entrar al bot y decidir después si quieres ampliar funciones.
+      </p>
+
       <div class="steps-grid">
         <div class="step-card reveal reveal-delay-1">
-          <div class="step-number" aria-hidden="true">1</div>
-          <h3>Abre el bot en Telegram</h3>
-          <p>Busca <strong>@CryptoTerminalAlpha_Bot</strong> en Telegram o haz clic en el botón de abajo. Pulsa Iniciar.</p>
+          <div class="step-number">1</div>
+          <h3>Entra al bot desde Telegram</h3>
+          <p>
+            Abres BotTrader desde Telegram y accedes a una forma rápida de consultar información, recibir señales y entender mejor lo que está pasando en mercado.
+          </p>
         </div>
+
         <div class="step-card reveal reveal-delay-2">
-          <div class="step-number" aria-hidden="true">2</div>
-          <h3>Escribe tu primer comando</h3>
-          <p>Prueba <strong>/precio BTC</strong> y recibe el precio actual con análisis de IA en segundos.</p>
+          <div class="step-number">2</div>
+          <h3>Revisa análisis y oportunidades</h3>
+          <p>
+            Obtienes contexto, resúmenes y seguimiento del mercado para trabajar con más claridad, tanto si operas por tu cuenta como si publicas contenido.
+          </p>
         </div>
+
         <div class="step-card reveal reveal-delay-3">
-          <div class="step-number" aria-hidden="true">3</div>
-          <h3>Activa el autopost</h3>
-          <p>Añade el bot a tu grupo y activa <strong>/autopost</strong> para recibir señales automáticas cada hora.</p>
+          <div class="step-number">3</div>
+          <h3>Escala a Pro si te compensa</h3>
+          <p>
+            Si necesitas más frecuencia, más automatización o funciones ampliadas, puedes pasar a una versión superior sin cambiar tu flujo principal.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="testimonios" class="section" style="background:var(--surface);" aria-labelledby="testimonios-heading">
+  <section id="testimonios" class="section">
     <div class="container">
       <p class="section-label">Testimonios</p>
-      <h2 class="section-title" id="testimonios-heading">Lo que dicen los usuarios</h2>
-      <p class="section-desc">Traders que ya usan BotTrader en su día a día.</p>
+      <h2 class="section-title">Lo que valoran quienes lo prueban</h2>
+      <p class="section-desc">
+        BotTrader está pensado para aportar claridad, velocidad y una experiencia más simple en Telegram.
+      </p>
+
       <div class="testimonials-grid">
         <div class="testimonial-card reveal reveal-delay-1">
-          <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
-          <p class="testimonial-quote">"Lo tengo en mi grupo de trading y publica análisis cada hora solo. Mis seguidores están encantados y yo no tengo que hacer nada."</p>
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">
+            "Lo que más me gusta es que puedo revisar mercado y recibir contexto sin tener que abrir mil herramientas. Me ahorra tiempo y me ordena mejor el día."
+          </p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar" aria-hidden="true">MR</div>
+            <div class="testimonial-avatar">CP</div>
             <div>
-              <div class="testimonial-name">Miguel R.</div>
-              <div class="testimonial-role">Admin de canal crypto, 2.400 miembros</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card reveal reveal-delay-2">
-          <div class="testimonial-stars" aria-label="5 estrellas">★★★★★</div>
-          <p class="testimonial-quote">"El análisis que genera la IA con cada precio me ahorra leer 10 artículos. En 3 segundos sé lo que está pasando en el mercado."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar" aria-hidden="true">SL</div>
-            <div>
-              <div class="testimonial-name">Sara L.</div>
+              <div class="testimonial-name">Carlos P.</div>
               <div class="testimonial-role">Trader independiente</div>
             </div>
           </div>
         </div>
-        <div class="testimonial-card reveal reveal-delay-3">
-          <div class="testimonial-stars" aria-label="4 estrellas">★★★★☆</div>
-          <p class="testimonial-quote">"Las predicciones no son infalibles pero me dan una perspectiva extra antes de tomar decisiones. Muy útil como segunda opinión."</p>
+
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">
+            "El bot me sirve para seguir oportunidades y también para generar mensajes más útiles para mi grupo. Se nota más práctico que otros bots genéricos."
+          </p>
           <div class="testimonial-author">
-            <div class="testimonial-avatar" aria-hidden="true">JM</div>
+            <div class="testimonial-avatar">MG</div>
             <div>
-              <div class="testimonial-name">Javi M.</div>
-              <div class="testimonial-role">Inversor crypto, 3 años</div>
+              <div class="testimonial-name">María G.</div>
+              <div class="testimonial-role">Usuaria activa de comunidades crypto</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-stars">★★★★☆</div>
+          <p class="testimonial-quote">
+            "El dashboard demo ayuda mucho a entender el producto. Primero lo ves, luego entras a Telegram y el flujo tiene más sentido."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">AL</div>
+            <div>
+              <div class="testimonial-name">Andrés L.</div>
+              <div class="testimonial-role">Developer y usuario crypto</div>
             </div>
           </div>
         </div>
@@ -750,121 +1401,147 @@
     </div>
   </section>
 
-  <section id="faq" class="section" aria-labelledby="faq-heading">
+  <section id="faq" class="section" style="background: var(--surface);">
     <div class="container">
       <p class="section-label">FAQ</p>
-      <h2 class="section-title" id="faq-heading">Preguntas frecuentes</h2>
-      <p class="section-desc" style="margin-bottom:0;">Todo lo que necesitas saber antes de empezar.</p>
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <p class="section-desc" style="margin-bottom: 0;">
+        Respuestas claras para entender qué hace BotTrader y cómo encaja en tu flujo.
+      </p>
+
       <div class="faq-list reveal">
         <div class="faq-item open">
-          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="true">
-            ¿Es completamente gratis?
-            <span class="faq-question-icon" aria-hidden="true">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿BotTrader garantiza beneficios?
+            <span class="faq-question-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>Sí. El plan básico es 100% gratuito. Incluye precios en tiempo real, análisis con IA y predicciones. El plan Pro añade funciones avanzadas y soporte prioritario por 9€/mes.</p>
+            <p>
+              No. BotTrader ofrece información, análisis y automatización de seguimiento o contenido, pero no puede garantizar resultados de mercado ni sustituir tu criterio.
+            </p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-            ¿Necesito instalar algo?
-            <span class="faq-question-icon" aria-hidden="true">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Puedo empezar gratis?
+            <span class="faq-question-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>No. Solo necesitas Telegram, que probablemente ya tienes. Busca @CryptoTerminalAlpha_Bot, pulsa Iniciar y ya está funcionando.</p>
+            <p>
+              Sí. Hay una capa inicial para que puedas probar la experiencia, entender el valor del producto y decidir después si necesitas una versión más completa.
+            </p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-            ¿De dónde vienen los precios?
-            <span class="faq-question-icon" aria-hidden="true">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Dónde se usa realmente el producto?
+            <span class="faq-question-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>Los precios provienen directamente de Coinbase, uno de los exchanges más fiables del mundo. Son datos en tiempo real, no estimaciones.</p>
+            <p>
+              El punto principal de uso es Telegram. La landing presenta el servicio y el dashboard demo ayuda a mostrar el producto de una forma más visual.
+            </p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-            ¿El autopost funciona en grupos?
-            <span class="faq-question-icon" aria-hidden="true">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Para qué sirve el dashboard demo?
+            <span class="faq-question-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>Sí. Añade el bot como administrador a tu grupo de Telegram, activa /autopost y publicará análisis de mercado cada hora de forma automática sin que tengas que hacer nada.</p>
+            <p>
+              Sirve para enseñar mejor la experiencia, reforzar la percepción de producto y ayudar a que el usuario entienda el valor antes de entrar al bot.
+            </p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-            ¿Las predicciones son fiables?
-            <span class="faq-question-icon" aria-hidden="true">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Está pensado solo para traders?
+            <span class="faq-question-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>Las predicciones son generadas por IA basándose en el contexto del mercado. Son una perspectiva adicional, no asesoramiento financiero. Úsalas como una segunda opinión, nunca como única fuente de decisión.</p>
+            <p>
+              No necesariamente. También puede servir a creadores de contenido, administradores de grupos y usuarios que quieren seguir mercado con más orden y menos fricción.
+            </p>
           </div>
         </div>
+
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
-            ¿Puedo usarlo en varios grupos a la vez?
-            <span class="faq-question-icon" aria-hidden="true">+</span>
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Necesito experiencia técnica?
+            <span class="faq-question-icon">+</span>
           </button>
           <div class="faq-answer">
-            <p>Sí. Puedes añadir el bot a tantos grupos como quieras. El plan gratuito tiene algunas limitaciones de uso intensivo; el plan Pro elimina esos límites.</p>
+            <p>
+              No. La idea es que puedas empezar de forma sencilla y luego decidir si te interesa una capa más avanzada o más automatizada.
+            </p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="precios" class="section" style="background:var(--surface);" aria-labelledby="precios-heading">
+  <section id="precios" class="section">
     <div class="container">
       <div class="pricing reveal">
         <p class="section-label">Planes</p>
-        <h2 class="section-title" id="precios-heading">Simple y transparente</h2>
+        <h2 class="section-title">Empieza con una versión simple y amplía si te compensa</h2>
       </div>
+
       <div class="pricing-grid reveal">
         <div class="pricing-card">
           <h3>Free</h3>
           <div class="price">0 €</div>
-          <div class="price-sub">Sin tarjeta · Para siempre</div>
+          <div class="price-sub">Para conocer la experiencia</div>
           <ul>
-            <li>Precios BTC, ETH, SOL en tiempo real</li>
-            <li>Análisis con IA incluido</li>
-            <li>Predicciones ilimitadas</li>
-            <li>Autopost en grupos</li>
-            <li>Datos de Coinbase</li>
+            <li>Acceso básico al bot de Telegram</li>
+            <li>Muestra limitada de alertas o análisis</li>
+            <li>Vista general del sistema</li>
+            <li>Sin pago inicial</li>
           </ul>
-          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
-             class="btn btn-secondary">Empezar gratis</a>
+          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Empezar con Free</a>
         </div>
+
         <div class="pricing-card featured">
           <h3>Pro</h3>
           <div class="price">9 €</div>
-          <div class="price-sub">por mes · próximamente</div>
+          <div class="price-sub">por mes</div>
           <ul>
-            <li>Todo lo del plan Free</li>
-            <li>Más activos y mercados</li>
-            <li>Alertas de precio personalizadas</li>
-            <li>Autopost sin límites</li>
-            <li>Soporte prioritario directo</li>
+            <li>Mayor acceso a análisis y seguimiento</li>
+            <li>Funciones ampliadas dentro de Telegram</li>
+            <li>Señales o contexto con más frecuencia</li>
+            <li>Experiencia más completa para usuarios activos</li>
           </ul>
-          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
-             class="btn btn-primary">Reservar plaza Pro</a>
+          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Acceder a Pro</a>
         </div>
       </div>
-      <p class="pricing-note reveal">BotTrader no ofrece asesoramiento financiero. La información proporcionada es orientativa y no debe usarse como única base para decisiones de inversión.</p>
+
+      <p class="pricing-note reveal">
+        BotTrader no garantiza rentabilidad. La información es orientativa y el mercado siempre implica riesgo.
+      </p>
     </div>
   </section>
 
-  <section id="comenzar" class="cta-section" aria-labelledby="cta-heading">
+  <section id="comenzar" class="cta-section">
     <div class="container">
       <div class="cta-box reveal">
-        <h2 id="cta-heading">Actívalo ahora — gratis, en menos de 2 minutos</h2>
-        <p>Abre el bot en Telegram y escribe /precio BTC. Sin registros, sin tarjeta, sin complicaciones.</p>
+        <h2>Empieza a probar BotTrader desde Telegram</h2>
+        <p>
+          Consulta mercado, revisa análisis y descubre si el flujo encaja contigo antes de pasar a una versión más avanzada.
+        </p>
+
         <div class="cta-actions">
-          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer"
-             class="btn btn-primary">📲 Activar BotTrader en Telegram</a>
-          <a href="dashboard.html" class="btn btn-secondary">Ver demo del dashboard</a>
+          <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Abrir en Telegram</a>
+          <a href="dashboard.html" class="btn btn-secondary">Ver dashboard demo</a>
         </div>
-        <p class="cta-guarantee">🆓 Gratis · 📊 Datos reales de Coinbase · 🤖 IA incluida · Sin instalación</p>
+
+        <p class="cta-guarantee">
+          Sin promesas irreales. Una herramienta para seguir mercado, organizar mejor la información y trabajar con más claridad.
+        </p>
       </div>
     </div>
   </section>
@@ -872,23 +1549,24 @@
   <footer class="footer">
     <div class="container footer-inner">
       <p class="footer-copy">© 2026 BotTrader. Todos los derechos reservados.</p>
-      <nav class="footer-links" aria-label="Enlaces del pie de página">
-        <a href="#">Términos</a>
-        <a href="#">Privacidad</a>
-        <a href="https://t.me/CryptoTerminalAlpha_Bot" target="_blank" rel="noopener noreferrer">Soporte</a>
-      </nav>
+      <div class="footer-links">
+        <span>Términos</span>
+        <span>Privacidad</span>
+        <span>Soporte</span>
+      </div>
     </div>
   </footer>
 
   <script>
     function toggleFaq(btn) {
       var item = btn.parentElement;
-      var isOpen = item.classList.contains('open');
+      var open = item.classList.contains('open');
+
       document.querySelectorAll('.faq-item.open').forEach(function(el) {
         el.classList.remove('open');
-        el.querySelector('.faq-question').setAttribute('aria-expanded','false');
       });
-      if (!isOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+
+      if (!open) item.classList.add('open');
     }
 
     document.querySelectorAll('a[href^="#"]').forEach(function(a) {
@@ -896,43 +1574,45 @@
         var id = this.getAttribute('href');
         if (id === '#') return;
         var target = document.querySelector(id);
-        if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          var nav = document.querySelector('.header-nav');
+          var menuBtn = document.querySelector('.mobile-menu-btn');
+          nav.classList.remove('mobile-open');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        }
       });
     });
 
     var menuBtn = document.querySelector('.mobile-menu-btn');
     var nav = document.querySelector('.header-nav');
+
     menuBtn.addEventListener('click', function() {
-      var open = nav.classList.toggle('open');
-      this.textContent = open ? '✕' : '☰';
-      this.setAttribute('aria-expanded', open ? 'true' : 'false');
-      this.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      var isOpen = nav.classList.toggle('mobile-open');
+      menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
-    nav.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', function() {
-        nav.classList.remove('open');
-        menuBtn.textContent = '☰';
-        menuBtn.setAttribute('aria-expanded','false');
+
+    document.querySelectorAll('.header-nav a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        nav.classList.remove('mobile-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
       });
-    });
-    document.addEventListener('click', function(e) {
-      if (nav.classList.contains('open') && !nav.contains(e.target) && !menuBtn.contains(e.target)) {
-        nav.classList.remove('open'); menuBtn.textContent = '☰';
-        menuBtn.setAttribute('aria-expanded','false');
-      }
     });
 
     (function() {
-      if (!window.IntersectionObserver) {
-        document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('visible'); });
-        return;
-      }
       var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
-          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
         });
-      }, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
-      document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.reveal').forEach(function(el) {
+        observer.observe(el);
+      });
     })();
   </script>
 </body>
